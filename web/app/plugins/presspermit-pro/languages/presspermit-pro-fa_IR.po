@@ -1,0 +1,1681 @@
+# Copyright (C) 2026 PublishPress
+# This file is distributed under the same license as the PublishPress Permissions Pro plugin.
+msgid ""
+msgstr ""
+"Project-Id-Version: PublishPress Permissions Pro 4.8.1\n"
+"Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/project\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: Persian "
+"<https://weblate.publishpress.com/projects/publishpress-permissions-pro/"
+"presspermit-pro/fa/>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"POT-Creation-Date: 2026-04-02T18:54:49+00:00\n"
+"PO-Revision-Date: 2026-10-01 19:50+0000\n"
+"X-Generator: Weblate 2026.6.1\n"
+"X-Domain: presspermit-pro\n"
+"Language: fa_IR\n"
+"Plural-Forms: nplurals=2; plural=(n > 1);\n"
+
+#: presspermit-pro.php:4
+#. Plugin Name of the plugin
+msgid "PublishPress Permissions Pro"
+msgstr "پلاگین PublishPress Permissions Pro"
+
+#: presspermit-pro.php:5
+#. Plugin URI of the plugin
+msgid "https://publishpress.com/permissions"
+msgstr "https://publishpress.com/permissions"
+
+#: presspermit-pro.php:6
+#. Description of the plugin
+msgid ""
+"PublishPress Permissions allows you to enable or deny access to posts, "
+"pages, categories, tags and more."
+msgstr ""
+"مجوزهای PublishPress به شما این امکان را می‌دهد که دسترسی به پست‌ها، صفحات، "
+"دسته‌بندی‌ها، برچسب‌ها و بیشتر را فعال یا غیرفعال کنید."
+
+#: presspermit-pro.php:8
+#. Author of the plugin
+msgid "PublishPress"
+msgstr "PublishPress"
+
+#: presspermit-pro.php:9
+#. Author URI of the plugin
+msgid "https://publishpress.com/"
+msgstr "https://publishpress.com/"
+
+#: includes-pro/admin-load.php:93
+#, php-format
+msgid ""
+"Should pages with privacy status \"premium\" require set_pages_premium and "
+"edit_premium_pages capabilities? If so, you can %1$sassign a "
+"status-specific Page Editor role%2$s or %3$sadd the capabilities directly "
+"to a role%4$s."
+msgstr ""
+"آیا صفحات با وضعیت حریم خصوصی \"پریمیم\" نیاز به قابلیت‌های "
+"set_pages_premium و edit_premium_pages دارند؟ اگر بله، می‌توانید %1$sنقش "
+"ویرایش‌گر صفحه خاص وضعیت را اختصاص دهید%2$s یا %3$sقابلیت‌ها را مستقیماً به "
+"یک نقش اضافه کنید%4$s."
+
+#: includes-pro/admin-load.php:121
+#, php-format
+msgid ""
+"Note: Workflow sequence and branching for pre-publication is configured "
+"%son a separate screen%s"
+msgstr ""
+"توجه: ترتیب و branching گردش کار برای پیش‌انتشار در %sیک صفحه جداگانه%s "
+"پیکربندی شده است."
+
+#: includes-pro/admin-load.php:136
+#, php-format
+msgid "Additional settings provided by the %s module."
+msgstr "تنظیمات اضافی توسط ماژول %s ارائه شده است."
+
+#: includes-pro/admin-load.php:140
+msgid ""
+"Note: If you deactive, re-entry of the license key will be required for "
+"re-activation."
+msgstr ""
+"توجه: اگر غیرفعال کنید، برای فعال‌سازی مجدد نیاز به وارد کردن کلید مجوز "
+"خواهید داشت."
+
+#: includes-pro/admin-load.php:145
+msgid ""
+"If enabled, custom group membership is applied network-wide (though role "
+"assignments are still site-specific)."
+msgstr ""
+"اگر فعال شود، عضویت گروه سفارشی به صورت شبکه‌ای اعمال می‌شود (هرچند که "
+"تخصیص نقش‌ها هنوز به صورت سایت خاص است)."
+
+#: includes-pro/admin-load.php:148
+msgid "Can create network-wide permission groups"
+msgstr "می‌تواند گروه‌های مجوز در سطح شبکه ایجاد کند"
+
+#: includes-pro/admin-load.php:151
+msgid "If group editing is allowed, can also modify network group membership"
+msgstr "اگر ویرایش گروه مجاز باشد، می‌تواند عضویت گروه شبکه را نیز تغییر دهد"
+
+#: includes-pro/admin-load.php:156
+msgid ""
+"This feature will control direct URL access to files in /uploads/ folder. "
+"By default, files are blocked if they are attached to a post which the user "
+"can't view."
+msgstr ""
+"این ویژگی دسترسی مستقیم URL به فایل‌ها در پوشه /uploads/ را کنترل خواهد "
+"کرد. به طور پیش‌فرض، اگر فایل‌ها به پستی متصل شوند که کاربر نمی‌تواند آن را "
+"مشاهده کند، مسدود می‌شوند."
+
+#: includes-pro/admin-load.php:159
+#, php-format
+msgid ""
+"File Access on multisite installations will require the following rules to "
+"be inserted above the stock ms-files.php rules in the %1$smain .htaccess "
+"file%2$s:"
+msgstr ""
+"دسترسی به فایل در نصب‌های چندسایته نیاز به اضافه کردن قوانین زیر به بالای "
+"قوانین stock ms-files.php در %1$smain .htaccess file%2$s دارد:"
+
+#: includes-pro/admin-load.php:162
+msgid "But your .htaccess is missing or not writeable!"
+msgstr "اما .htaccess شما موجود نیست یا قابل نوشتن نیست!"
+
+#: includes-pro/admin-load.php:165
+msgid ".htaccess needs to be updated to include these rules."
+msgstr ".htaccess نیاز به به‌روزرسانی دارد تا این قوانین را شامل شود."
+
+#: includes-pro/admin-load.php:168
+msgid ".htaccess file has all required rules."
+msgstr "فایل .htaccess تمام قوانین مورد نیاز را دارد."
+
+#: includes-pro/admin-load.php:171
+msgid ""
+"These rules will not be inserted automatically.  You are responsible for "
+"editing .htaccess and later removing the rules if the functionality is no "
+"longer desired."
+msgstr ""
+"این قوانین به طور خودکار اضافه نخواهند شد. شما مسئول ویرایش .htaccess و سپس "
+"حذف قوانین در صورت عدم نیاز به عملکرد هستید."
+
+#: includes-pro/admin-load.php:174
+#, php-format
+msgid ""
+"Note that an additional rule will need to be added with each new site. "
+"%1$sTo eliminate this requirement, research \"WordPress remove "
+"ms-files\".%2$s"
+msgstr ""
+"توجه داشته باشید که باید یک قانون اضافی با هر سایت جدید اضافه شود. %1$sبرای "
+"حذف این نیاز، تحقیق کنید \"WordPress remove ms-files\".%2$s"
+
+#: includes-pro/admin-load.php:177
+msgid ""
+"You will need to manually restore the .htacces file to default contents if "
+"anything goes wrong. Proceed?"
+msgstr ""
+"اگر هر چیزی اشتباه پیش برود، باید فایل .htaccess را به محتوای پیش‌فرض "
+"بازگردانی کنید. ادامه می‌دهید؟"
+
+#: includes-pro/admin-load.php:180
+msgid "Update .htaccess now"
+msgstr "به‌روزرسانی .htaccess اکنون"
+
+#: includes-pro/admin-load.php:183
+msgid "only for sites with protected files"
+msgstr "فقط برای سایت‌هایی با فایل‌های محافظت‌شده"
+
+#: includes-pro/admin-load.php:186
+msgid "for all sites"
+msgstr "برای تمام سایت‌ها"
+
+#: includes-pro/admin-load.php:189
+msgid "NONE: remove Permissions rules"
+msgstr "هیچ‌کدام: قوانین مجوزها را حذف کنید"
+
+#: includes-pro/admin-load.php:192
+msgid ""
+"Since the plugin is not network-activated, you will need to modify the "
+".htaccess file manually, inserting a RewriteRule as shown above for each "
+"site which needs file filtering."
+msgstr ""
+"از آنجایی که این پلاگین به صورت شبکه‌ای فعال نشده است، باید فایل .htaccess "
+"را به صورت دستی ویرایش کنید و یک RewriteRule همانطور که در بالا نشان داده "
+"شده برای هر سایتی که نیاز به فیلتر کردن فایل دارد، اضافه کنید."
+
+#: includes-pro/admin-load.php:195
+msgid ""
+"This extends the File Access feature to files that are not attached to any "
+"post. This will not apply to user who have the edit_private_files or "
+"pp_list_all_files capability."
+msgstr ""
+"این ویژگی دسترسی به فایل را به فایل‌هایی که به هیچ پستی متصل نیستند گسترش "
+"می‌دهد. این به کاربرانی که قابلیت edit_private_files یا pp_list_all_files "
+"را دارند، اعمال نخواهد شد."
+
+#: includes-pro/admin-load.php:198
+msgid ""
+"Make attached files unreadable to users who do not have the "
+"edit_private_files or pp_list_all_files capability."
+msgstr ""
+"فایل‌های متصل را برای کاربرانی که قابلیت edit_private_files یا "
+"pp_list_all_files را ندارند، غیرقابل خواندن کنید."
+
+#: includes-pro/admin-load.php:201
+msgid ""
+"Improve Media Library performance by disabling file filtering for "
+"thumbnails (size specified in Settings > Media)."
+msgstr ""
+"عملکرد کتابخانه رسانه را با غیرفعال کردن فیلتر کردن فایل‌ها برای تصاویر "
+"کوچک (اندازه مشخص شده در تنظیمات > رسانه) بهبود بخشید."
+
+#: includes-pro/admin-load.php:204
+msgid ""
+"On some sites, an additional redirect is required to correctly deliver "
+"protected files. Leave this disabled for better performance if possible."
+msgstr ""
+"در برخی سایت‌ها، یک انتقال اضافی برای ارائه صحیح فایل‌های محافظت شده لازم "
+"است. اگر ممکن است، این گزینه را غیرفعال بگذارید تا عملکرد بهتری داشته باشید."
+
+#: includes-pro/admin-load.php:207
+#, php-format
+msgid ""
+"The File Access feature uses an %1$s.htaccess%2$s file located at "
+"%3$suploads/.htaccess%4$s. Normally no action is needed, but clicking the "
+"button below will update the URL keys (at next site access) that protect "
+"the files."
+msgstr ""
+"ویژگی دسترسی به فایل از یک %1$s.htaccess%2$s فایل واقع در "
+"%3$suploads/.htaccess%4$s استفاده می‌کند. به طور معمول نیازی به اقدام نیست، "
+"اما کلیک بر روی دکمه زیر کلیدهای URL را (در دسترسی بعدی به سایت) که فایل‌ها "
+"را محافظت می‌کند، به‌روزرسانی خواهد کرد."
+
+#: includes-pro/admin-load.php:210
+#, php-format
+msgid ""
+"The File Access feature uses an %1$s.htaccess%2$s file located at "
+"%3$suploads/.htaccess%4$s. Normally no action is needed, but clicking the "
+"button below will update the URL keys that protect the files."
+msgstr ""
+"ویژگی دسترسی به فایل از یک %1$s.htaccess%2$s فایل واقع در "
+"%3$suploads/.htaccess%4$s استفاده می‌کند. به طور معمول نیازی به اقدام نیست، "
+"اما کلیک بر روی دکمه زیر کلیدهای URL که فایل‌ها را محافظت می‌کند "
+"به‌روزرسانی خواهد کرد."
+
+#: includes-pro/admin-load.php:213
+msgid ""
+"Best practice is to access the above url periodically (using your own cron "
+"service) to prevent long-term bookmarking of protected files."
+msgstr ""
+"بهترین شیوه این است که به طور دوره‌ای به URL بالا دسترسی پیدا کنید (با "
+"استفاده از سرویس کرون خودتان) تا از بوکمارک کردن طولانی‌مدت فایل‌های محافظت "
+"شده جلوگیری کنید."
+
+#: includes-pro/admin-load.php:216
+msgid ""
+"Supply a custom key which will enable a support url to regenerate file "
+"access keys.  Then execute the url regularly (using your own cron service) "
+"to prevent long-term bookmarking of protected files."
+msgstr ""
+"یک کلید سفارشی ارائه دهید که به یک URL پشتیبانی اجازه می‌دهد تا کلیدهای "
+"دسترسی به فایل را دوباره‌سازی کند. سپس URL را به طور منظم اجرا کنید (با "
+"استفاده از سرویس کرون خودتان) تا از بوکمارک کردن طولانی‌مدت فایل‌های محافظت "
+"شده جلوگیری کنید."
+
+#: includes-pro/admin-load.php:219
+msgid ""
+"File Access can also protect files uploaded by FTP or other manual file "
+"copy, but does not detect them automatically. Click the button below to "
+"scan your uploads folder for files to protect."
+msgstr ""
+"دسترسی به فایل همچنین می‌تواند فایل‌های بارگذاری شده از طریق FTP یا کپی "
+"دستی فایل را محافظت کند، اما به طور خودکار آن‌ها را شناسایی نمی‌کند. برای "
+"اسکن پوشه بارگذاری‌های خود برای فایل‌هایی که باید محافظت شوند، بر روی دکمه "
+"زیر کلیک کنید."
+
+#: includes-pro/admin-load.php:223
+msgid "Invalid file filtering key argument."
+msgstr "آرگومان کلید فیلتر کردن فایل نامعتبر است."
+
+#: includes-pro/admin-load.php:226
+msgid "Please configure File Access options!"
+msgstr "لطفاً گزینه‌های دسترسی به فایل را پیکربندی کنید!"
+
+#: includes-pro/admin-load.php:229
+msgid "The wp-content folder cannot be relocated outside the main WordPress folder."
+msgstr "پوشه wp-content نمی‌تواند خارج از پوشه اصلی وردپرس منتقل شود."
+
+#: includes-pro/admin-load.php:238
+#, php-format
+msgid ""
+"Files linked in post content must be in %1$s (or a subfolder of it). If you "
+"move files, consider using a %2$s search and replace plugin%3$s to update "
+"those URLs."
+msgstr ""
+"فایل‌های لینک شده در محتوای پست باید در %1$s (یا یک زیرپوشه از آن) باشند. "
+"اگر فایل‌ها را جابه‌جا می‌کنید، به استفاده از یک %2$s جستجو و جایگزینی "
+"افزونه%3$s برای بروزرسانی آن URLها فکر کنید."
+
+#: includes-pro/admin-load.php:241
+msgid ""
+"File Access can also protect files uploaded by FTP or other manual "
+"processes, but does not detect them automatically. This utility can find "
+"and protect any uploaded files."
+msgstr ""
+"دسترسی به فایل همچنین می‌تواند از فایل‌های بارگذاری شده توسط FTP یا دیگر "
+"فرآیندهای دستی محافظت کند، اما به‌طور خودکار آن‌ها را شناسایی نمی‌کند. این "
+"ابزار می‌تواند هر فایل بارگذاری شده‌ای را پیدا و محافظت کند."
+
+#: includes-pro/admin-load.php:244
+msgid ""
+"To run this utility by cron task or other direct request, use the following "
+"URL:"
+msgstr ""
+"برای اجرای این ابزار از طریق کار cron یا درخواست مستقیم دیگر، از URL زیر "
+"استفاده کنید:"
+
+#: includes-pro/admin-load.php:247
+msgid ""
+"To run this utility by direct URL, set a file filtering regen key on "
+"Permissions Settings"
+msgstr ""
+"برای اجرای این ابزار از طریق URL مستقیم، یک کلید فیلتر فایل را در تنظیمات "
+"دسترسی تنظیم کنید"
+
+#: includes-pro/admin-load.php:250
+msgid ""
+"Note: Direct access to uploaded file attachments cannot be filtered because "
+"your WP_CONTENT_DIR is not in the WordPress branch."
+msgstr ""
+"توجه: دسترسی مستقیم به پیوست‌های فایل بارگذاری شده نمی‌تواند فیلتر شود زیرا "
+"WP_CONTENT_DIR شما در شاخه وردپرس نیست."
+
+#: includes-pro/admin-load.php:253
+msgid "The operation was terminated due to an invalid configuration."
+msgstr "عملیات به دلیل پیکربندی نامعتبر متوقف شد."
+
+#: includes-pro/admin-load.php:256
+#, php-format
+msgid "Checking %s posts / pages..."
+msgstr "در حال بررسی %s نوشته / صفحه..."
+
+#: includes-pro/admin-load.php:259
+#, php-format
+msgid "%1$s skipping unfilterable file in %2$s \"%3$s\":%4$s %5$s"
+msgstr "%1$s فایل غیرقابل فیلتر در %2$s \"%3$s\" را رد کرد:%4$s %5$s"
+
+#: includes-pro/admin-load.php:262
+#, php-format
+msgid "%1$s skipping missing file in %2$s \"%3$s\":%4$s %5$s"
+msgstr "%1$s فایل گمشده در %2$s \"%3$s\" را رد کرد:%4$s %5$s"
+
+#: includes-pro/admin-load.php:265
+#: includes-pro/admin-load.php:268
+#, php-format
+msgid "%1$sNew attachment in %2$s \"%3$s\":%4$s %5$s"
+msgstr "%1$s پیوست جدید در %2$s \"%3$s\":%4$s %5$s"
+
+#: includes-pro/admin-load.php:271
+#, php-format
+msgid "%s linked uploads were found in your post / page content."
+msgstr "%s آپلودهای پیوندی در محتوای نوشته / صفحه شما پیدا شد."
+
+#: includes-pro/admin-load.php:274
+#, php-format
+msgid "%s attachment records were added to the database."
+msgstr "%s رکورد پیوست‌ها به پایگاه داده اضافه شد."
+
+#: includes-pro/admin-load.php:277
+msgid "All linked uploads are already registered as attachments."
+msgstr "تمام آپلودهای پیوندی قبلاً به عنوان پیوست ثبت شده‌اند."
+
+#: includes-pro/admin-load.php:282
+msgid ""
+"Statuses enabled here are available as Visibility options for post "
+"publishing. Affected posts become inaccessable without a corresponding "
+"status-specific role assignment."
+msgstr ""
+"وضعیت‌های فعال شده در اینجا به عنوان گزینه‌های قابل مشاهده برای انتشار پست "
+"در دسترس هستند. پست‌های تحت تأثیر بدون تخصیص نقش خاص مربوط به وضعیت غیرقابل "
+"دسترسی می‌شوند."
+
+#: includes-pro/admin-load.php:285
+msgid ""
+"Statuses enabled here are available in the editor as additional steps "
+"between Draft and Published."
+msgstr ""
+"وضعیت‌های فعال شده در اینجا به عنوان مراحل اضافی بین پیش‌نویس و منتشر شده "
+"در ویرایشگر در دسترس هستند."
+
+#: includes-pro/admin-load.php:288
+msgid ""
+"Statuses alter your content's accessibility by imposing additional "
+"capability requirements."
+msgstr ""
+"وضعیت‌ها قابلیت دسترسی محتوای شما را با تحمیل الزامات قابلیت اضافی تغییر "
+"می‌دهند."
+
+#: includes-pro/admin-load.php:291
+#, php-format
+msgid ""
+"Enable Custom Capabilities by toggling the link below status name. If "
+"enabled, non-Editors will need a corresponding %ssupplemental role%s to "
+"edit posts of that status."
+msgstr ""
+"قابلیت‌های سفارشی را با تغییر وضعیت در زیر نام وضعیت فعال کنید. اگر فعال "
+"شود، غیر ویرایشگران به یک %ssupplemental role%s مربوطه برای ویرایش پست‌های "
+"آن وضعیت نیاز خواهند داشت."
+
+#: includes-pro/admin-load.php:294
+#, php-format
+msgid ""
+"For post edit by a user who cannot publish, %sworkflow is configured%s to "
+"make the Publish button increment the post to the next workflow status "
+"permitted."
+msgstr ""
+"برای ویرایش پست توسط کاربری که نمی‌تواند منتشر کند، %sجریان کاری پیکربندی "
+"شده%s است تا دکمه انتشار پست را به وضعیت بعدی مجاز در جریان کاری افزایش دهد."
+
+#: includes-pro/admin-load.php:297
+#, php-format
+msgid ""
+"For post edit by a user who cannot publish, %sworkflow is configured%s to "
+"make the Publish button escalate the post to the highest-ordered workflow "
+"status permitted."
+msgstr ""
+"برای ویرایش پست توسط کاربری که نمی‌تواند منتشر کند، %sجریان کاری پیکربندی "
+"شده%s است تا دکمه انتشار پست را به بالاترین وضعیت مجاز در جریان کاری افزایش "
+"دهد."
+
+#: includes-pro/admin-load.php:300
+msgid ""
+"For post edit by a user who cannot publish, the Publish button will "
+"escalate the post to the highest-order status permitted to the user."
+msgstr ""
+"برای ویرایش پست توسط کاربری که نمی‌تواند منتشر کند، دکمه انتشار پست را به "
+"بالاترین وضعیت مجاز برای کاربر افزایش می‌دهد."
+
+#: includes-pro/admin-load.php:303
+#, php-format
+msgid "Please enable the PublishPress %sStatuses feature%s."
+msgstr "لطفاً ویژگی %sوضعیت‌ها% را در PublishPress فعال کنید."
+
+#: includes-pro/admin-load.php:306
+#, php-format
+msgid ""
+"Note that the Post Type itself will also need to have %sPermissions%s "
+"enabled."
+msgstr "توجه داشته باشید که نوع پست خود نیز باید %sدسترسی‌ها%s فعال باشد."
+
+#: includes-pro/admin-load.php:314
+msgid ""
+"To disable custom visibility statuses, first re-assign posts to a different "
+"status."
+msgstr ""
+"برای غیرفعال کردن وضعیت‌های دیداری سفارشی، ابتدا پست‌ها را به یک وضعیت "
+"متفاوت اختصاص دهید."
+
+#: includes-pro/admin-load.php:317
+msgid ""
+"Note, this only applies if the role definition includes the pp_moderate_any "
+"capability"
+msgstr ""
+"توجه داشته باشید، این فقط در صورتی اعمال می‌شود که تعریف نقش شامل قابلیت "
+"pp_moderate_any باشد"
+
+#: includes-pro/admin-load.php:320
+msgid "Create or edit custom Privacy or Workflow statuses."
+msgstr "وضعیت‌های حریم خصوصی یا گردش کار سفارشی را ایجاد یا ویرایش کنید."
+
+#: includes-pro/admin-load.php:323
+msgid "Create or edit custom Privacy statuses."
+msgstr "وضعیت‌های حریم خصوصی سفارشی را ایجاد یا ویرایش کنید."
+
+#: includes-pro/admin-load.php:326
+msgid ""
+"Extra Roles created as a type-specific copy of this role will enable "
+"assignment of specified custom statuses."
+msgstr ""
+"نقش‌های اضافی که به عنوان یک کپی خاص نوع از این نقش ایجاد شده‌اند، امکان "
+"تخصیص وضعیت‌های سفارشی مشخص شده را فعال می‌کنند."
+
+#: includes-pro/admin-load.php:329
+msgid ""
+"Editors do not need status-specific editing capabilities for workflow posts "
+"(Assigned, In Progress, Approved)."
+msgstr ""
+"ویرایشگران برای پست‌های جریان کاری (تخصیص یافته، در حال پیشرفت، تأیید شده) "
+"به قابلیت‌های ویرایش خاص وضعیت نیاز ندارند."
+
+#: includes-pro/admin-load.php:332
+msgid ""
+"If enabled, non-Editors will need to be granted editing access via the "
+"\"Permissions\" screen."
+msgstr ""
+"اگر فعال شود، غیر ویرایشگران باید از طریق صفحه \"دسترسی‌ها\" به ویرایش "
+"دسترسی داده شوند."
+
+#: includes-pro/admin-load.php:335
+msgid ""
+"If enabled, a Visibility Status dropdown will appear in Quick Edit for easy "
+"status assignment."
+msgstr ""
+"اگر فعال شود، یک منوی کشویی وضعیت دیداری در ویرایش سریع برای تخصیص آسان "
+"وضعیت ظاهر خواهد شد."
+
+#: includes-pro/admin-load.php:338
+msgid ""
+"If enabled, this will add Visibility Statuses support to the PublishPress "
+"Status plugin."
+msgstr ""
+"اگر فعال شود، این پشتیبانی از وضعیت‌های دیداری را به افزونه PublishPress "
+"Status اضافه خواهد کرد."
+
+#: includes-pro/admin-load.php:343
+msgid "Post property or meta field to match with user field"
+msgstr "فیلد خاص پست یا متا برای تطابق با فیلد کاربر"
+
+#: includes-pro/admin-load.php:346
+msgid "User property or meta field to match with post field"
+msgstr "فیلد خاص کاربر یا متا برای تطابق با فیلد پست"
+
+#: includes-pro/admin-load.php:349
+msgid "User meta field to match with post field"
+msgstr "فیلد متا کاربر برای تطابق با فیلد پست"
+
+#: includes-pro/admin-load.php:352
+msgid "User role to include in synchronization"
+msgstr "نقش کاربر برای گنجاندن در همگام‌سازی"
+
+#: includes-pro/admin-load.php:355
+msgid "Parent id for created posts"
+msgstr "شناسه والد برای پست‌های ایجاد شده"
+
+#: includes-pro/admin-load.php:358
+msgid "Choose post field from suggested meta key names"
+msgstr "فیلد پست را از نام‌های کلید متا پیشنهادی انتخاب کنید"
+
+#: includes-pro/admin-load.php:361
+msgid ""
+"When a new user of specified role is added, create or designate a post for "
+"them."
+msgstr ""
+"زمانی که یک کاربر جدید با نقش مشخص اضافه می‌شود، یک پست برای او ایجاد یا "
+"مشخص کنید."
+
+#: includes-pro/admin-load.php:364
+msgid "Create or designate a post for existing users."
+msgstr "برای کاربران موجود یک پست ایجاد یا تعیین کنید."
+
+#: includes-pro/admin-load.php:367
+msgid "This post type is not hierarchical"
+msgstr "این نوع پست سلسله‌مراتبی نیست"
+
+#: includes-pro/admin-load.php:370
+msgid "Automatically create a post for each user in selected roles."
+msgstr "به‌طور خودکار برای هر کاربر در نقش‌های انتخاب شده یک پست ایجاد کنید."
+
+#: includes-pro/admin-load.php:373
+#, php-format
+msgid ""
+"Hint: If %s have custom fields (like email address), create one to assist "
+"field name discovery."
+msgstr ""
+"راهنما: اگر %s دارای فیلدهای سفارشی (مانند آدرس ایمیل) هستند، یکی ایجاد "
+"کنید تا در کشف نام فیلد کمک کند."
+
+#: includes-pro/admin-load.php:376
+msgid "Enable each user to edit their own User Posts."
+msgstr "به هر کاربر اجازه دهید پست‌های کاربری خود را ویرایش کند."
+
+#: includes-pro/admin-load.php:380
+#, php-format
+msgid ""
+"Settings for replacing unreadable content with teaser text, provided by the "
+"%s module."
+msgstr ""
+"تنظیمات برای جایگزینی محتوای غیرقابل خواندن با متن پیش‌نمایش، که توسط ماژول "
+"%s ارائه شده است."
+
+#: includes-pro/admin-load.php:383
+msgid ""
+"Settings on this tab do not apply because teaser filtering is disabled for "
+"all post types."
+msgstr ""
+"تنظیمات در این برگه اعمال نمی‌شود زیرا فیلتر کردن پیش‌نمایش برای تمامی "
+"نوع‌های پست غیرفعال است."
+
+#: includes-pro/admin-load.php:386
+msgid ""
+"Since some browsers will cache feeds without regard to user login, block "
+"RSS content even for qualified users."
+msgstr ""
+"از آنجایی که برخی مرورگرها بدون توجه به ورود کاربر، خوراک‌ها را کش می‌کنند، "
+"محتوای RSS را حتی برای کاربران واجد شرایط مسدود کنید."
+
+#: includes-pro/admin-load.php:389
+msgid ""
+"This feature controls what users will see when trying to view content they "
+"are blocked from accessing."
+msgstr ""
+"این ویژگی کنترل می‌کند که کاربران هنگام تلاش برای مشاهده محتوایی که به آن "
+"دسترسی ندارند، چه چیزی خواهند دید."
+
+#: includes-pro/admin-load.php:392
+msgid ""
+"These settings adjust which views, link types and visibility statuses the "
+"teaser is applied to."
+msgstr ""
+"این تنظیمات مشخص می‌کند که پیش‌نمایش به کدام نماها، نوع‌های لینک و "
+"وضعیت‌های دیداری اعمال می‌شود."
+
+#: includes-pro/admin-load.php:401
+msgid ""
+"You can override Teaser settings within the Nav Menu by hiding links to "
+"unreadable posts that are associated with the terms you select below."
+msgstr ""
+"شما می‌توانید تنظیمات پیش‌نمایش را در منوی ناوبری با پنهان کردن لینک‌های به "
+"پست‌های غیرقابل خواندن که با شرایط زیر انتخاب می‌کنید، لغو کنید."
+
+#: includes-pro/admin-load.php:404
+msgid ""
+"Keep unreadable content hidden in the blogroll and link lists, but show the "
+"teaser on direct access attempts."
+msgstr ""
+"محتوای غیرقابل خواندن را در بلاگ‌رو و لیست‌های لینک پنهان نگه دارید، اما "
+"پیش‌نمایش را در تلاش‌های دسترسی مستقیم نمایش دهید."
+
+#: includes-pro/admin-load.php:407
+msgid ""
+"Hide unreadable private posts, but show a teaser for posts which are "
+"unreadable due to regular Privacy or Role Restrictions."
+msgstr ""
+"پست‌های خصوصی غیرقابل خواندن را پنهان کنید، اما برای پست‌هایی که به دلیل "
+"محدودیت‌های عادی حریم خصوصی یا نقش غیرقابل خواندن هستند، پیش‌نمایش نشان "
+"دهید."
+
+#: includes-pro/admin-load.php:410
+msgid ""
+"If anyone tries to view a post they don't have access to, redirect to "
+"another post instead of displaying a teaser."
+msgstr ""
+"اگر کسی سعی کند پستی را که به آن دسترسی ندارد مشاهده کند، به جای نمایش "
+"پیش‌نمایش به پست دیگری هدایت کنید."
+
+#: includes-pro/admin-load.php:413
+msgid ""
+"Replace post content or excerpt with custom text, possibly including an "
+"inline login form. You can also add text before or after the post title and "
+"excerpt."
+msgstr ""
+"محتوا یا خلاصه پست را با متن سفارشی جایگزین کنید، که ممکن است شامل یک فرم "
+"ورود آنلاین باشد. همچنین می‌توانید متن را قبل یا بعد از عنوان و خلاصه پست "
+"اضافه کنید."
+
+#: includes-pro/admin-load.php:416
+msgid ""
+"Unreadable items of these comma-separated types will have nav menu item "
+"hidden."
+msgstr ""
+"موارد غیرقابل خواندن از این نوع‌های جداشده با کاما، آیتم منوی ناوبری را "
+"پنهان می‌کنند."
+
+#: includes-pro/admin-load.php:420
+msgid "Visibility Circle membership does not limit viewing access."
+msgstr "عضویت در دایره دیداری محدودیت دسترسی به مشاهده را محدود نمی‌کند."
+
+#: includes-pro/admin-load.php:423
+msgid "Editorial Circle membership does not limit editing access."
+msgstr "عضویت در دایره ویرایشی محدودیت دسترسی به ویرایش را محدود نمی‌کند."
+
+#: includes-pro/admin-load.php:435
+msgid ""
+"When searching for users via Permissions ajax, return return only users "
+"registered to current site"
+msgstr ""
+"هنگام جستجوی کاربران از طریق ajax مجوزها، فقط کاربران ثبت‌نام شده در سایت "
+"فعلی را برگردانید."
+
+#: includes-pro/admin-load.php:438
+msgid ""
+"If user is a super admin or has 'pp_manage_network_members' capability, "
+"user searches via Permissions ajax return users from all sites"
+msgstr ""
+"اگر کاربر یک ادمین فوق‌العاده باشد یا قابلیت 'pp_manage_network_members' را "
+"داشته باشد، جستجوهای کاربران از طریق ajax مجوزها کاربران را از تمامی "
+"سایت‌ها برمی‌گرداند."
+
+#: includes-pro/admin-load.php:446
+msgid ""
+"Count users as a member of a BuddyPress Permissions Group only if they are "
+"a moderator of the BP group"
+msgstr ""
+"کاربران را فقط در صورتی به عنوان عضو یک گروه مجوز BuddyPress حساب کنید که "
+"آنها یک مدیر گروه BP باشند."
+
+#: includes-pro/admin-load.php:449
+msgid ""
+"Count users as a member of a BuddyPress Permissions Group only if they are "
+"an administrator of the BP group"
+msgstr ""
+"کاربران را فقط در صورتی به عنوان عضو یک گروه مجوز BuddyPress حساب کنید که "
+"آنها یک مدیر گروه BP باشند."
+
+#: includes-pro/admin-load.php:457
+msgid ""
+"CMS Page Tree View plugin: hide 'add' links (for all hierarchical post "
+"types) based on user's association permissions"
+msgstr ""
+"ماژول نمای درخت صفحه CMS: لینک‌های 'اضافه کردن' (برای تمامی نوع‌های پست "
+"سلسله‌مراتبی) را بر اساس مجوزهای ارتباطی کاربر پنهان کنید."
+
+#: includes-pro/admin-load.php:460
+msgid ""
+"CMS Page Tree View plugin: hide 'add' links (for pages) based on user's "
+"page association permissions"
+msgstr ""
+"ماژول نمای درخت صفحه CMS: لینک‌های 'اضافه کردن' (برای صفحات) را بر اساس "
+"مجوزهای ارتباطی صفحه کاربر پنهان کنید."
+
+#: includes-pro/admin-load.php:463
+msgid ""
+"CMS Page Tree View plugin: hide 'add' links (for specified hierarchical "
+"post type) based on user's association permissions"
+msgstr ""
+"ماژول نمای درخت صفحه CMS: لینک‌های 'اضافه کردن' (برای نوع پست سلسله‌مراتبی "
+"مشخص شده) را بر اساس مجوزهای ارتباطی کاربر پنهان کنید."
+
+#: includes-pro/admin-load.php:470
+msgid "Prevent Permission from filtering the Nested Pages listing at all"
+msgstr "اجازه ندهید که اجازه‌ها فهرست صفحات تو در تو را فیلتر کنند"
+
+#: includes-pro/admin-load.php:473
+msgid "Force Permissions to filter the Nested Pages listing"
+msgstr "اجازه‌ها را وادار کنید تا فهرست صفحات تو در تو را فیلتر کنند"
+
+#: includes-pro/admin-load.php:476
+msgid "Comma-separated list of roles that are allowed to Quick Edit nested pages"
+msgstr ""
+"فهرست نقش‌ها به صورت جدا شده با ویرگول که مجاز به ویرایش سریع صفحات تو در "
+"تو هستند"
+
+#: includes-pro/admin-load.php:479
+msgid "Comma-separated list of roles that are allowed to use the Context Menu"
+msgstr ""
+"فهرست نقش‌ها به صورت جدا شده با ویرگول که مجاز به استفاده از منوی زمینه "
+"هستند"
+
+#: includes-pro/admin-load.php:482
+msgid ""
+"Never allow unfiltered users to use the Context Menu, even if they have "
+"pp_force_quick_edit capability"
+msgstr ""
+"هرگز اجازه ندهید کاربران بدون فیلتر از منوی زمینه استفاده کنند، حتی اگر "
+"قابلیت pp_force_quick_edit را داشته باشند"
+
+#: includes-pro/admin-load.php:485
+msgid ""
+"Disable Add Child link unless user is unfiltered (Administrator or has "
+"pp_nested_pages_unfiltered capability)"
+msgstr ""
+"لینک افزودن فرزند را غیرفعال کنید مگر اینکه کاربر بدون فیلتر باشد (مدیر یا "
+"دارای قابلیت pp_nested_pages_unfiltered)"
+
+#: includes-pro/admin-load.php:488
+msgid "Disable Add Child Page link unless user is unfiltered"
+msgstr "لینک افزودن صفحه فرزند را غیرفعال کنید مگر اینکه کاربر فیلتر نشده باشد"
+
+#: includes-pro/admin-load.php:491
+msgid "Disable Insert Page Before link unless user is unfiltered"
+msgstr "لینک درج صفحه قبل را غیرفعال کنید مگر اینکه کاربر فیلتر نشده باشد"
+
+#: includes-pro/admin-load.php:494
+msgid "Disable Insert Page After link unless user is unfiltered"
+msgstr "لینک درج صفحه بعد را غیرفعال کنید مگر اینکه کاربر فیلتر نشده باشد"
+
+#: includes-pro/admin-load.php:497
+msgid "Disable Push to Top link unless user is unfiltered"
+msgstr "لینک ارسال به بالا را غیرفعال کنید مگر اینکه کاربر فیلتر نشده باشد"
+
+#: includes-pro/admin-load.php:500
+msgid "Disable Push to Bottom link unless user is unfiltered"
+msgstr "لینک ارسال به پایین را غیرفعال کنید مگر اینکه کاربر فیلتر نشده باشد"
+
+#: includes-pro/admin-load.php:503
+msgid "Disable Clone link unless user is unfiltered"
+msgstr "لینک کلون را غیرفعال کنید مگر اینکه کاربر فیلتر نشده باشد"
+
+#: includes-pro/SettingsTabInstall.php:21
+msgid "License"
+msgstr "مجوز"
+
+#: includes-pro/SettingsTabInstall.php:28
+#: includes-pro/SettingsTabInstall.php:128
+msgid "License Key"
+msgstr "کلید مجوز"
+
+#: includes-pro/SettingsTabInstall.php:29
+msgid "Version"
+msgstr "نسخه"
+
+#: includes-pro/SettingsTabInstall.php:41
+#: includes-pro/SettingsTabInstall.php:42
+msgid "settings"
+msgstr "تنظیمات"
+
+#: includes-pro/SettingsTabInstall.php:121
+msgid "Key Expired"
+msgstr "کلید منقضی شده"
+
+#: includes-pro/SettingsTabInstall.php:124
+#: includes-pro/SettingsTabInstall.php:136
+#: includes-pro/SettingsTabInstall.php:348
+msgid "Deactivate Key"
+msgstr "غیرفعال کردن کلید"
+
+#: includes-pro/SettingsTabInstall.php:127
+msgid "Key Activated"
+msgstr "کلید فعال شده"
+
+#: includes-pro/SettingsTabInstall.php:131
+msgid "(please enter publishpress.com key)"
+msgstr "لطفاً کلید publishpress.com را وارد کنید"
+
+#: includes-pro/SettingsTabInstall.php:135
+#: includes-pro/SettingsTabInstall.php:347
+msgid "Activate Key"
+msgstr "فعال کردن کلید"
+
+#: includes-pro/SettingsTabInstall.php:146
+msgid ""
+"Note: Renewal does not require deactivation. If you do deactivate, re-entry "
+"of the license key will be required."
+msgstr ""
+"توجه: تمدید نیاز به غیرفعال کردن ندارد. اگر غیرفعال کنید، ورود مجدد کلید "
+"لایسنس ضروری خواهد بود."
+
+#: includes-pro/SettingsTabInstall.php:178
+#: includes-pro/SettingsTabInstall.php:214
+#, php-format
+msgid ""
+"Your license key has expired. For continued priority support, %1$splease "
+"renew%2$s."
+msgstr ""
+"کلید لایسنس شما منقضی شده است. برای ادامه پشتیبانی اولویت‌دار، %1$sلطفاً "
+"تمدید کنید%2$s."
+
+#: includes-pro/SettingsTabInstall.php:185
+#, php-format
+msgid ""
+"Your license key will expire today. For updates and priority support, "
+"%1$splease renew%2$s."
+msgstr ""
+"کلید لایسنس شما امروز منقضی خواهد شد. برای به‌روزرسانی‌ها و پشتیبانی "
+"اولویت‌دار، %1$sلطفاً تمدید کنید%2$s."
+
+#: includes-pro/SettingsTabInstall.php:191
+#, php-format
+msgid ""
+"Your license key (for plugin updates) will expire in %1$d day(s). For "
+"updates and priority support, %2$splease renew%3$s."
+msgstr ""
+"کلید لایسنس شما (برای به‌روزرسانی‌های افزونه) در %1$d روز(ها) منقضی خواهد "
+"شد. برای به‌روزرسانی‌ها و پشتیبانی اولویت‌دار، %2$sلطفاً تمدید کنید%3$s."
+
+#: includes-pro/SettingsTabInstall.php:199
+#, php-format
+msgid ""
+"For updates to Permissions Pro, activate your %1$sPublishPress license "
+"key%2$s."
+msgstr ""
+"برای به‌روزرسانی‌های Permissions Pro، کلید لایسنس %1$sPublishPress خود را "
+"فعال کنید%2$s."
+
+#: includes-pro/SettingsTabInstall.php:208
+msgid "reload module info"
+msgstr "بارگذاری اطلاعات ماژول"
+
+#: includes-pro/SettingsTabInstall.php:258
+#: includes-pro/SettingsTabInstall.php:266
+#, php-format
+msgid "Permissions Pro Version: %1$s %2$s"
+msgstr "نسخه پرو مجوزها: %1$s %2$s"
+
+#: includes-pro/SettingsTabInstall.php:262
+#, php-format
+msgid "view %s&nbsp;details"
+msgstr "مشاهده جزئیات %s&nbsp;"
+
+#: includes-pro/SettingsTabInstall.php:276
+msgid "update check / install"
+msgstr "بررسی به‌روزرسانی / نصب"
+
+#: includes-pro/SettingsTabInstall.php:280
+#, php-format
+msgid "Database Schema Version: %s"
+msgstr "نسخه طرح پایگاه داده: %s"
+
+#: includes-pro/SettingsTabInstall.php:291
+msgid "Installation History"
+msgstr "تاریخچه نصب"
+
+#: includes-pro/SettingsTabInstall.php:313
+#, php-format
+msgid "%s (previous install)"
+msgstr "%s (نصب قبلی)"
+
+#: includes-pro/SettingsTabInstall.php:330
+#, php-format
+msgid "WordPress Version: %s"
+msgstr "نسخه وردپرس: %s"
+
+#: includes-pro/SettingsTabInstall.php:334
+#, php-format
+msgid "PHP Version: %s"
+msgstr "نسخه PHP: %s"
+
+#: includes-pro/SettingsTabInstall.php:349
+msgid "The request could not be processed due to a connection failure."
+msgstr "درخواست به دلیل یک خطای اتصال نمی‌توانست پردازش شود."
+
+#: includes-pro/SettingsTabInstall.php:350
+msgid "Please enter the license key shown on your order receipt."
+msgstr "لطفاً کلید لایسنس نشان داده شده در رسید سفارش خود را وارد کنید."
+
+#: includes-pro/SettingsTabInstall.php:351
+msgid "An unidentified error occurred."
+msgstr "یک خطای ناشناخته رخ داده است."
+
+#: includes-pro/SettingsTabInstall.php:353
+msgid "The key has been deactivated."
+msgstr "کلید غیرفعال شده است."
+
+#: includes-pro/SettingsTabInstall.php:354
+msgid "The key has been activated."
+msgstr "کلید فعال شده است."
+
+#: includes-pro/SettingsTabInstall.php:355
+msgid "The key has expired."
+msgstr "کلید منقضی شده است."
+
+#: includes-pro/SettingsTabInstall.php:356
+msgid "The key is invalid."
+msgstr "کلید نامعتبر است."
+
+#: includes-pro/SettingsTabInstall.php:357
+msgid "The key could not be activated. Please retry."
+msgstr "کلید نتوانست فعال شود. لطفاً دوباره تلاش کنید."
+
+#: modules/presspermit-circles/classes/Permissions/Circles/UI/Dashboard/Profile.php:19
+msgid "Circle Membership"
+msgstr "عضویت در دایره"
+
+#: modules/presspermit-circles/classes/Permissions/Circles/UI/Dashboard/Profile.php:21
+msgid "Viewing"
+msgstr "مشاهده"
+
+#: modules/presspermit-circles/classes/Permissions/Circles/UI/Dashboard/Profile.php:21
+msgid "Editing"
+msgstr "ویرایش"
+
+#: modules/presspermit-circles/classes/Permissions/Circles/UI/Dashboard/Profile.php:27
+#, php-format
+msgid "%s is limited to circle authors only, for these post types:"
+msgstr "%s فقط برای نویسندگان دایره محدود است، برای این نوع پست‌ها:"
+
+#: modules/presspermit-circles/classes/Permissions/Circles/UI/GroupEdit.php:47
+msgid "Circle Activation"
+msgstr "فعال‌سازی دایره"
+
+#: modules/presspermit-circles/classes/Permissions/Circles/UI/GroupEdit.php:57
+msgid "Visibility Circle"
+msgstr "دایره دید Visibility"
+
+#: modules/presspermit-circles/classes/Permissions/Circles/UI/GroupEdit.php:57
+msgid "Editorial Circle"
+msgstr "دایره ویرایشی"
+
+#: modules/presspermit-circles/classes/Permissions/Circles/UI/GroupEdit.php:75
+msgid ""
+"Users in this group will only be able to view posts that were authored by "
+"other users in this group."
+msgstr ""
+"کاربران در این گروه تنها قادر به مشاهده پست‌هایی خواهند بود که توسط سایر "
+"کاربران در این گروه نوشته شده‌اند."
+
+#: modules/presspermit-circles/classes/Permissions/Circles/UI/GroupEdit.php:76
+msgid ""
+"Users in this group will only be able to edit posts that were authored by "
+"other users in this group."
+msgstr ""
+"کاربران در این گروه تنها قادر به ویرایش پست‌هایی خواهند بود که توسط سایر "
+"کاربران در این گروه نوشته شده‌اند."
+
+#: modules/presspermit-circles/classes/Permissions/Circles/UI/GroupEdit.php:78
+msgid "Normal capability requirements will also be enforced."
+msgstr "نیازمندی‌های قابلیت‌های معمول نیز اجرا خواهند شد."
+
+#: modules/presspermit-circles/classes/Permissions/Circles/UI/GroupEdit.php:82
+#, php-format
+msgid "This group is a %s"
+msgstr "این گروه یک %s است"
+
+#: modules/presspermit-circles/classes/Permissions/Circles/UI/GroupEdit.php:95
+#, php-format
+msgid "Circles cannot be enforced on roles with %s capabilities."
+msgstr "حلقه‌ها نمی‌توانند بر روی نقش‌هایی با قابلیت‌های %s اعمال شوند."
+
+#: modules/presspermit-circles/classes/Permissions/Circles/UI/GroupEdit.php:104
+#, php-format
+msgid "%s%s restrictions%s do not apply to this role. %s"
+msgstr "%s%s محدودیت‌ها%s به این نقش اعمال نمی‌شوند. %s"
+
+#: modules/presspermit-circles/classes/Permissions/Circles/UI/GroupEdit.php:135
+msgid "Apply limitation for post types:"
+msgstr "اعمال محدودیت برای نوع‌های پست:"
+
+#: modules/presspermit-circles/classes/Permissions/Circles/UI/GroupEdit.php:213
+#, php-format
+msgid ""
+"Users may be excused from Circle restrictions by adding the %1$s or %2$s "
+"capability to their role."
+msgstr ""
+"کاربران ممکن است از محدودیت‌های دایره با افزودن قابلیت %1$s یا %2$s به نقش "
+"خود معاف شوند."
+
+#: modules/presspermit-circles/classes/Permissions/Circles/UI/GroupsListing.php:14
+msgid "Circle Type"
+msgstr "نوع حلقه"
+
+#: modules/presspermit-circles/classes/Permissions/Circles/UI/GroupsListing.php:47
+msgid "Visibility"
+msgstr "قابلیت مشاهده"
+
+#: modules/presspermit-circles/classes/Permissions/Circles/UI/GroupsListing.php:55
+msgid "Editorial"
+msgstr "تحریریه"
+
+#: modules/presspermit-circles/classes/Permissions/CirclesHooksAdmin.php:54
+msgid "Access Circle restrictions apply to revisions"
+msgstr "محدودیت‌های دسترسی به حلقه بر روی بازنگری‌ها اعمال می‌شوند"
+
+#: modules/presspermit-compatibility/classes/Permissions/Compat/BBPress/HooksAdmin.php:39
+msgid "Create Topics in"
+msgstr "ایجاد موضوعات در"
+
+#: modules/presspermit-compatibility/classes/Permissions/Compat/BBPress/HooksAdmin.php:40
+msgid "Topic Creation"
+msgstr "ایجاد موضوع"
+
+#: modules/presspermit-compatibility/classes/Permissions/Compat/BBPress/HooksAdmin.php:41
+msgid "Create Topic"
+msgstr "ایجاد موضوع"
+
+#: modules/presspermit-compatibility/classes/Permissions/Compat/BBPress/HooksAdmin.php:46
+msgid "Submit Replies in"
+msgstr "ارسال پاسخ‌ها در"
+
+#: modules/presspermit-compatibility/classes/Permissions/Compat/BBPress/HooksAdmin.php:47
+msgid "Reply Submission"
+msgstr "ارسال پاسخ"
+
+#: modules/presspermit-compatibility/classes/Permissions/Compat/BBPress/HooksAdmin.php:48
+msgid "Submit Reply"
+msgstr "ارسال پاسخ"
+
+#: modules/presspermit-compatibility/classes/Permissions/Compat/BuddyPress/PermissionGroups/GroupsListTable.php:298
+msgid "Show more details"
+msgstr "نمایش جزئیات بیشتر"
+
+#: modules/presspermit-compatibility/classes/Permissions/Compat/BuddyPress/PermissionGroups/Hooks.php:37
+msgid "BuddyPress Group"
+msgstr "گروه BuddyPress"
+
+#: modules/presspermit-compatibility/classes/Permissions/Compat/BuddyPress/PermissionGroups/HooksAdmin.php:160
+msgid "BP Permission Group"
+msgstr "گروه مجوز BP"
+
+#: modules/presspermit-compatibility/classes/Permissions/Compat/BuddyPress/PermissionGroups/HooksAdmin.php:161
+msgid "BP Permission Groups"
+msgstr "گروه‌های مجوز BP"
+
+#: modules/presspermit-compatibility/classes/Permissions/Compat/BuddyPress/PermissionGroups/HooksAdmin.php:174
+msgid "Manage"
+msgstr "مدیریت"
+
+#: modules/presspermit-compatibility/classes/Permissions/Compat/BuddyPress/PermissionGroups/HooksAdmin.php:185
+msgid "BuddyPress Groups"
+msgstr "گروه‌های BuddyPress"
+
+#: modules/presspermit-compatibility/classes/Permissions/Compat/CMSTreeView.php:112
+msgid ""
+"Page creation was blocked because you are not allowed to select that parent "
+"page."
+msgstr "شما اجازه انتخاب آن صفحه والد را ندارید."
+
+#: modules/presspermit-compatibility/classes/Permissions/Compat/CMSTreeView.php:113
+msgid "Back to Dashboard"
+msgstr "بازگشت به داشبورد"
+
+#: modules/presspermit-compatibility/classes/Permissions/Compat/CMSTreeView.php:115
+msgid "Permission Denied"
+msgstr "اجازه دسترسی رد شد"
+
+#: modules/presspermit-compatibility/classes/Permissions/Compat/CMSTreeView.php:117
+msgid "You are not allowed to select that parent page."
+msgstr "شما اجازه انتخاب آن صفحه والد را ندارید."
+
+#: modules/presspermit-compatibility/classes/Permissions/Compat/NetwideGroups.php:19
+msgid "Network Groups"
+msgstr "گروه‌های شبکه"
+
+#: modules/presspermit-compatibility/classes/Permissions/Compat/NetwideGroups.php:19
+msgid "Network Group"
+msgstr "گروه شبکه"
+
+#: modules/presspermit-compatibility/classes/Permissions/Compat/UI/Settings.php:46
+msgid "Teaser text"
+msgstr "متن تیزر"
+
+#: modules/presspermit-compatibility/classes/Permissions/Compat/UI/Settings.php:54
+msgid "Network"
+msgstr "شبکه"
+
+#: modules/presspermit-compatibility/classes/Permissions/Compat/UI/Settings.php:64
+msgid "Groups"
+msgstr "گروه‌ها"
+
+#: modules/presspermit-compatibility/classes/Permissions/Compat/UI/Settings.php:73
+msgid "Forum Teaser"
+msgstr "تیزر فروم"
+
+#: modules/presspermit-compatibility/classes/Permissions/Compat/UI/Settings.php:88
+msgid "Network-wide groups"
+msgstr "گروه‌های سراسری شبکه"
+
+#: modules/presspermit-compatibility/classes/Permissions/Compat/UI/Settings.php:92
+msgid "Teaser Topics"
+msgstr "موضوعات تیزر"
+
+#: modules/presspermit-compatibility/classes/Permissions/Compat/UI/Settings.php:93
+msgid "Hide Topic / Reply Author Link"
+msgstr "مخفی کردن لینک نویسنده موضوع / پاسخ"
+
+#: modules/presspermit-compatibility/classes/Permissions/Compat/UI/Settings.php:126
+msgid "Compatibility Pack"
+msgstr "بسته سازگاری"
+
+#: modules/presspermit-compatibility/classes/Permissions/Compat/UI/Settings.php:184
+#, php-format
+msgid "Topic Teaser Text (%s):"
+msgstr "متن تیزر موضوع (%s):"
+
+#: modules/presspermit-compatibility/classes/Permissions/Compat/UI/Settings.php:185
+#, php-format
+msgid "Reply Teaser Text (%s):"
+msgstr "متن تیزر پاسخ (%s):"
+
+#: modules/presspermit-compatibility/classes/Permissions/Compat/UI/Settings.php:189
+msgid "First Reply"
+msgstr "اولین پاسخ"
+
+#: modules/presspermit-compatibility/classes/Permissions/Compat/UI/Settings.php:190
+msgid "Other Replies"
+msgstr "پاسخ‌های دیگر"
+
+#: modules/presspermit-compatibility/classes/Permissions/Compat/UI/Settings.php:207
+msgid "Not Logged In"
+msgstr "وارد نشده‌اید"
+
+#: modules/presspermit-compatibility/classes/Permissions/Compat/UI/Settings.php:207
+msgid "Logged In Users"
+msgstr "کاربران وارد شده"
+
+#: modules/presspermit-compatibility/classes/Permissions/Compat/UI/Settings.php:240
+#, php-format
+msgid "Insert a login form by using %s[login_form]%s shortcode."
+msgstr "یک فرم ورود را با استفاده از %s[login_form]%s کد کوتاه وارد کنید."
+
+#: modules/presspermit-compatibility/classes/Permissions/Compat/UI/Settings.php:284
+msgid "Hide Topics and Replies"
+msgstr "مخفی کردن موضوعات و پاسخ‌ها"
+
+#: modules/presspermit-compatibility/classes/Permissions/Compat/UI/Settings.php:285
+msgid "Tease Topics and Replies"
+msgstr "پیش‌نمایش موضوعات و پاسخ‌ها"
+
+#: modules/presspermit-compatibility/classes/Permissions/Compat/UI/Settings.php:286
+msgid "Show Topics, Tease Replies"
+msgstr "نمایش موضوعات، پیش‌نمایش پاسخ‌ها"
+
+#: modules/presspermit-compatibility/classes/Permissions/Compat/UI/Settings.php:320
+msgid ""
+"The single forum teaser may be customized by "
+"STYLESHEETPATH/press-permit/teaser-content-forum.php"
+msgstr ""
+"پیش‌نمایش فروم تکی ممکن است توسط "
+"STYLESHEETPATH/press-permit/teaser-content-forum.php سفارشی‌سازی شود"
+
+#: modules/presspermit-compatibility/classes/Permissions/CompatHooks.php:237
+#: modules/presspermit-compatibility/classes/Permissions/CompatHooks.php:241
+msgid "[This topic requires additional permissions or membership.]"
+msgstr "[این موضوع به مجوزهای اضافی یا عضویت نیاز دارد.]"
+
+#: modules/presspermit-compatibility/classes/Permissions/CompatHooks.php:238
+#: modules/presspermit-compatibility/classes/Permissions/CompatHooks.php:242, fuzzy
+msgid "[...]"
+msgstr "[...]"
+
+#: modules/presspermit-compatibility/classes/Permissions/CompatHooks.php:239
+msgid "[This topic requires site login.]"
+msgstr "[این موضوع به ورود به سایت نیاز دارد.]"
+
+#: modules/presspermit-compatibility/classes/Permissions/CompatHooks.php:240
+#: modules/presspermit-compatibility/classes/Permissions/CompatHooks.php:244
+msgid "[login required]"
+msgstr "[ورود الزامی است]"
+
+#: modules/presspermit-compatibility/classes/Permissions/CompatHooks.php:243
+msgid "[This reply requires site login.]"
+msgstr "[این پاسخ به ورود به سایت نیاز دارد.]"
+
+#: modules/presspermit-file-access/classes/Permissions/FileAccess/UI/SettingsTabFileAccess.php:31
+#: modules/presspermit-file-access/classes/Permissions/FileAccess/UI/SettingsTabFileAccess.php:38
+msgid "File Access"
+msgstr "دسترسی به فایل"
+
+#: modules/presspermit-file-access/classes/Permissions/FileAccess/UI/SettingsTabFileAccess.php:50
+#: modules/presspermit-file-access/classes/Permissions/FileAccess/UI/SettingsTabFileAccess.php:286
+msgid "File Access Reset Key:"
+msgstr "کلید بازنشانی دسترسی به فایل:"
+
+#: modules/presspermit-file-access/classes/Permissions/FileAccess/UI/SettingsTabFileAccess.php:51
+msgid "Small Thumbnails Unfiltered"
+msgstr "تصاویر کوچک بدون فیلتر"
+
+#: modules/presspermit-file-access/classes/Permissions/FileAccess/UI/SettingsTabFileAccess.php:52
+msgid "Make Unattached Files Private"
+msgstr "فایل‌های بدون پیوست را خصوصی کنید"
+
+#: modules/presspermit-file-access/classes/Permissions/FileAccess/UI/SettingsTabFileAccess.php:53
+msgid "Make Attached Files Private"
+msgstr "فایل‌های پیوست شده را خصوصی کنید"
+
+#: modules/presspermit-file-access/classes/Permissions/FileAccess/UI/SettingsTabFileAccess.php:86
+#, php-format
+msgid ""
+"%1$sNote%2$s: Direct access to uploaded file attachments cannot be filtered "
+"because mod_rewrite is not enabled on your server."
+msgstr ""
+"%1$sتوجه%2$s: دسترسی مستقیم به پیوست‌های فایل بارگذاری شده نمی‌تواند فیلتر "
+"شود زیرا mod_rewrite در سرور شما فعال نیست."
+
+#: modules/presspermit-file-access/classes/Permissions/FileAccess/UI/SettingsTabFileAccess.php:92
+#, php-format
+msgid ""
+"%1$sNote%2$s: Direct access to uploaded file attachments will not be "
+"filtered due to your nonstandard UPLOADS path."
+msgstr ""
+"%1$sتوجه%2$s: دسترسی مستقیم به پیوست‌های فایل بارگذاری شده به دلیل مسیر "
+"UPLOADS غیر استاندارد شما فیلتر نخواهد شد."
+
+#: modules/presspermit-file-access/classes/Permissions/FileAccess/UI/SettingsTabFileAccess.php:100
+#, php-format
+msgid ""
+"%1$sNote%2$s: Direct access to uploaded file attachments cannot be filtered "
+"because WordPress permalinks are set to default."
+msgstr ""
+"%1$sتوجه%2$s: دسترسی مستقیم به پیوست‌های فایل بارگذاری شده نمی‌تواند فیلتر "
+"شود زیرا پیوندهای دائمی وردپرس به حالت پیش‌فرض تنظیم شده است."
+
+#: modules/presspermit-file-access/classes/Permissions/FileAccess/UI/SettingsTabFileAccess.php:160
+msgid "show required rules"
+msgstr "نمایش قوانین مورد نیاز"
+
+#: modules/presspermit-file-access/classes/Permissions/FileAccess/UI/SettingsTabFileAccess.php:292
+msgid "Copy"
+msgstr "کپی"
+
+#: modules/presspermit-file-access/classes/Permissions/FileAccess/UI/SettingsTabFileAccess.php:303
+msgid "Copied!"
+msgstr "کپی شد!"
+
+#: modules/presspermit-file-access/classes/Permissions/FileAccess/UI/SettingsTabFileAccess.php:353
+msgid "Regenerate Access File"
+msgstr "بازسازی فایل دسترسی"
+
+#: modules/presspermit-file-access/classes/Permissions/FileAccess/UI/SettingsTabFileAccess.php:365
+#: modules/presspermit-file-access/classes/Permissions/FileAccess/UI/SettingsUtility.php:80
+msgid "Attachments Utility"
+msgstr "ابزار پیوست‌ها"
+
+#: modules/presspermit-file-access/classes/Permissions/FileAccess/UI/SettingsTabFileAccess.php:375
+#, php-format
+msgid "For Nginx integration, see %spublishpress.com documentation%s."
+msgstr "برای ادغام Nginx، به مستندات %spublishpress.com%s مراجعه کنید."
+
+#: modules/presspermit-file-access/classes/Permissions/FileAccess/UI/SettingsUtility.php:83
+msgid "Back to Permissions Settings"
+msgstr "بازگشت به تنظیمات مجوزها"
+
+#: modules/presspermit-file-access/classes/Permissions/FileAccess/UI/SettingsUtility.php:88
+msgid "File Access for Files Uploaded via FTP"
+msgstr "دسترسی به فایل برای فایل‌های بارگذاری شده از طریق FTP"
+
+#: modules/presspermit-file-access/classes/Permissions/FileAccess/UI/SettingsUtility.php:95
+msgid "Find Files Uploaded via FTP"
+msgstr "یافتن فایل‌های بارگذاری شده از طریق FTP"
+
+#: modules/presspermit-file-access/classes/Permissions/FileAccess/UI/SettingsUtility.php:104
+msgid ""
+"The network attachment scan has been queued and will continue in the "
+"background via WP-Cron."
+msgstr ""
+"اسکن پیوست شبکه در صف قرار گرفته و در پس‌زمینه از طریق WP-Cron ادامه خواهد "
+"یافت."
+
+#: modules/presspermit-file-access/classes/Permissions/FileAccess/UI/SettingsUtility.php:106
+msgid "A network attachment scan is already in progress or could not be scheduled."
+msgstr ""
+"یک اسکن پیوست شبکه در حال حاضر در حال انجام است یا نمی‌توان آن را زمان‌بندی "
+"کرد."
+
+#: modules/presspermit-file-access/classes/Permissions/FileAccess/UI/SettingsUtility.php:116
+msgid "Site Configuration Requirements"
+msgstr "الزامات پیکربندی سایت"
+
+#: modules/presspermit-file-access/classes/Permissions/FileAccess/UI/SettingsUtility.php:118
+msgid ""
+"For proper access control of direct file URLs, your site must meet these "
+"requirements:"
+msgstr ""
+"برای کنترل دسترسی مناسب به URLهای فایل مستقیم، سایت شما باید این الزامات را "
+"داشته باشد:"
+
+#: modules/presspermit-file-access/classes/Permissions/FileAccess/UI/SettingsUtility.php:150
+msgid "Automated Processing"
+msgstr "پردازش خودکار"
+
+#: modules/presspermit-file-access/classes/Permissions/FileAccess/UI/SettingsUtility.php:166
+msgid "Utility Endpoint URL:"
+msgstr "URL نقطه پایانی ابزار:"
+
+#: modules/presspermit-file-access/classes/Permissions/FileAccess/UI/SettingsUtility.php:168
+msgid "Copy URL"
+msgstr "کپی URL"
+
+#: modules/presspermit-file-access/classes/Permissions/FileAccess/UI/SettingsUtility.php:173
+msgid "Go to Settings"
+msgstr "برو به تنظیمات"
+
+#: modules/presspermit-file-access/classes/Permissions/FileAccess/UI/SettingsUtility.php:270
+msgid "RUNNING"
+msgstr "در حال اجرا"
+
+#: modules/presspermit-file-access/classes/Permissions/FileAccess/UI/SettingsUtility.php:445
+msgid "Operation complete"
+msgstr "عملیات کامل شد"
+
+#: modules/presspermit-file-access/classes/Permissions/FileAccess/UI/SettingsUtility.php:471
+msgid "Scan Again"
+msgstr "اسکن دوباره"
+
+#: modules/presspermit-membership/classes/Permissions/Membership/UI/GroupEdit.php:178
+#: modules/presspermit-membership/classes/Permissions/Membership/UI/GroupEdit.php:184
+#, fuzzy, php-format
+msgid "%1$s (%2$s - %3$s)"
+msgstr "%1$s (%2$s - %3$s)"
+
+#: modules/presspermit-sync/classes/Permissions/SyncHooksAdmin.php:169
+#, php-format
+msgid "Role selection is required for %s. Please select at least one role."
+msgstr "انتخاب نقش برای %s الزامی است. لطفاً حداقل یک نقش را انتخاب کنید."
+
+#: modules/presspermit-sync/classes/Permissions/SyncPosts/UI/Helper.php:61
+#, php-format
+msgid ""
+"You seem to be using a Team / Staff plugin. To synchronize posts to users "
+"and give them editing permission, go to %1$sPermissions > Settings > Sync "
+"Posts%2$s"
+msgstr ""
+"به نظر می‌رسد شما از یک افزونه تیم / کارکنان استفاده می‌کنید. برای "
+"همگام‌سازی پست‌ها با کاربران و اعطای مجوز ویرایش، به %1$sمجوزها > تنظیمات > "
+"همگام‌سازی پست‌ها%2$s بروید"
+
+#: modules/presspermit-sync/classes/Permissions/SyncPosts/UI/SettingsTabSyncPosts.php:33
+msgid "User Posts"
+msgstr "پست‌های کاربر"
+
+#: modules/presspermit-sync/classes/Permissions/SyncPosts/UI/SettingsTabSyncPosts.php:41
+msgid "Synchronize Posts"
+msgstr "همگام‌سازی پست‌ها"
+
+#: modules/presspermit-sync/classes/Permissions/SyncPosts/UI/SettingsTabSyncPosts.php:54
+#: modules/presspermit-sync/classes/Permissions/SyncPosts/UI/SettingsTabSyncPosts.php:112
+msgid "Create Posts for Users"
+msgstr "ایجاد پست برای کاربران"
+
+#: modules/presspermit-sync/classes/Permissions/SyncPosts/UI/SettingsTabSyncPosts.php:55
+#: modules/presspermit-sync/classes/Permissions/SyncPosts/UI/SettingsTabSyncPosts.php:130
+msgid "Grant Author Permissions"
+msgstr "اعطای مجوز نویسنده"
+
+#: modules/presspermit-sync/classes/Permissions/SyncPosts/UI/SettingsTabSyncPosts.php:56
+msgid "Post Types"
+msgstr "نوع پست‌ها"
+
+#: modules/presspermit-sync/classes/Permissions/SyncPosts/UI/SettingsTabSyncPosts.php:57
+msgid "Match Post Field"
+msgstr "مچ کردن فیلد پست"
+
+#: modules/presspermit-sync/classes/Permissions/SyncPosts/UI/SettingsTabSyncPosts.php:58
+msgid "Match User Field"
+msgstr "مچ کردن فیلد کاربر"
+
+#: modules/presspermit-sync/classes/Permissions/SyncPosts/UI/SettingsTabSyncPosts.php:59
+msgid "User Role"
+msgstr "نقش کاربر"
+
+#: modules/presspermit-sync/classes/Permissions/SyncPosts/UI/SettingsTabSyncPosts.php:60
+msgid "Parent Post"
+msgstr "پست والد"
+
+#: modules/presspermit-sync/classes/Permissions/SyncPosts/UI/SettingsTabSyncPosts.php:61
+#: modules/presspermit-sync/classes/Permissions/SyncPosts/UI/SettingsTabSyncPosts.php:430
+msgid "Quantity"
+msgstr "مقدار"
+
+#: modules/presspermit-sync/classes/Permissions/SyncPosts/UI/SettingsTabSyncPosts.php:62
+msgid "Post Status"
+msgstr "وضعیت پست"
+
+#: modules/presspermit-sync/classes/Permissions/SyncPosts/UI/SettingsTabSyncPosts.php:368
+msgid "Post Title"
+msgstr "عنوان پست"
+
+#: modules/presspermit-sync/classes/Permissions/SyncPosts/UI/SettingsTabSyncPosts.php:369
+msgid "Post slug"
+msgstr "اسلاگ پست"
+
+#: modules/presspermit-sync/classes/Permissions/SyncPosts/UI/SettingsTabSyncPosts.php:373
+msgid "User Display Name"
+msgstr "نام نمایشی کاربر"
+
+#: modules/presspermit-sync/classes/Permissions/SyncPosts/UI/SettingsTabSyncPosts.php:374
+msgid "User email"
+msgstr "ایمیل کاربر"
+
+#: modules/presspermit-sync/classes/Permissions/SyncPosts/UI/SettingsTabSyncPosts.php:375
+msgid "User login"
+msgstr "ورود کاربر"
+
+#: modules/presspermit-sync/classes/Permissions/SyncPosts/UI/SettingsTabSyncPosts.php:376
+msgid "User nicename"
+msgstr "نام مستعار کاربر"
+
+#: modules/presspermit-sync/classes/Permissions/SyncPosts/UI/SettingsTabSyncPosts.php:401
+msgid "User Posts Created:"
+msgstr "پست‌های ایجاد شده کاربر:"
+
+#: modules/presspermit-sync/classes/Permissions/SyncPosts/UI/SettingsTabSyncPosts.php:414
+msgid "Post Type"
+msgstr "نوع پست"
+
+#: modules/presspermit-sync/classes/Permissions/SyncPosts/UI/SettingsTabSyncPosts.php:415
+msgid "Select where posts will be created for users."
+msgstr "محل ایجاد پست‌ها برای کاربران را انتخاب کنید."
+
+#: modules/presspermit-sync/classes/Permissions/SyncPosts/UI/SettingsTabSyncPosts.php:418
+msgid "New Users"
+msgstr "کاربران جدید"
+
+#: modules/presspermit-sync/classes/Permissions/SyncPosts/UI/SettingsTabSyncPosts.php:419
+msgid "Create posts for new users."
+msgstr "برای کاربران جدید پست ایجاد کنید."
+
+#: modules/presspermit-sync/classes/Permissions/SyncPosts/UI/SettingsTabSyncPosts.php:422
+msgid "Current Users"
+msgstr "کاربران فعلی"
+
+#: modules/presspermit-sync/classes/Permissions/SyncPosts/UI/SettingsTabSyncPosts.php:423
+msgid "Create posts for existing users."
+msgstr "برای کاربران موجود پست ایجاد کنید."
+
+#: modules/presspermit-sync/classes/Permissions/SyncPosts/UI/SettingsTabSyncPosts.php:426
+msgid "Role"
+msgstr "نقش"
+
+#: modules/presspermit-sync/classes/Permissions/SyncPosts/UI/SettingsTabSyncPosts.php:427
+msgid "Create posts for users in these roles."
+msgstr "برای کاربران در این نقش‌ها پست ایجاد کنید."
+
+#: modules/presspermit-sync/classes/Permissions/SyncPosts/UI/SettingsTabSyncPosts.php:431
+msgid "Set the number of posts to create for each user."
+msgstr "تعداد پست‌هایی که باید برای هر کاربر ایجاد شود را تعیین کنید."
+
+#: modules/presspermit-sync/classes/Permissions/SyncPosts/UI/SettingsTabSyncPosts.php:434
+msgid "Status"
+msgstr "وضعیت"
+
+#: modules/presspermit-sync/classes/Permissions/SyncPosts/UI/SettingsTabSyncPosts.php:435
+msgid "Set the status for created posts."
+msgstr "وضعیت پست‌های ایجاد شده را تعیین کنید."
+
+#: modules/presspermit-sync/classes/Permissions/SyncPosts/UI/SettingsTabSyncPosts.php:443
+msgid "No post types are enabled for user pages."
+msgstr "هیچ نوع پستی برای صفحات کاربری فعال نیست."
+
+#: modules/presspermit-sync/classes/Permissions/SyncPosts/UI/SettingsTabSyncPosts.php:445
+msgid "Go to Permissions Settings"
+msgstr "به تنظیمات مجوزها بروید"
+
+#: modules/presspermit-sync/classes/Permissions/SyncPosts/UI/SettingsTabSyncPosts.php:487
+msgid "Click to expand/collapse advanced settings"
+msgstr "برای گسترش/جمع کردن تنظیمات پیشرفته کلیک کنید"
+
+#: modules/presspermit-sync/classes/Permissions/SyncPosts/UI/SettingsTabSyncPosts.php:533
+msgid "(All Roles)"
+msgstr "(همه نقش‌ها)"
+
+#: modules/presspermit-sync/classes/Permissions/SyncPosts/UI/SettingsTabSyncPosts.php:569
+msgid "Published"
+msgstr "منتشر شده"
+
+#: modules/presspermit-sync/classes/Permissions/SyncPosts/UI/SettingsTabSyncPosts.php:570
+msgid "Draft"
+msgstr "پیش‌نویس"
+
+#: modules/presspermit-sync/classes/Permissions/SyncPosts/UI/SettingsTabSyncPosts.php:571
+msgid "Pending Review"
+msgstr "در حال بررسی"
+
+#: modules/presspermit-sync/classes/Permissions/SyncPosts/UI/SettingsTabSyncPosts.php:572
+msgid "Private"
+msgstr "خصوصی"
+
+#: modules/presspermit-sync/classes/Permissions/SyncPosts/UI/SettingsTabSyncPosts.php:589
+msgid "Avoid Creating Duplicates"
+msgstr "از ایجاد تکراری‌ها خودداری کنید"
+
+#: modules/presspermit-sync/classes/Permissions/SyncPosts/UI/SettingsTabSyncPosts.php:590
+msgid ""
+"This setting can prevent the creation of duplicate posts for a user. If the "
+"selected fields are a match, a new post will not be created."
+msgstr ""
+"این تنظیم می‌تواند از ایجاد پست‌های تکراری برای یک کاربر جلوگیری کند. اگر "
+"فیلدهای انتخاب شده مطابقت داشته باشند، پست جدیدی ایجاد نخواهد شد."
+
+#: modules/presspermit-sync/classes/Permissions/SyncPosts/UI/SettingsTabSyncPosts.php:595
+msgid "Post Match Field"
+msgstr "فیلد مطابقت پست"
+
+#: modules/presspermit-sync/classes/Permissions/SyncPosts/UI/SettingsTabSyncPosts.php:596
+msgid "Choose which post field to match with users."
+msgstr "انتخاب کنید که کدام فیلد پست با کاربران مطابقت داشته باشد."
+
+#: modules/presspermit-sync/classes/Permissions/SyncPosts/UI/SettingsTabSyncPosts.php:636
+#: modules/presspermit-sync/classes/Permissions/SyncPosts/UI/SettingsTabSyncPosts.php:683
+msgid "(other)"
+msgstr "(دیگر)"
+
+#: modules/presspermit-sync/classes/Permissions/SyncPosts/UI/SettingsTabSyncPosts.php:648
+#: modules/presspermit-sync/classes/Permissions/SyncPosts/UI/SettingsTabSyncPosts.php:692
+msgid "select..."
+msgstr "انتخاب کنید..."
+
+#: modules/presspermit-sync/classes/Permissions/SyncPosts/UI/SettingsTabSyncPosts.php:649
+#: modules/presspermit-sync/classes/Permissions/SyncPosts/UI/SettingsTabSyncPosts.php:693
+msgid "cancel"
+msgstr "لغو"
+
+#: modules/presspermit-sync/classes/Permissions/SyncPosts/UI/SettingsTabSyncPosts.php:657
+msgid "User Match Field"
+msgstr "فیلد مطابقت کاربر"
+
+#: modules/presspermit-sync/classes/Permissions/SyncPosts/UI/SettingsTabSyncPosts.php:658
+msgid "Select which user field to match with posts."
+msgstr "انتخاب کنید که کدام فیلد کاربر با پست‌ها مطابقت داشته باشد."
+
+#: modules/presspermit-sync/classes/Permissions/SyncPosts/UI/SettingsTabSyncPosts.php:701
+msgid "Available Template Parameters"
+msgstr "پارامترهای قالب موجود"
+
+#: modules/presspermit-sync/classes/Permissions/SyncPosts/UI/SettingsTabSyncPosts.php:704
+msgid ""
+"You can use these placeholders in the User Match Field to create custom "
+"templates:"
+msgstr ""
+"شما می‌توانید از این مکان‌نگارها در فیلد مطابقت کاربر برای ایجاد الگوهای "
+"سفارشی استفاده کنید:"
+
+#: modules/presspermit-sync/classes/Permissions/SyncPosts/UI/SettingsTabSyncPosts.php:717
+msgid "Examples:"
+msgstr "نمونه‌ها:"
+
+#: modules/presspermit-sync/classes/Permissions/SyncPosts/UI/SettingsTabSyncPosts.php:731
+msgid "Additional Field"
+msgstr "فیلد اضافی"
+
+#: modules/presspermit-sync/classes/Permissions/SyncPosts/UI/SettingsTabSyncPosts.php:732
+msgid "Additional configuration options for post creation."
+msgstr "گزینه‌های پیکربندی اضافی برای ایجاد پست."
+
+#: modules/presspermit-sync/classes/Permissions/SyncPosts/UI/SettingsTabSyncPosts.php:737
+msgid "Parent Post ID"
+msgstr "شناسه پست والد"
+
+#: modules/presspermit-sync/classes/Permissions/SyncPosts/UI/SettingsTabSyncPosts.php:738
+msgid "Specify the Post ID of a parent post for hierarchical post types."
+msgstr "شناسه پست یک پست والد را برای انواع پست‌های سلسله‌مراتبی مشخص کنید."
+
+#: modules/presspermit-sync/classes/Permissions/SyncPosts/UI/SettingsTabSyncPosts.php:749
+msgid "Enter parent post ID (0 for no parent)"
+msgstr "شناسه پست والد را وارد کنید (0 برای بدون والد)"
+
+#: modules/presspermit-sync/classes/Permissions/SyncPosts/UI/SettingsTabSyncPosts.php:895
+msgid "Validation Errors in User Posts Settings:"
+msgstr "خطاهای اعتبارسنجی در تنظیمات پست‌های کاربر:"
+
+#: modules/presspermit-sync/classes/Permissions/SyncPosts/UI/SettingsTabSyncPosts.php:903
+msgid "Please fix these errors and try again."
+msgstr "لطفاً این خطاها را اصلاح کنید و دوباره تلاش کنید."
+
+#: modules/presspermit-sync/classes/Permissions/SyncPosts/UserSync.php:156
+#, php-format
+msgid "%s: Skipping because no roles are selected"
+msgstr "%s: رد شد زیرا هیچ نقشی انتخاب نشده است"
+
+#: modules/presspermit-sync/classes/Permissions/SyncPosts/UserSync.php:190
+#, php-format
+msgid "%s: Enabled PressPermit filtering (Core > Filtered Post Types)"
+msgstr "%s: فیلتر کردن PressPermit فعال شد (هسته > انواع پست فیلتر شده)"
+
+#: modules/presspermit-sync/classes/Permissions/SyncPosts/UserSync.php:208
+#, php-format
+msgid "%1$s: Assigned extra %2$s Author role to %3$s role"
+msgstr "%1$s: نقش اضافی %2$s به نقش %3$s اختصاص داده شد"
+
+#: modules/presspermit-sync/classes/Permissions/SyncPosts/UserSync.php:356
+#, php-format
+msgid "Ambiguous %1$s match (%2$s)"
+msgstr "مقایسه مبهم %1$s (%2$s)"
+
+#: modules/presspermit-sync/classes/Permissions/SyncPosts/UserSync.php:386
+#, php-format
+msgid "Ambiguous user match for %1$s (%2$s, post id %3$s"
+msgstr "مقایسه کاربر مبهم برای %1$s (%2$s، شناسه پست %3$s"
+
+#: modules/presspermit-sync/classes/Permissions/SyncPosts/UserSync.php:411
+#, php-format
+msgid "Ambiguous user match for %1$s (%2$s, $post id %3$s)"
+msgstr "مقایسه کاربر مبهم برای %1$s (%2$s، شناسه پست $post %3$s)"
+
+#: modules/presspermit-sync/classes/Permissions/SyncPosts/UserSync.php:560
+#: modules/presspermit-sync/classes/Permissions/SyncPosts/UserSync.php:584
+#, php-format
+msgid "Ambiguous user match for %1$s (%2$s)"
+msgstr "مقایسه کاربر مبهم برای %1$s (%2$s)"
+
+#: modules/presspermit-sync/classes/Permissions/SyncPosts/UserSync.php:620
+#, php-format
+msgid "%1$s: %2$s posts created."
+msgstr "%1$s: %2$s پست ایجاد شده است."
+
+#: modules/presspermit-sync/classes/Permissions/SyncPosts/UserSync.php:626
+#, php-format
+msgid "%1$s: %2$s posts updated."
+msgstr "%1$s: %2$s پست به‌روز شده است."
+
+#: modules/presspermit-sync/classes/Permissions/SyncPosts/UserSync.php:642
+msgid "All Roles"
+msgstr "تمام نقش‌ها"
+
+#: modules/presspermit-sync/classes/Permissions/SyncPosts/UserSync.php:646
+#, php-format
+msgid "%1$s: Done for %2$s."
+msgstr "%1$s: برای %2$s انجام شد."
+
+#: modules/presspermit-sync/classes/Permissions/SyncPosts/UserSync.php:648
+#, php-format
+msgid "%s: Done."
+msgstr "%s: انجام شد."

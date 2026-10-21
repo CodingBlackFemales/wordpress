@@ -24,7 +24,7 @@ class RevisionaryDivi
 		add_action('et_save_post', [$this, 'actDiviUpdatePost']);
 
 		// prevent Divi reload
-		if (!defined('REVISIONARY_LEGACY_DIVI_REDIRECT')) {
+		if (!rvy_is_divi_editing_preview() && !defined('REVISIONARY_LEGACY_DIVI_REDIRECT')) {
 			if ($post_id = rvy_detect_post_id()) {
 				if (rvy_in_revision_workflow($post_id)) {
 					add_action('init', function() {
@@ -52,7 +52,7 @@ class RevisionaryDivi
 	function et_fb_add_admin_bar_link() {
 		global $wp_the_query;
 
-		if (!empty($wp_the_query->queried_object) && ($wp_the_query->queried_object->ID != $wp_the_query->query_vars['p']) && rvy_in_revision_workflow($wp_the_query->query_vars['p'])) {
+		if (!rvy_is_divi_editing_preview() && !empty($wp_the_query->query_vars['p']) && !empty($wp_the_query->queried_object->ID) && ($wp_the_query->queried_object->ID != $wp_the_query->query_vars['p']) && rvy_in_revision_workflow($wp_the_query->query_vars['p'])) {
 			$wp_the_query->queried_object = get_post($wp_the_query->query_vars['p']);
 		}
 	}
@@ -131,6 +131,9 @@ class RevisionaryDivi
 	}
 
 	function submissionRedirect() {
+		if (rvy_is_divi_editing_preview()) {
+			return;
+		}
 		if ($post_id = rvy_detect_post_id()) {
             if ($revision_status = rvy_in_revision_workflow($post_id)) {
 				/* Redirect to Revisions preview screen after revision status change */

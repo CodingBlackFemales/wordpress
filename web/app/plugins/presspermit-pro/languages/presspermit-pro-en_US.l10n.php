@@ -1,0 +1,2 @@
+<?php
+return ['domain'=>'presspermit-pro','plural-forms'=>NULL,'language'=>'','project-id-version'=>'PublishPress Permissions Pro 4.9.0','pot-creation-date'=>'2026-09-21T14:16:51+00:00','po-revision-date'=>'YEAR-MO-DA HO:MI+ZONE','x-generator'=>'WP-CLI 2.12.0','messages'=>[]];

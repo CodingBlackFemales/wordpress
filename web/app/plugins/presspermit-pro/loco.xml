@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<bundle name="PublishPress Permissions Pro">
+  <domain name="presspermit-pro">
+    <project name="PublishPress Permissions Pro" slug="presspermit-pro">
+      <source>
+        <directory>.</directory>
+      </source>
+      <target>
+        <directory>languages</directory>
+      </target>
+      <template>
+        <file>languages/presspermit-pro.pot</file>
+      </template>
+    </project>
+  </domain>
+  <exclude>
+    <directory>vendor</directory>
+    <directory>lib/vendor</directory>
+    <directory>lib/vendor/publishpress/publishpress-permissions/vendor</directory>
+	  <file>lib/vendor/publishpress/publishpress-permissions/classes/PublishPress/Permissions/UI/SettingsAdmin.php</file>
+	  <file>lib/vendor/publishpress/publishpress-permissions/classes/PublishPress/Permissions/Constants.php</file>
+  </exclude>
+</bundle>

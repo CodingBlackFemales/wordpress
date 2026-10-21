@@ -1,0 +1,10 @@
+jQuery(document).ready(function ($) {
+    $('input.is_circle').on('change', function () {
+        var do_show = $(this).is(":checked");
+        $(this).parent().parent().siblings('.post-type-selector').toggle(do_show);
+    });
+    $('input.ppc-check-all').on('click', function () {
+        var elems = $(this).closest('td').find('input[type="checkbox"][class!="ppc-check-all"]');
+        $(elems).prop('checked', $(this).is(":checked"));
+    });
+});

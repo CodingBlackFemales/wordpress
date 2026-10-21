@@ -1,0 +1,1726 @@
+# Copyright (C) 2026 PublishPress
+# This file is distributed under the same license as the PublishPress Permissions Pro plugin.
+msgid ""
+msgstr ""
+"Project-Id-Version: PublishPress Permissions Pro 4.8.1\n"
+"Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/project\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: Hungarian "
+"<https://weblate.publishpress.com/projects/publishpress-permissions-pro/"
+"presspermit-pro/hu/>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"POT-Creation-Date: 2026-04-02T18:54:49+00:00\n"
+"PO-Revision-Date: 2026-10-01 19:50+0000\n"
+"X-Generator: Weblate 2026.6.1\n"
+"X-Domain: presspermit-pro\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"Language: hu-HU\n"
+
+#: presspermit-pro.php:4, fuzzy
+#. Plugin Name of the plugin
+msgid "PublishPress Permissions Pro"
+msgstr "PublishPress Permissions Pro"
+
+#: presspermit-pro.php:5
+#. Plugin URI of the plugin
+msgid "https://publishpress.com/permissions"
+msgstr "https://publishpress.com/permissions"
+
+#: presspermit-pro.php:6
+#. Description of the plugin
+msgid ""
+"PublishPress Permissions allows you to enable or deny access to posts, "
+"pages, categories, tags and more."
+msgstr ""
+"A PublishPress Permissions lehetővé teszi, hogy engedélyezze vagy "
+"megtagadja a hozzáférést a bejegyzésekhez, oldalakhoz, kategóriákhoz, "
+"címkékhez és egyebekhez."
+
+#: presspermit-pro.php:8
+#. Author of the plugin
+msgid "PublishPress"
+msgstr "PublishPress"
+
+#: presspermit-pro.php:9
+#. Author URI of the plugin
+msgid "https://publishpress.com/"
+msgstr "https://publishpress.com/"
+
+#: includes-pro/admin-load.php:93
+#, php-format
+msgid ""
+"Should pages with privacy status \"premium\" require set_pages_premium and "
+"edit_premium_pages capabilities? If so, you can %1$sassign a "
+"status-specific Page Editor role%2$s or %3$sadd the capabilities directly "
+"to a role%4$s."
+msgstr ""
+"Kell-e a \"premium\" adatvédelmi státuszú oldalakon a set_pages_premium és "
+"edit_premium_pages jogosultságoknak érvényesülniük? Ha igen, akkor "
+"%1$shozzárendelheti a státusz-specifikus Page Editor szerepet%2$s vagy "
+"%3$sközvetlenül adhatja hozzá a jogosultságokat egy szerephez%4$s."
+
+#: includes-pro/admin-load.php:121
+#, php-format
+msgid ""
+"Note: Workflow sequence and branching for pre-publication is configured "
+"%son a separate screen%s"
+msgstr ""
+"Megjegyzés: A munkafolyamat sorrendje és ágazása a közzététel előtt a %son "
+"a külön képernyőn%s van konfigurálva."
+
+#: includes-pro/admin-load.php:136
+#, php-format
+msgid "Additional settings provided by the %s module."
+msgstr "További beállításokat a %s modul biztosít."
+
+#: includes-pro/admin-load.php:140
+msgid ""
+"Note: If you deactive, re-entry of the license key will be required for "
+"re-activation."
+msgstr ""
+"Megjegyzés: Ha deaktiválja, a licenckulcs újbóli beírása szükséges az "
+"újraaktiváláshoz."
+
+#: includes-pro/admin-load.php:145
+msgid ""
+"If enabled, custom group membership is applied network-wide (though role "
+"assignments are still site-specific)."
+msgstr ""
+"Ha engedélyezve van, a testreszabott csoporttagság hálózat-szerte "
+"érvényesül (bár a szerepkiosztások továbbra is hely-specifikusak)."
+
+#: includes-pro/admin-load.php:148
+msgid "Can create network-wide permission groups"
+msgstr "Hálózat-szerte létrehozhat jogosultsági csoportokat"
+
+#: includes-pro/admin-load.php:151
+msgid "If group editing is allowed, can also modify network group membership"
+msgstr ""
+"Ha a csoport szerkesztése engedélyezett, akkor a hálózati csoporttagságot "
+"is módosíthatja"
+
+#: includes-pro/admin-load.php:156
+msgid ""
+"This feature will control direct URL access to files in /uploads/ folder. "
+"By default, files are blocked if they are attached to a post which the user "
+"can't view."
+msgstr ""
+"Ez a funkció közvetlen URL hozzáférést fog szabályozni a /uploads/ mappában "
+"található fájlokhoz. Alapértelmezés szerint a fájlok blokkolva vannak, ha "
+"olyan bejegyzéshez vannak csatolva, amelyet a felhasználó nem tud "
+"megtekinteni."
+
+#: includes-pro/admin-load.php:159
+#, php-format
+msgid ""
+"File Access on multisite installations will require the following rules to "
+"be inserted above the stock ms-files.php rules in the %1$smain .htaccess "
+"file%2$s:"
+msgstr ""
+"A fájlhozzáférés a multisite telepítéseken a következő szabályok "
+"beillesztését igényli a kész ms-files.php szabályok fölé a %1$smain "
+".htaccess fájlban%2$s:"
+
+#: includes-pro/admin-load.php:162
+msgid "But your .htaccess is missing or not writeable!"
+msgstr "De a .htaccess fájl hiányzik vagy nem írható!"
+
+#: includes-pro/admin-load.php:165
+msgid ".htaccess needs to be updated to include these rules."
+msgstr "A .htaccess fájlt frissíteni kell, hogy tartalmazza ezeket a szabályokat."
+
+#: includes-pro/admin-load.php:168
+msgid ".htaccess file has all required rules."
+msgstr "A .htaccess fájlban megtalálhatók az összes szükséges szabály."
+
+#: includes-pro/admin-load.php:171
+msgid ""
+"These rules will not be inserted automatically.  You are responsible for "
+"editing .htaccess and later removing the rules if the functionality is no "
+"longer desired."
+msgstr ""
+"Ezeket a szabályokat nem fogják automatikusan beilleszteni. Ön felelős a "
+".htaccess szerkesztéséért, és később a szabályok eltávolításáért, ha a "
+"funkcióra már nincs szükség."
+
+#: includes-pro/admin-load.php:174
+#, php-format
+msgid ""
+"Note that an additional rule will need to be added with each new site. "
+"%1$sTo eliminate this requirement, research \"WordPress remove "
+"ms-files\".%2$s"
+msgstr ""
+"Vegye figyelembe, hogy minden új webhelyhez egy újabb szabályt kell "
+"hozzáadni. %1$sEnnek a követelménynek a megszüntetéséhez kutassa a "
+"\"WordPress remove ms-files\" kifejezést.%2$s"
+
+#: includes-pro/admin-load.php:177
+msgid ""
+"You will need to manually restore the .htacces file to default contents if "
+"anything goes wrong. Proceed?"
+msgstr ""
+"Ha valami rosszul sül el, manuálisan vissza kell állítania a .htaccess "
+"fájlt az alapértelmezett tartalomra. Folytatja?"
+
+#: includes-pro/admin-load.php:180
+msgid "Update .htaccess now"
+msgstr "Frissítse a .htaccess fájlt most"
+
+#: includes-pro/admin-load.php:183
+msgid "only for sites with protected files"
+msgstr "csak védett fájlokkal rendelkező webhelyek számára"
+
+#: includes-pro/admin-load.php:186
+msgid "for all sites"
+msgstr "minden webhely számára"
+
+#: includes-pro/admin-load.php:189
+msgid "NONE: remove Permissions rules"
+msgstr "NINCS: eltávolítja a jogosultsági szabályokat"
+
+#: includes-pro/admin-load.php:192
+msgid ""
+"Since the plugin is not network-activated, you will need to modify the "
+".htaccess file manually, inserting a RewriteRule as shown above for each "
+"site which needs file filtering."
+msgstr ""
+"Mivel a bővítmény nem aktív a hálózaton, szükséges a .htaccess fájl "
+"manuális módosítása, a fenti példának megfelelően RewriteRule "
+"beillesztésével minden olyan webhelyhez, amely fájl szűrést igényel."
+
+#: includes-pro/admin-load.php:195
+msgid ""
+"This extends the File Access feature to files that are not attached to any "
+"post. This will not apply to user who have the edit_private_files or "
+"pp_list_all_files capability."
+msgstr ""
+"Ez kiterjeszti a Fájlhozzáférés funkciót olyan fájlokra, amelyek nincsenek "
+"csatolva egyetlen bejegyzéshez sem. Ez nem vonatkozik azokra a "
+"felhasználókra, akik rendelkeznek az edit_private_files vagy "
+"pp_list_all_files jogosultsággal."
+
+#: includes-pro/admin-load.php:198
+msgid ""
+"Make attached files unreadable to users who do not have the "
+"edit_private_files or pp_list_all_files capability."
+msgstr ""
+"Tegye a csatolt fájlokat olvashatatlanná azok számára, akik nem "
+"rendelkeznek az edit_private_files vagy pp_list_all_files jogosultsággal."
+
+#: includes-pro/admin-load.php:201
+msgid ""
+"Improve Media Library performance by disabling file filtering for "
+"thumbnails (size specified in Settings > Media)."
+msgstr ""
+"Javítsa a Média Könyvtár teljesítményét azáltal, hogy letiltja a fájl "
+"szűrést a miniatűrök esetében (a méretet a Beállítások > Média menüpontban "
+"határozza meg)."
+
+#: includes-pro/admin-load.php:204
+msgid ""
+"On some sites, an additional redirect is required to correctly deliver "
+"protected files. Leave this disabled for better performance if possible."
+msgstr ""
+"Néhány webhelyen további átirányítás szükséges a védett fájlok helyes "
+"kézbesítéséhez. Ha lehetséges, hagyja ezt letiltva a jobb teljesítmény "
+"érdekében."
+
+#: includes-pro/admin-load.php:207
+#, php-format
+msgid ""
+"The File Access feature uses an %1$s.htaccess%2$s file located at "
+"%3$suploads/.htaccess%4$s. Normally no action is needed, but clicking the "
+"button below will update the URL keys (at next site access) that protect "
+"the files."
+msgstr ""
+"A Fájlhozzáférés funkció egy %1$s.htaccess%2$s fájlt használ, amely a "
+"%3$suploads/.htaccess%4$s helyen található. Normál esetben nincs szükség "
+"intézkedésre, de az alábbi gombra kattintva frissítheti az URL kulcsokat (a "
+"következő webhelyhozzáféréskor), amelyek védik a fájlokat."
+
+#: includes-pro/admin-load.php:210
+#, php-format
+msgid ""
+"The File Access feature uses an %1$s.htaccess%2$s file located at "
+"%3$suploads/.htaccess%4$s. Normally no action is needed, but clicking the "
+"button below will update the URL keys that protect the files."
+msgstr ""
+"A Fájlhozzáférés funkció egy %1$s.htaccess%2$s fájlt használ, amely a "
+"%3$suploads/.htaccess%4$s helyen található. Normál esetben nincs szükség "
+"intézkedésre, de az alábbi gombra kattintva frissítheti az URL kulcsokat, "
+"amelyek védik a fájlokat."
+
+#: includes-pro/admin-load.php:213
+msgid ""
+"Best practice is to access the above url periodically (using your own cron "
+"service) to prevent long-term bookmarking of protected files."
+msgstr ""
+"A legjobb gyakorlat az, hogy a fenti URL-t időről időre elérjük (saját cron "
+"szolgáltatás használatával), hogy megakadályozzuk a védett fájlok hosszú "
+"távú könyvjelzőzését."
+
+#: includes-pro/admin-load.php:216
+msgid ""
+"Supply a custom key which will enable a support url to regenerate file "
+"access keys.  Then execute the url regularly (using your own cron service) "
+"to prevent long-term bookmarking of protected files."
+msgstr ""
+"Adjon meg egy egyedi kulcsot, amely lehetővé teszi a támogatási URL-t a "
+"fájlhozzáférési kulcsok regenerálásához. Ezután rendszeresen hajtsa végre "
+"az URL-t (saját cron szolgáltatás használatával), hogy megakadályozza a "
+"védett fájlok hosszú távú könyvjelzőzését."
+
+#: includes-pro/admin-load.php:219
+msgid ""
+"File Access can also protect files uploaded by FTP or other manual file "
+"copy, but does not detect them automatically. Click the button below to "
+"scan your uploads folder for files to protect."
+msgstr ""
+"A Fájlhozzáférés védheti az FTP-n vagy más manuális fájlmásolással "
+"feltöltött fájlokat is, de nem észleli őket automatikusan. Kattintson az "
+"alábbi gombra, hogy átvizsgálja a feltöltési mappáját a védendő fájlokért."
+
+#: includes-pro/admin-load.php:223
+msgid "Invalid file filtering key argument."
+msgstr "Érvénytelen fájl szűrési kulcsargumentum."
+
+#: includes-pro/admin-load.php:226
+msgid "Please configure File Access options!"
+msgstr "Kérjük, állítsa be a Fájlhozzáférés beállításait!"
+
+#: includes-pro/admin-load.php:229
+msgid "The wp-content folder cannot be relocated outside the main WordPress folder."
+msgstr "A wp-content mappa nem helyezhető át a fő WordPress mappán kívülre."
+
+#: includes-pro/admin-load.php:238
+#, php-format
+msgid ""
+"Files linked in post content must be in %1$s (or a subfolder of it). If you "
+"move files, consider using a %2$s search and replace plugin%3$s to update "
+"those URLs."
+msgstr ""
+"A bejegyzés tartalmában hivatkozott fájloknak a %1$s (vagy annak egy "
+"alkönyvtárában) kell lenniük. Ha fájlokat mozgat, érdemes lehet használni "
+"egy %2$s keresés és helyettesítés plugint%3$s az URL-ek frissítéséhez."
+
+#: includes-pro/admin-load.php:241
+msgid ""
+"File Access can also protect files uploaded by FTP or other manual "
+"processes, but does not detect them automatically. This utility can find "
+"and protect any uploaded files."
+msgstr ""
+"A Fájlhozzáférés védheti az FTP-n vagy más manuális folyamatok során "
+"feltöltött fájlokat is, de nem észleli őket automatikusan. Ez az eszköz "
+"bármely feltöltött fájlt megtalál és védhet."
+
+#: includes-pro/admin-load.php:244
+msgid ""
+"To run this utility by cron task or other direct request, use the following "
+"URL:"
+msgstr ""
+"Ezt az eszközt cron feladatként vagy más közvetlen kéréseként a következő "
+"URL-en lehet futtatni:"
+
+#: includes-pro/admin-load.php:247
+msgid ""
+"To run this utility by direct URL, set a file filtering regen key on "
+"Permissions Settings"
+msgstr ""
+"Ezt az eszközt közvetlen URL-en történő futtatáshoz állítson be egy fájl "
+"szűrési regen kulcsot a Jogosultságok beállításainál"
+
+#: includes-pro/admin-load.php:250
+msgid ""
+"Note: Direct access to uploaded file attachments cannot be filtered because "
+"your WP_CONTENT_DIR is not in the WordPress branch."
+msgstr ""
+"Megjegyzés: A feltöltött fájlcsatolmányok közvetlen elérése nem szűrhető, "
+"mert a WP_CONTENT_DIR nincs a WordPress ágon."
+
+#: includes-pro/admin-load.php:253
+msgid "The operation was terminated due to an invalid configuration."
+msgstr "A művelet érvénytelen konfiguráció miatt megszakadt."
+
+#: includes-pro/admin-load.php:256
+#, php-format
+msgid "Checking %s posts / pages..."
+msgstr "%s bejegyzés / oldal ellenőrzése..."
+
+#: includes-pro/admin-load.php:259
+#, php-format
+msgid "%1$s skipping unfilterable file in %2$s \"%3$s\":%4$s %5$s"
+msgstr "%1$s kihagyta az szűrhetetlen fájlt a %2$s \"%3$s\": %4$s %5$s"
+
+#: includes-pro/admin-load.php:262
+#, php-format
+msgid "%1$s skipping missing file in %2$s \"%3$s\":%4$s %5$s"
+msgstr "%1$s kihagyta a hiányzó fájlt a %2$s \"%3$s\": %4$s %5$s"
+
+#: includes-pro/admin-load.php:265
+#: includes-pro/admin-load.php:268
+#, php-format
+msgid "%1$sNew attachment in %2$s \"%3$s\":%4$s %5$s"
+msgstr "%1$sÚj csatolmány a %2$s \"%3$s\": %4$s %5$s"
+
+#: includes-pro/admin-load.php:271
+#, php-format
+msgid "%s linked uploads were found in your post / page content."
+msgstr "%s összekapcsolt feltöltés található a bejegyzés / oldal tartalmában."
+
+#: includes-pro/admin-load.php:274
+#, php-format
+msgid "%s attachment records were added to the database."
+msgstr "%s csatolmány rekord került hozzáadásra az adatbázishoz."
+
+#: includes-pro/admin-load.php:277
+msgid "All linked uploads are already registered as attachments."
+msgstr "Minden összekapcsolt feltöltés már csatolmányként van regisztrálva."
+
+#: includes-pro/admin-load.php:282
+msgid ""
+"Statuses enabled here are available as Visibility options for post "
+"publishing. Affected posts become inaccessable without a corresponding "
+"status-specific role assignment."
+msgstr ""
+"Itt engedélyezett státuszok láthatósági lehetőségekként elérhetőek a "
+"bejegyzések közzétételében. Az érintett bejegyzések elérhetetlenné válnak a "
+"megfelelő státusz-specifikus szerepkör hozzárendelése nélkül."
+
+#: includes-pro/admin-load.php:285
+msgid ""
+"Statuses enabled here are available in the editor as additional steps "
+"between Draft and Published."
+msgstr ""
+"Itt engedélyezett státuszok elérhetőek a szerkesztőben, mint további "
+"lépések a Vázlat és Közzétett között."
+
+#: includes-pro/admin-load.php:288
+msgid ""
+"Statuses alter your content's accessibility by imposing additional "
+"capability requirements."
+msgstr ""
+"A státuszok módosítják a tartalom elérhetőségét, további "
+"képességkövetelmények bevezetésével."
+
+#: includes-pro/admin-load.php:291
+#, php-format
+msgid ""
+"Enable Custom Capabilities by toggling the link below status name. If "
+"enabled, non-Editors will need a corresponding %ssupplemental role%s to "
+"edit posts of that status."
+msgstr ""
+"Engedélyezze a Szokásos Képességeket a státusz név alatti link "
+"átkapcsolásával. Ha engedélyezve van, a nem szerkesztőknek szükségük lesz "
+"egy megfelelő %ssupplemental role%s-ra a bejegyzések szerkesztéséhez, "
+"amelyek ezen státusz alatt állnak."
+
+#: includes-pro/admin-load.php:294
+#, php-format
+msgid ""
+"For post edit by a user who cannot publish, %sworkflow is configured%s to "
+"make the Publish button increment the post to the next workflow status "
+"permitted."
+msgstr ""
+"Bejegyzés szerkesztése olyan felhasználó által, aki nem tud közzétenni, "
+"%sworkflow konfigurálva van%s, hogy a Közzététel gomb a bejegyzést a "
+"következő munkafolyamat státuszra emelje."
+
+#: includes-pro/admin-load.php:297
+#, php-format
+msgid ""
+"For post edit by a user who cannot publish, %sworkflow is configured%s to "
+"make the Publish button escalate the post to the highest-ordered workflow "
+"status permitted."
+msgstr ""
+"Bejegyzés szerkesztése olyan felhasználó által, aki nem tud közzétenni, "
+"%sworkflow konfigurálva van%s, hogy a Közzététel gomb a bejegyzést a "
+"legmagasabb rendelésű munkafolyamat státuszra emelje."
+
+#: includes-pro/admin-load.php:300
+msgid ""
+"For post edit by a user who cannot publish, the Publish button will "
+"escalate the post to the highest-order status permitted to the user."
+msgstr ""
+"Bejegyzés szerkesztése olyan felhasználó által, aki nem tud közzétenni, a "
+"Közzététel gomb a bejegyzést a felhasználónak engedélyezett legmagasabb "
+"státuszra emeli."
+
+#: includes-pro/admin-load.php:303
+#, php-format
+msgid "Please enable the PublishPress %sStatuses feature%s."
+msgstr "Kérjük, engedélyezze a PublishPress %sStatuses funkciót%s."
+
+#: includes-pro/admin-load.php:306
+#, php-format
+msgid ""
+"Note that the Post Type itself will also need to have %sPermissions%s "
+"enabled."
+msgstr ""
+"Ne feledje, hogy a Bejegyzéstípusnak is engedélyezve kell lennie a "
+"%sJogosultságok%s számára."
+
+#: includes-pro/admin-load.php:314
+msgid ""
+"To disable custom visibility statuses, first re-assign posts to a different "
+"status."
+msgstr ""
+"A szokásos láthatósági státuszok letiltásához először rendelje át a "
+"bejegyzéseket egy másik státuszra."
+
+#: includes-pro/admin-load.php:317
+msgid ""
+"Note, this only applies if the role definition includes the pp_moderate_any "
+"capability"
+msgstr ""
+"Megjegyzés: ez csak akkor érvényes, ha a szerepkör definíciója tartalmazza "
+"a pp_moderate_any képességet"
+
+#: includes-pro/admin-load.php:320
+msgid "Create or edit custom Privacy or Workflow statuses."
+msgstr ""
+"Hozzon létre vagy szerkesszen egyedi Adatvédelmi vagy Munkafolyamat "
+"státuszokat."
+
+#: includes-pro/admin-load.php:323
+msgid "Create or edit custom Privacy statuses."
+msgstr "Hozzon létre vagy szerkesszen egyedi Adatvédelmi státuszokat."
+
+#: includes-pro/admin-load.php:326
+msgid ""
+"Extra Roles created as a type-specific copy of this role will enable "
+"assignment of specified custom statuses."
+msgstr ""
+"Az extra szerepkörök, amelyek a szerepkör típus-specifikus másolataként "
+"jönnek létre, lehetővé teszik a megadott egyedi státuszok hozzárendelését."
+
+#: includes-pro/admin-load.php:329
+msgid ""
+"Editors do not need status-specific editing capabilities for workflow posts "
+"(Assigned, In Progress, Approved)."
+msgstr ""
+"A szerkesztőknek nem szükséges státusz-specifikus szerkesztési képesség a "
+"munkafolyamat bejegyzésekhez (Hozzárendelt, Folyamatban, Jóváhagyott)."
+
+#: includes-pro/admin-load.php:332
+msgid ""
+"If enabled, non-Editors will need to be granted editing access via the "
+"\"Permissions\" screen."
+msgstr ""
+"Ha engedélyezve van, a nem szerkesztőknek szerkesztési hozzáférést kell "
+"kapniuk a \"Jogosultságok\" képernyőn keresztül."
+
+#: includes-pro/admin-load.php:335
+msgid ""
+"If enabled, a Visibility Status dropdown will appear in Quick Edit for easy "
+"status assignment."
+msgstr ""
+"Ha engedélyezve van, egy Láthatósági Státusz legördülő menü jelenik meg a "
+"Gyors Szerkesztésben a könnyű státusz hozzárendeléshez."
+
+#: includes-pro/admin-load.php:338
+msgid ""
+"If enabled, this will add Visibility Statuses support to the PublishPress "
+"Status plugin."
+msgstr ""
+"Ha engedélyezve van, ez hozzáadja a Láthatósági Státusz támogatást a "
+"PublishPress Státusz bővítményhez."
+
+#: includes-pro/admin-load.php:343
+msgid "Post property or meta field to match with user field"
+msgstr "Bejegyzés tulajdonság vagy meta mező összehangolása a felhasználói mezővel"
+
+#: includes-pro/admin-load.php:346
+msgid "User property or meta field to match with post field"
+msgstr "Felhasználói tulajdonság vagy meta mező összehangolása a bejegyzés mezővel"
+
+#: includes-pro/admin-load.php:349
+msgid "User meta field to match with post field"
+msgstr "Felhasználói meta mező összehangolása a bejegyzés mezővel"
+
+#: includes-pro/admin-load.php:352
+msgid "User role to include in synchronization"
+msgstr "Felhasználói szerepkör a szinkronizálásban való részvételhez"
+
+#: includes-pro/admin-load.php:355
+msgid "Parent id for created posts"
+msgstr "Szülő azonosító a létrehozott bejegyzésekhez"
+
+#: includes-pro/admin-load.php:358
+msgid "Choose post field from suggested meta key names"
+msgstr "Válassza ki a bejegyzés mezőt a javasolt meta kulcsnevek közül"
+
+#: includes-pro/admin-load.php:361
+msgid ""
+"When a new user of specified role is added, create or designate a post for "
+"them."
+msgstr ""
+"Amikor egy új, megadott szerepkörű felhasználó kerül hozzáadásra, hozzon "
+"létre vagy jelöljön ki egy bejegyzést számukra."
+
+#: includes-pro/admin-load.php:364
+msgid "Create or designate a post for existing users."
+msgstr "Hozzon létre vagy jelöljön ki egy bejegyzést a meglévő felhasználók számára."
+
+#: includes-pro/admin-load.php:367
+msgid "This post type is not hierarchical"
+msgstr "Ez a bejegyzéstípus nem hierarchikus"
+
+#: includes-pro/admin-load.php:370
+msgid "Automatically create a post for each user in selected roles."
+msgstr ""
+"Automatikusan hozzon létre egy bejegyzést minden kiválasztott szerepkörben "
+"lévő felhasználó számára."
+
+#: includes-pro/admin-load.php:373
+#, php-format
+msgid ""
+"Hint: If %s have custom fields (like email address), create one to assist "
+"field name discovery."
+msgstr ""
+"Tipp: Ha a %s-nak egyedi mezői vannak (például e-mail cím), hozzon létre "
+"egyet a mezőnevek felfedezésének segítésére."
+
+#: includes-pro/admin-load.php:376
+msgid "Enable each user to edit their own User Posts."
+msgstr ""
+"Engedje meg, hogy minden felhasználó szerkessze a saját Felhasználói "
+"Bejegyzéseit."
+
+#: includes-pro/admin-load.php:380
+#, php-format
+msgid ""
+"Settings for replacing unreadable content with teaser text, provided by the "
+"%s module."
+msgstr ""
+"Beállítások az olvashatatlan tartalom előzetes szöveggel való "
+"helyettesítésére, amelyet a %s modul biztosít."
+
+#: includes-pro/admin-load.php:383
+msgid ""
+"Settings on this tab do not apply because teaser filtering is disabled for "
+"all post types."
+msgstr ""
+"Ezek a fülbe tartozó beállítások nem érvényesek, mert az előzetes szűrés "
+"minden bejegyzéstípusra le van tiltva."
+
+#: includes-pro/admin-load.php:386
+msgid ""
+"Since some browsers will cache feeds without regard to user login, block "
+"RSS content even for qualified users."
+msgstr ""
+"Mivel néhány böngésző a felhasználói bejelentkezéstől függetlenül cache-eli "
+"a hírcsatornákat, blokkolja az RSS tartalmat még a jogosult felhasználók "
+"számára is."
+
+#: includes-pro/admin-load.php:389
+msgid ""
+"This feature controls what users will see when trying to view content they "
+"are blocked from accessing."
+msgstr ""
+"Ez a funkció szabályozza, hogy mit látnak a felhasználók, amikor "
+"megpróbálnak hozzáférni a blokkolt tartalomhoz."
+
+#: includes-pro/admin-load.php:392
+msgid ""
+"These settings adjust which views, link types and visibility statuses the "
+"teaser is applied to."
+msgstr ""
+"Ezek a beállítások módosítják, hogy mely nézetekre, linktípusokra és "
+"láthatósági állapotokra alkalmazzák az előzetest."
+
+#: includes-pro/admin-load.php:401
+msgid ""
+"You can override Teaser settings within the Nav Menu by hiding links to "
+"unreadable posts that are associated with the terms you select below."
+msgstr ""
+"A Teaser beállításokat felülbírálhatja a Navigációs menüben az alább "
+"kiválasztott feltételekhez kapcsolódó olvashatatlan bejegyzések linkjeinek "
+"elrejtésével."
+
+#: includes-pro/admin-load.php:404
+msgid ""
+"Keep unreadable content hidden in the blogroll and link lists, but show the "
+"teaser on direct access attempts."
+msgstr ""
+"Tartsa elrejtve az olvashatatlan tartalmat a blogrollban és a "
+"linklistákban, de mutassa az előzetest közvetlen hozzáférési próbálkozások "
+"esetén."
+
+#: includes-pro/admin-load.php:407
+msgid ""
+"Hide unreadable private posts, but show a teaser for posts which are "
+"unreadable due to regular Privacy or Role Restrictions."
+msgstr ""
+"Rejtse el az olvashatatlan privát bejegyzéseket, de mutasson előzetest "
+"azokról a bejegyzésekről, amelyek olvashatatlanok a szokásos adatvédelmi "
+"vagy szerepkorlátok miatt."
+
+#: includes-pro/admin-load.php:410
+msgid ""
+"If anyone tries to view a post they don't have access to, redirect to "
+"another post instead of displaying a teaser."
+msgstr ""
+"Ha valaki megpróbálja megtekinteni a bejegyzést, amelyhez nincs "
+"hozzáférése, irányítsa át egy másik bejegyzésre az előzetes megjelenítése "
+"helyett."
+
+#: includes-pro/admin-load.php:413
+msgid ""
+"Replace post content or excerpt with custom text, possibly including an "
+"inline login form. You can also add text before or after the post title and "
+"excerpt."
+msgstr ""
+"Cserélje le a bejegyzés tartalmát vagy kivonatát egyedi szövegre, amely "
+"tartalmazhat egy beágyazott bejelentkezési űrlapot is. Szöveget is "
+"hozzáadhat a bejegyzés címe és kivonata elé vagy mögé."
+
+#: includes-pro/admin-load.php:416
+msgid ""
+"Unreadable items of these comma-separated types will have nav menu item "
+"hidden."
+msgstr ""
+"Ezek az olvashatatlan elemek, a vesszővel elválasztott típusok alapján, "
+"elrejtve maradnak a navigációs menüben."
+
+#: includes-pro/admin-load.php:420
+msgid "Visibility Circle membership does not limit viewing access."
+msgstr "A láthatósági kör tagsága nem korlátozza a megtekintési hozzáférést."
+
+#: includes-pro/admin-load.php:423
+msgid "Editorial Circle membership does not limit editing access."
+msgstr "A szerkesztői kör tagsága nem korlátozza a szerkesztési hozzáférést."
+
+#: includes-pro/admin-load.php:435
+msgid ""
+"When searching for users via Permissions ajax, return return only users "
+"registered to current site"
+msgstr ""
+"Felhasználók keresése engedélyek alapján ajax segítségével, csak a "
+"jelenlegi webhelyhez regisztrált felhasználók visszaadásával."
+
+#: includes-pro/admin-load.php:438
+msgid ""
+"If user is a super admin or has 'pp_manage_network_members' capability, "
+"user searches via Permissions ajax return users from all sites"
+msgstr ""
+"Ha a felhasználó szuperadminisztrátor vagy rendelkezik a "
+"'pp_manage_network_members' képességgel, a felhasználói keresések az "
+"engedélyek alapján ajax segítségével minden webhelyről visszaadják a "
+"felhasználókat."
+
+#: includes-pro/admin-load.php:446
+msgid ""
+"Count users as a member of a BuddyPress Permissions Group only if they are "
+"a moderator of the BP group"
+msgstr ""
+"A felhasználók csak akkor számítanak a BuddyPress engedélycsoport tagjának, "
+"ha ők a BP csoport moderátorai."
+
+#: includes-pro/admin-load.php:449
+msgid ""
+"Count users as a member of a BuddyPress Permissions Group only if they are "
+"an administrator of the BP group"
+msgstr ""
+"A felhasználók csak akkor számítanak a BuddyPress engedélycsoport tagjának, "
+"ha ők a BP csoport adminisztrátorai."
+
+#: includes-pro/admin-load.php:457
+msgid ""
+"CMS Page Tree View plugin: hide 'add' links (for all hierarchical post "
+"types) based on user's association permissions"
+msgstr ""
+"CMS Oldalfa Nézet bővítmény: rejtse el az 'hozzáadás' linkeket (minden "
+"hierarchikus bejegyzéstípus esetén) a felhasználó társulási engedélyei "
+"alapján."
+
+#: includes-pro/admin-load.php:460
+msgid ""
+"CMS Page Tree View plugin: hide 'add' links (for pages) based on user's "
+"page association permissions"
+msgstr ""
+"CMS Oldalfa Nézet bővítmény: rejtse el az 'hozzáadás' linkeket (oldalak "
+"esetén) a felhasználó oldal társulási engedélyei alapján."
+
+#: includes-pro/admin-load.php:463
+msgid ""
+"CMS Page Tree View plugin: hide 'add' links (for specified hierarchical "
+"post type) based on user's association permissions"
+msgstr ""
+"CMS Oldalfa Nézet bővítmény: rejtse el az 'hozzáadás' linkeket "
+"(meghatározott hierarchikus bejegyzéstípus esetén) a felhasználó társulási "
+"engedélyei alapján."
+
+#: includes-pro/admin-load.php:470
+msgid "Prevent Permission from filtering the Nested Pages listing at all"
+msgstr "Megakadályozza, hogy a jogosultságok szűrjék a beágyazott oldalak listáját"
+
+#: includes-pro/admin-load.php:473
+msgid "Force Permissions to filter the Nested Pages listing"
+msgstr "Kényszerítse a jogosultságokat, hogy szűrjék a beágyazott oldalak listáját"
+
+#: includes-pro/admin-load.php:476
+msgid "Comma-separated list of roles that are allowed to Quick Edit nested pages"
+msgstr ""
+"Vesszővel elválasztott szerepkörök listája, amelyek jogosultak a beágyazott "
+"oldalak gyors szerkesztésére"
+
+#: includes-pro/admin-load.php:479
+msgid "Comma-separated list of roles that are allowed to use the Context Menu"
+msgstr ""
+"Vesszővel elválasztott szerepkörök listája, amelyek jogosultak a tartalom "
+"menü használatára"
+
+#: includes-pro/admin-load.php:482
+msgid ""
+"Never allow unfiltered users to use the Context Menu, even if they have "
+"pp_force_quick_edit capability"
+msgstr ""
+"Soha ne engedje meg a szűretlen felhasználóknak a tartalom menü "
+"használatát, még akkor sem, ha rendelkeznek a pp_force_quick_edit "
+"jogosultsággal"
+
+#: includes-pro/admin-load.php:485
+msgid ""
+"Disable Add Child link unless user is unfiltered (Administrator or has "
+"pp_nested_pages_unfiltered capability)"
+msgstr ""
+"Tiltja az \"Add Child\" hivatkozást, hacsak a felhasználó nem szűrt "
+"(Adminisztrátor vagy rendelkezik a pp_nested_pages_unfiltered "
+"jogosultsággal)"
+
+#: includes-pro/admin-load.php:488
+msgid "Disable Add Child Page link unless user is unfiltered"
+msgstr "Tiltja az \"Add Child Page\" hivatkozást, hacsak a felhasználó nem szűrt"
+
+#: includes-pro/admin-load.php:491
+msgid "Disable Insert Page Before link unless user is unfiltered"
+msgstr "Tiltja az \"Insert Page Before\" hivatkozást, hacsak a felhasználó nem szűrt"
+
+#: includes-pro/admin-load.php:494
+msgid "Disable Insert Page After link unless user is unfiltered"
+msgstr "Tiltja az \"Insert Page After\" hivatkozást, hacsak a felhasználó nem szűrt"
+
+#: includes-pro/admin-load.php:497
+msgid "Disable Push to Top link unless user is unfiltered"
+msgstr "Tiltja a \"Push to Top\" hivatkozást, hacsak a felhasználó nem szűrt"
+
+#: includes-pro/admin-load.php:500
+msgid "Disable Push to Bottom link unless user is unfiltered"
+msgstr "Tiltja a \"Push to Bottom\" hivatkozást, hacsak a felhasználó nem szűrt"
+
+#: includes-pro/admin-load.php:503
+msgid "Disable Clone link unless user is unfiltered"
+msgstr "Tiltja a \"Clone\" hivatkozást, hacsak a felhasználó nem szűrt"
+
+#: includes-pro/SettingsTabInstall.php:21
+msgid "License"
+msgstr "Licenc"
+
+#: includes-pro/SettingsTabInstall.php:28
+#: includes-pro/SettingsTabInstall.php:128
+msgid "License Key"
+msgstr "Licenc Kulcs"
+
+#: includes-pro/SettingsTabInstall.php:29
+msgid "Version"
+msgstr "Verzió"
+
+#: includes-pro/SettingsTabInstall.php:41
+#: includes-pro/SettingsTabInstall.php:42
+msgid "settings"
+msgstr "beállítások"
+
+#: includes-pro/SettingsTabInstall.php:121
+msgid "Key Expired"
+msgstr "A kulcs lejárt"
+
+#: includes-pro/SettingsTabInstall.php:124
+#: includes-pro/SettingsTabInstall.php:136
+#: includes-pro/SettingsTabInstall.php:348
+msgid "Deactivate Key"
+msgstr "Kulcs deaktiválása"
+
+#: includes-pro/SettingsTabInstall.php:127
+msgid "Key Activated"
+msgstr "Kulcs aktiválva"
+
+#: includes-pro/SettingsTabInstall.php:131
+msgid "(please enter publishpress.com key)"
+msgstr "(kérjük, adja meg a publishpress.com kulcsot)"
+
+#: includes-pro/SettingsTabInstall.php:135
+#: includes-pro/SettingsTabInstall.php:347
+msgid "Activate Key"
+msgstr "Kulcs aktiválása"
+
+#: includes-pro/SettingsTabInstall.php:146
+msgid ""
+"Note: Renewal does not require deactivation. If you do deactivate, re-entry "
+"of the license key will be required."
+msgstr ""
+"Megjegyzés: A megújítás nem igényel deaktiválást. Ha deaktiválja, a "
+"licenzkulcs újbóli megadása szükséges lesz."
+
+#: includes-pro/SettingsTabInstall.php:178
+#: includes-pro/SettingsTabInstall.php:214
+#, php-format
+msgid ""
+"Your license key has expired. For continued priority support, %1$splease "
+"renew%2$s."
+msgstr ""
+"A licenckulcsa lejárt. A folytatott prioritásos támogatás érdekében, "
+"%1$skérjük, újítsa meg%2$s."
+
+#: includes-pro/SettingsTabInstall.php:185
+#, php-format
+msgid ""
+"Your license key will expire today. For updates and priority support, "
+"%1$splease renew%2$s."
+msgstr ""
+"A licenckulcsa ma lejár. Frissítésekhez és prioritásos támogatáshoz, "
+"%1$skérjük, újítsa meg%2$s."
+
+#: includes-pro/SettingsTabInstall.php:191
+#, php-format
+msgid ""
+"Your license key (for plugin updates) will expire in %1$d day(s). For "
+"updates and priority support, %2$splease renew%3$s."
+msgstr ""
+"A licenckulcsa (a bővítmények frissítéseihez) %1$d nap(nap) múlva lejár. "
+"Frissítésekhez és prioritásos támogatáshoz, %2$skérjük, újítsa meg%3$s."
+
+#: includes-pro/SettingsTabInstall.php:199
+#, php-format
+msgid ""
+"For updates to Permissions Pro, activate your %1$sPublishPress license "
+"key%2$s."
+msgstr ""
+"A Permissions Pro frissítésekhez aktiválja a %1$sPublishPress "
+"licenckulcsát%2$s."
+
+#: includes-pro/SettingsTabInstall.php:208
+msgid "reload module info"
+msgstr "modul információ újratöltése"
+
+#: includes-pro/SettingsTabInstall.php:258
+#: includes-pro/SettingsTabInstall.php:266
+#, php-format
+msgid "Permissions Pro Version: %1$s %2$s"
+msgstr "Engedélyek Pro Verzió: %1$s %2$s"
+
+#: includes-pro/SettingsTabInstall.php:262
+#, php-format
+msgid "view %s&nbsp;details"
+msgstr "megjelenítés %s&nbsp; részletek"
+
+#: includes-pro/SettingsTabInstall.php:276
+msgid "update check / install"
+msgstr "frissítés ellenőrzése / telepítés"
+
+#: includes-pro/SettingsTabInstall.php:280
+#, php-format
+msgid "Database Schema Version: %s"
+msgstr "Adatbázis Sémaverzió: %s"
+
+#: includes-pro/SettingsTabInstall.php:291
+msgid "Installation History"
+msgstr "Telepítési Történet"
+
+#: includes-pro/SettingsTabInstall.php:313
+#, php-format
+msgid "%s (previous install)"
+msgstr "%s (előző telepítés)"
+
+#: includes-pro/SettingsTabInstall.php:330
+#, php-format
+msgid "WordPress Version: %s"
+msgstr "WordPress Verzió: %s"
+
+#: includes-pro/SettingsTabInstall.php:334
+#, php-format
+msgid "PHP Version: %s"
+msgstr "PHP Verzió: %s"
+
+#: includes-pro/SettingsTabInstall.php:349
+msgid "The request could not be processed due to a connection failure."
+msgstr "A kérés feldolgozása nem lehetséges a kapcsolati hiba miatt."
+
+#: includes-pro/SettingsTabInstall.php:350
+msgid "Please enter the license key shown on your order receipt."
+msgstr "Kérjük, adja meg a megrendelési nyugtán látható licenckulcsot."
+
+#: includes-pro/SettingsTabInstall.php:351
+msgid "An unidentified error occurred."
+msgstr "Egy azonosítatlan hiba történt."
+
+#: includes-pro/SettingsTabInstall.php:353
+msgid "The key has been deactivated."
+msgstr "A kulcs deaktiválva lett."
+
+#: includes-pro/SettingsTabInstall.php:354
+msgid "The key has been activated."
+msgstr "A kulcs aktiválva lett."
+
+#: includes-pro/SettingsTabInstall.php:355
+msgid "The key has expired."
+msgstr "A kulcs lejárt."
+
+#: includes-pro/SettingsTabInstall.php:356
+msgid "The key is invalid."
+msgstr "A kulcs érvénytelen."
+
+#: includes-pro/SettingsTabInstall.php:357
+msgid "The key could not be activated. Please retry."
+msgstr "A kulcsot nem lehetett aktiválni. Kérjük, próbálja újra."
+
+#: modules/presspermit-circles/classes/Permissions/Circles/UI/Dashboard/Profile.php:19
+msgid "Circle Membership"
+msgstr "Körtagság"
+
+#: modules/presspermit-circles/classes/Permissions/Circles/UI/Dashboard/Profile.php:21
+msgid "Viewing"
+msgstr "Megtekintés"
+
+#: modules/presspermit-circles/classes/Permissions/Circles/UI/Dashboard/Profile.php:21
+msgid "Editing"
+msgstr "Szerkesztés"
+
+#: modules/presspermit-circles/classes/Permissions/Circles/UI/Dashboard/Profile.php:27
+#, php-format
+msgid "%s is limited to circle authors only, for these post types:"
+msgstr "%s csak a kör szerzőire korlátozódik, ezekhez a bejegyzéstípusokhoz:"
+
+#: modules/presspermit-circles/classes/Permissions/Circles/UI/GroupEdit.php:47
+msgid "Circle Activation"
+msgstr "Kör aktiválás"
+
+#: modules/presspermit-circles/classes/Permissions/Circles/UI/GroupEdit.php:57
+msgid "Visibility Circle"
+msgstr "Láthatósági Kör"
+
+#: modules/presspermit-circles/classes/Permissions/Circles/UI/GroupEdit.php:57
+msgid "Editorial Circle"
+msgstr "Szerkesztői Kör"
+
+#: modules/presspermit-circles/classes/Permissions/Circles/UI/GroupEdit.php:75
+msgid ""
+"Users in this group will only be able to view posts that were authored by "
+"other users in this group."
+msgstr ""
+"A csoportban lévő felhasználók csak azokat a bejegyzéseket tudják "
+"megtekinteni, amelyeket más felhasználók írtak ebben a csoportban."
+
+#: modules/presspermit-circles/classes/Permissions/Circles/UI/GroupEdit.php:76
+msgid ""
+"Users in this group will only be able to edit posts that were authored by "
+"other users in this group."
+msgstr ""
+"A csoportban lévő felhasználók csak azokat a bejegyzéseket tudják "
+"szerkeszteni, amelyeket más felhasználók írtak ebben a csoportban."
+
+#: modules/presspermit-circles/classes/Permissions/Circles/UI/GroupEdit.php:78
+msgid "Normal capability requirements will also be enforced."
+msgstr "A normál képesség követelményeket is érvényesítik."
+
+#: modules/presspermit-circles/classes/Permissions/Circles/UI/GroupEdit.php:82
+#, php-format
+msgid "This group is a %s"
+msgstr "Ez a csoport egy %s"
+
+#: modules/presspermit-circles/classes/Permissions/Circles/UI/GroupEdit.php:95
+#, php-format
+msgid "Circles cannot be enforced on roles with %s capabilities."
+msgstr "A körök nem érvényesíthetők a %s képességekkel rendelkező szerepkörökön."
+
+#: modules/presspermit-circles/classes/Permissions/Circles/UI/GroupEdit.php:104
+#, php-format
+msgid "%s%s restrictions%s do not apply to this role. %s"
+msgstr "%s%s korlátozások%s nem vonatkoznak erre a szerepkörre. %s"
+
+#: modules/presspermit-circles/classes/Permissions/Circles/UI/GroupEdit.php:135
+msgid "Apply limitation for post types:"
+msgstr "Korlátozás alkalmazása a bejegyzés típusaira:"
+
+#: modules/presspermit-circles/classes/Permissions/Circles/UI/GroupEdit.php:213
+#, php-format
+msgid ""
+"Users may be excused from Circle restrictions by adding the %1$s or %2$s "
+"capability to their role."
+msgstr ""
+"A felhasználók mentesülhetnek a kör korlátozások alól, ha hozzáadják a %1$s "
+"vagy %2$s képességet a szerepükhöz."
+
+#: modules/presspermit-circles/classes/Permissions/Circles/UI/GroupsListing.php:14
+msgid "Circle Type"
+msgstr "Kör Típus"
+
+#: modules/presspermit-circles/classes/Permissions/Circles/UI/GroupsListing.php:47
+msgid "Visibility"
+msgstr "Láthatóság"
+
+#: modules/presspermit-circles/classes/Permissions/Circles/UI/GroupsListing.php:55
+msgid "Editorial"
+msgstr "Szerkesztői"
+
+#: modules/presspermit-circles/classes/Permissions/CirclesHooksAdmin.php:54
+msgid "Access Circle restrictions apply to revisions"
+msgstr "A Kör hozzáférési korlátozások a módosításokra vonatkoznak"
+
+#: modules/presspermit-compatibility/classes/Permissions/Compat/BBPress/HooksAdmin.php:39
+msgid "Create Topics in"
+msgstr "Témák létrehozása itt"
+
+#: modules/presspermit-compatibility/classes/Permissions/Compat/BBPress/HooksAdmin.php:40
+msgid "Topic Creation"
+msgstr "Téma létrehozás"
+
+#: modules/presspermit-compatibility/classes/Permissions/Compat/BBPress/HooksAdmin.php:41
+msgid "Create Topic"
+msgstr "Téma létrehozása"
+
+#: modules/presspermit-compatibility/classes/Permissions/Compat/BBPress/HooksAdmin.php:46
+msgid "Submit Replies in"
+msgstr "Válaszok benyújtása itt"
+
+#: modules/presspermit-compatibility/classes/Permissions/Compat/BBPress/HooksAdmin.php:47
+msgid "Reply Submission"
+msgstr "Válasz benyújtása"
+
+#: modules/presspermit-compatibility/classes/Permissions/Compat/BBPress/HooksAdmin.php:48
+msgid "Submit Reply"
+msgstr "Válasz benyújtása"
+
+#: modules/presspermit-compatibility/classes/Permissions/Compat/BuddyPress/PermissionGroups/GroupsListTable.php:298
+msgid "Show more details"
+msgstr "További részletek megjelenítése"
+
+#: modules/presspermit-compatibility/classes/Permissions/Compat/BuddyPress/PermissionGroups/Hooks.php:37
+msgid "BuddyPress Group"
+msgstr "BuddyPress Csoport"
+
+#: modules/presspermit-compatibility/classes/Permissions/Compat/BuddyPress/PermissionGroups/HooksAdmin.php:160
+msgid "BP Permission Group"
+msgstr "BP Engedély Csoport"
+
+#: modules/presspermit-compatibility/classes/Permissions/Compat/BuddyPress/PermissionGroups/HooksAdmin.php:161
+msgid "BP Permission Groups"
+msgstr "BP Engedély Csoportok"
+
+#: modules/presspermit-compatibility/classes/Permissions/Compat/BuddyPress/PermissionGroups/HooksAdmin.php:174
+msgid "Manage"
+msgstr "Kezelés"
+
+#: modules/presspermit-compatibility/classes/Permissions/Compat/BuddyPress/PermissionGroups/HooksAdmin.php:185
+msgid "BuddyPress Groups"
+msgstr "BuddyPress Csoportok"
+
+#: modules/presspermit-compatibility/classes/Permissions/Compat/CMSTreeView.php:112
+msgid ""
+"Page creation was blocked because you are not allowed to select that parent "
+"page."
+msgstr ""
+"Az oldal létrehozását blokkolták, mert nem engedélyezett, hogy azt a "
+"szülőoldalt válaszd ki."
+
+#: modules/presspermit-compatibility/classes/Permissions/Compat/CMSTreeView.php:113
+msgid "Back to Dashboard"
+msgstr "Vissza a Vezérlőpultra"
+
+#: modules/presspermit-compatibility/classes/Permissions/Compat/CMSTreeView.php:115
+msgid "Permission Denied"
+msgstr "Hozzáférés megtagadva"
+
+#: modules/presspermit-compatibility/classes/Permissions/Compat/CMSTreeView.php:117
+msgid "You are not allowed to select that parent page."
+msgstr "Nem engedélyezett, hogy azt a szülőoldalt válaszd ki."
+
+#: modules/presspermit-compatibility/classes/Permissions/Compat/NetwideGroups.php:19
+msgid "Network Groups"
+msgstr "Hálózati Csoportok"
+
+#: modules/presspermit-compatibility/classes/Permissions/Compat/NetwideGroups.php:19
+msgid "Network Group"
+msgstr "Hálózati Csoport"
+
+#: modules/presspermit-compatibility/classes/Permissions/Compat/UI/Settings.php:46
+msgid "Teaser text"
+msgstr "Teaser szöveg"
+
+#: modules/presspermit-compatibility/classes/Permissions/Compat/UI/Settings.php:54
+msgid "Network"
+msgstr "Hálózat"
+
+#: modules/presspermit-compatibility/classes/Permissions/Compat/UI/Settings.php:64
+msgid "Groups"
+msgstr "Csoportok"
+
+#: modules/presspermit-compatibility/classes/Permissions/Compat/UI/Settings.php:73
+msgid "Forum Teaser"
+msgstr "Fórum Teaser"
+
+#: modules/presspermit-compatibility/classes/Permissions/Compat/UI/Settings.php:88
+msgid "Network-wide groups"
+msgstr "Hálózat-szintű csoportok"
+
+#: modules/presspermit-compatibility/classes/Permissions/Compat/UI/Settings.php:92
+msgid "Teaser Topics"
+msgstr "Teaser Témák"
+
+#: modules/presspermit-compatibility/classes/Permissions/Compat/UI/Settings.php:93
+msgid "Hide Topic / Reply Author Link"
+msgstr "Téma / Válasz Szerző Link Elrejtése"
+
+#: modules/presspermit-compatibility/classes/Permissions/Compat/UI/Settings.php:126
+msgid "Compatibility Pack"
+msgstr "Kompatibilitási Csomag"
+
+#: modules/presspermit-compatibility/classes/Permissions/Compat/UI/Settings.php:184
+#, php-format
+msgid "Topic Teaser Text (%s):"
+msgstr "Téma Teaser Szöveg (%s):"
+
+#: modules/presspermit-compatibility/classes/Permissions/Compat/UI/Settings.php:185
+#, php-format
+msgid "Reply Teaser Text (%s):"
+msgstr "Válasz Teaser Szöveg (%s):"
+
+#: modules/presspermit-compatibility/classes/Permissions/Compat/UI/Settings.php:189
+msgid "First Reply"
+msgstr "Első Válasz"
+
+#: modules/presspermit-compatibility/classes/Permissions/Compat/UI/Settings.php:190
+msgid "Other Replies"
+msgstr "Egyéb Válaszok"
+
+#: modules/presspermit-compatibility/classes/Permissions/Compat/UI/Settings.php:207
+msgid "Not Logged In"
+msgstr "Nincs bejelentkezve"
+
+#: modules/presspermit-compatibility/classes/Permissions/Compat/UI/Settings.php:207
+msgid "Logged In Users"
+msgstr "Bejelentkezett Felhasználók"
+
+#: modules/presspermit-compatibility/classes/Permissions/Compat/UI/Settings.php:240
+#, php-format
+msgid "Insert a login form by using %s[login_form]%s shortcode."
+msgstr ""
+"Helyezze el a bejelentkezési űrlapot a %s[login_form]%s rövidkód "
+"használatával."
+
+#: modules/presspermit-compatibility/classes/Permissions/Compat/UI/Settings.php:284
+msgid "Hide Topics and Replies"
+msgstr "Témák és Válaszok Elrejtése"
+
+#: modules/presspermit-compatibility/classes/Permissions/Compat/UI/Settings.php:285
+msgid "Tease Topics and Replies"
+msgstr "Témák és Válaszok Kihangsúlyozása"
+
+#: modules/presspermit-compatibility/classes/Permissions/Compat/UI/Settings.php:286
+msgid "Show Topics, Tease Replies"
+msgstr "Témák Megjelenítése, Válaszok Kihangsúlyozása"
+
+#: modules/presspermit-compatibility/classes/Permissions/Compat/UI/Settings.php:320
+msgid ""
+"The single forum teaser may be customized by "
+"STYLESHEETPATH/press-permit/teaser-content-forum.php"
+msgstr ""
+"Az egyes fórum előnézet testreszabható a "
+"STYLESHEETPATH/press-permit/teaser-content-forum.php fájlban"
+
+#: modules/presspermit-compatibility/classes/Permissions/CompatHooks.php:237
+#: modules/presspermit-compatibility/classes/Permissions/CompatHooks.php:241
+msgid "[This topic requires additional permissions or membership.]"
+msgstr "[Ez a téma további engedélyeket vagy tagságot igényel.]"
+
+#: modules/presspermit-compatibility/classes/Permissions/CompatHooks.php:238
+#: modules/presspermit-compatibility/classes/Permissions/CompatHooks.php:242, fuzzy
+msgid "[...]"
+msgstr "[...]"
+
+#: modules/presspermit-compatibility/classes/Permissions/CompatHooks.php:239
+msgid "[This topic requires site login.]"
+msgstr "[Ez a téma bejelentkezést igényel a webhelyre.]"
+
+#: modules/presspermit-compatibility/classes/Permissions/CompatHooks.php:240
+#: modules/presspermit-compatibility/classes/Permissions/CompatHooks.php:244
+msgid "[login required]"
+msgstr "[bejelentkezés szükséges]"
+
+#: modules/presspermit-compatibility/classes/Permissions/CompatHooks.php:243
+msgid "[This reply requires site login.]"
+msgstr "[Ez a válasz bejelentkezést igényel a webhelyre.]"
+
+#: modules/presspermit-file-access/classes/Permissions/FileAccess/UI/SettingsTabFileAccess.php:31
+#: modules/presspermit-file-access/classes/Permissions/FileAccess/UI/SettingsTabFileAccess.php:38
+msgid "File Access"
+msgstr "Fájlhozzáférés"
+
+#: modules/presspermit-file-access/classes/Permissions/FileAccess/UI/SettingsTabFileAccess.php:50
+#: modules/presspermit-file-access/classes/Permissions/FileAccess/UI/SettingsTabFileAccess.php:286
+msgid "File Access Reset Key:"
+msgstr "Fájlhozzáférés Visszaállító Kulcs:"
+
+#: modules/presspermit-file-access/classes/Permissions/FileAccess/UI/SettingsTabFileAccess.php:51
+msgid "Small Thumbnails Unfiltered"
+msgstr "Kis Előnézeti Képek Szűrés Nélkül"
+
+#: modules/presspermit-file-access/classes/Permissions/FileAccess/UI/SettingsTabFileAccess.php:52
+msgid "Make Unattached Files Private"
+msgstr "Az Elkülönített Fájlokat Magánjellegűvé Tenni"
+
+#: modules/presspermit-file-access/classes/Permissions/FileAccess/UI/SettingsTabFileAccess.php:53
+msgid "Make Attached Files Private"
+msgstr "A Csatolt Fájlokat Magánjellegűvé Tenni"
+
+#: modules/presspermit-file-access/classes/Permissions/FileAccess/UI/SettingsTabFileAccess.php:86
+#, php-format
+msgid ""
+"%1$sNote%2$s: Direct access to uploaded file attachments cannot be filtered "
+"because mod_rewrite is not enabled on your server."
+msgstr ""
+"%1$sMegjegyzés%2$s: A feltöltött fájlcsatolmányokhoz való közvetlen "
+"hozzáférést nem lehet szűrni, mert a mod_rewrite nincs engedélyezve a "
+"szerveren."
+
+#: modules/presspermit-file-access/classes/Permissions/FileAccess/UI/SettingsTabFileAccess.php:92
+#, php-format
+msgid ""
+"%1$sNote%2$s: Direct access to uploaded file attachments will not be "
+"filtered due to your nonstandard UPLOADS path."
+msgstr ""
+"%1$sMegjegyzés%2$s: A feltöltött fájlcsatolmányokhoz való közvetlen "
+"hozzáférést nem lehet szűrni a nem szabványos UPLOADS útvonal miatt."
+
+#: modules/presspermit-file-access/classes/Permissions/FileAccess/UI/SettingsTabFileAccess.php:100
+#, php-format
+msgid ""
+"%1$sNote%2$s: Direct access to uploaded file attachments cannot be filtered "
+"because WordPress permalinks are set to default."
+msgstr ""
+"%1$sMegjegyzés%2$s: A feltöltött fájlcsatolmányokhoz való közvetlen "
+"hozzáférést nem lehet szűrni, mert a WordPress permalinkek alapértelmezett "
+"értékre vannak állítva."
+
+#: modules/presspermit-file-access/classes/Permissions/FileAccess/UI/SettingsTabFileAccess.php:160
+msgid "show required rules"
+msgstr "a szükséges szabályok megjelenítése"
+
+#: modules/presspermit-file-access/classes/Permissions/FileAccess/UI/SettingsTabFileAccess.php:292
+msgid "Copy"
+msgstr "Másolás"
+
+#: modules/presspermit-file-access/classes/Permissions/FileAccess/UI/SettingsTabFileAccess.php:303
+msgid "Copied!"
+msgstr "Másolva!"
+
+#: modules/presspermit-file-access/classes/Permissions/FileAccess/UI/SettingsTabFileAccess.php:353
+msgid "Regenerate Access File"
+msgstr "Hozzáférési fájl újragenerálása"
+
+#: modules/presspermit-file-access/classes/Permissions/FileAccess/UI/SettingsTabFileAccess.php:365
+#: modules/presspermit-file-access/classes/Permissions/FileAccess/UI/SettingsUtility.php:80
+msgid "Attachments Utility"
+msgstr "Csatolmányok segédprogram"
+
+#: modules/presspermit-file-access/classes/Permissions/FileAccess/UI/SettingsTabFileAccess.php:375
+#, php-format
+msgid "For Nginx integration, see %spublishpress.com documentation%s."
+msgstr "Nginx integrációhoz lásd a %spublishpress.com dokumentációt%s."
+
+#: modules/presspermit-file-access/classes/Permissions/FileAccess/UI/SettingsUtility.php:83
+msgid "Back to Permissions Settings"
+msgstr "Vissza a jogosultságok beállításaihoz"
+
+#: modules/presspermit-file-access/classes/Permissions/FileAccess/UI/SettingsUtility.php:88
+msgid "File Access for Files Uploaded via FTP"
+msgstr "Fájl hozzáférés az FTP-n feltöltött fájlokhoz"
+
+#: modules/presspermit-file-access/classes/Permissions/FileAccess/UI/SettingsUtility.php:95
+msgid "Find Files Uploaded via FTP"
+msgstr "FTP-n feltöltött fájlok keresése"
+
+#: modules/presspermit-file-access/classes/Permissions/FileAccess/UI/SettingsUtility.php:104
+msgid ""
+"The network attachment scan has been queued and will continue in the "
+"background via WP-Cron."
+msgstr ""
+"A hálózati csatolmány vizsgálatot a háttérben a WP-Cron segítségével "
+"ütemeztük, és folytatódik."
+
+#: modules/presspermit-file-access/classes/Permissions/FileAccess/UI/SettingsUtility.php:106
+msgid "A network attachment scan is already in progress or could not be scheduled."
+msgstr ""
+"A hálózati csatolmány vizsgálat már folyamatban van, vagy nem tudtuk "
+"ütemezni."
+
+#: modules/presspermit-file-access/classes/Permissions/FileAccess/UI/SettingsUtility.php:116
+msgid "Site Configuration Requirements"
+msgstr "Webhely konfigurációs követelmények"
+
+#: modules/presspermit-file-access/classes/Permissions/FileAccess/UI/SettingsUtility.php:118
+msgid ""
+"For proper access control of direct file URLs, your site must meet these "
+"requirements:"
+msgstr ""
+"A közvetlen fájl URL-ek megfelelő hozzáférés-vezérléséhez a webhelyednek "
+"meg kell felelnie ezeknek a követelményeknek:"
+
+#: modules/presspermit-file-access/classes/Permissions/FileAccess/UI/SettingsUtility.php:150
+msgid "Automated Processing"
+msgstr "Automatizált feldolgozás"
+
+#: modules/presspermit-file-access/classes/Permissions/FileAccess/UI/SettingsUtility.php:166
+msgid "Utility Endpoint URL:"
+msgstr "Segédprogram végpont URL:"
+
+#: modules/presspermit-file-access/classes/Permissions/FileAccess/UI/SettingsUtility.php:168
+msgid "Copy URL"
+msgstr "URL másolása"
+
+#: modules/presspermit-file-access/classes/Permissions/FileAccess/UI/SettingsUtility.php:173
+msgid "Go to Settings"
+msgstr "Állítsd be a beállításokat"
+
+#: modules/presspermit-file-access/classes/Permissions/FileAccess/UI/SettingsUtility.php:270
+msgid "RUNNING"
+msgstr "FOLYAMATBAN"
+
+#: modules/presspermit-file-access/classes/Permissions/FileAccess/UI/SettingsUtility.php:445
+msgid "Operation complete"
+msgstr "Művelet befejezve"
+
+#: modules/presspermit-file-access/classes/Permissions/FileAccess/UI/SettingsUtility.php:471
+msgid "Scan Again"
+msgstr "Keresés újra"
+
+#: modules/presspermit-membership/classes/Permissions/Membership/UI/GroupEdit.php:178
+#: modules/presspermit-membership/classes/Permissions/Membership/UI/GroupEdit.php:184
+#, fuzzy, php-format
+msgid "%1$s (%2$s - %3$s)"
+msgstr "%1$s (%2$s - %3$s)"
+
+#: modules/presspermit-sync/classes/Permissions/SyncHooksAdmin.php:169
+#, php-format
+msgid "Role selection is required for %s. Please select at least one role."
+msgstr ""
+"A szerepkiválasztás kötelező a %s esetében. Kérjük, válassz legalább egy "
+"szerepet."
+
+#: modules/presspermit-sync/classes/Permissions/SyncPosts/UI/Helper.php:61
+#, php-format
+msgid ""
+"You seem to be using a Team / Staff plugin. To synchronize posts to users "
+"and give them editing permission, go to %1$sPermissions > Settings > Sync "
+"Posts%2$s"
+msgstr ""
+"Úgy tűnik, hogy Team / Stáb bővítményt használsz. A bejegyzések "
+"felhasználókhoz való szinkronizálásához és szerkesztési jogosultság "
+"adásához menj a %1$sJogosultságok > Beállítások > Bejegyzések "
+"szinkronizálása%2$s"
+
+#: modules/presspermit-sync/classes/Permissions/SyncPosts/UI/SettingsTabSyncPosts.php:33
+msgid "User Posts"
+msgstr "Felhasználói bejegyzések"
+
+#: modules/presspermit-sync/classes/Permissions/SyncPosts/UI/SettingsTabSyncPosts.php:41
+msgid "Synchronize Posts"
+msgstr "Bejegyzések szinkronizálása"
+
+#: modules/presspermit-sync/classes/Permissions/SyncPosts/UI/SettingsTabSyncPosts.php:54
+#: modules/presspermit-sync/classes/Permissions/SyncPosts/UI/SettingsTabSyncPosts.php:112
+msgid "Create Posts for Users"
+msgstr "Bejegyzések létrehozása felhasználók számára"
+
+#: modules/presspermit-sync/classes/Permissions/SyncPosts/UI/SettingsTabSyncPosts.php:55
+#: modules/presspermit-sync/classes/Permissions/SyncPosts/UI/SettingsTabSyncPosts.php:130
+msgid "Grant Author Permissions"
+msgstr "Szerzői jogosultságok megadása"
+
+#: modules/presspermit-sync/classes/Permissions/SyncPosts/UI/SettingsTabSyncPosts.php:56
+msgid "Post Types"
+msgstr "Bejegyzéstípusok"
+
+#: modules/presspermit-sync/classes/Permissions/SyncPosts/UI/SettingsTabSyncPosts.php:57
+msgid "Match Post Field"
+msgstr "Bejegyzésmező illesztése"
+
+#: modules/presspermit-sync/classes/Permissions/SyncPosts/UI/SettingsTabSyncPosts.php:58
+msgid "Match User Field"
+msgstr "Felhasználó mező illesztése"
+
+#: modules/presspermit-sync/classes/Permissions/SyncPosts/UI/SettingsTabSyncPosts.php:59
+msgid "User Role"
+msgstr "Felhasználói szerep"
+
+#: modules/presspermit-sync/classes/Permissions/SyncPosts/UI/SettingsTabSyncPosts.php:60
+msgid "Parent Post"
+msgstr "Szülő bejegyzés"
+
+#: modules/presspermit-sync/classes/Permissions/SyncPosts/UI/SettingsTabSyncPosts.php:61
+#: modules/presspermit-sync/classes/Permissions/SyncPosts/UI/SettingsTabSyncPosts.php:430
+msgid "Quantity"
+msgstr "Mennyiség"
+
+#: modules/presspermit-sync/classes/Permissions/SyncPosts/UI/SettingsTabSyncPosts.php:62
+msgid "Post Status"
+msgstr "Bejegyzés állapot"
+
+#: modules/presspermit-sync/classes/Permissions/SyncPosts/UI/SettingsTabSyncPosts.php:368
+msgid "Post Title"
+msgstr "Bejegyzés címe"
+
+#: modules/presspermit-sync/classes/Permissions/SyncPosts/UI/SettingsTabSyncPosts.php:369
+msgid "Post slug"
+msgstr "Bejegyzés slug"
+
+#: modules/presspermit-sync/classes/Permissions/SyncPosts/UI/SettingsTabSyncPosts.php:373
+msgid "User Display Name"
+msgstr "Felhasználó megjelenítési neve"
+
+#: modules/presspermit-sync/classes/Permissions/SyncPosts/UI/SettingsTabSyncPosts.php:374
+msgid "User email"
+msgstr "Felhasználó e-mail"
+
+#: modules/presspermit-sync/classes/Permissions/SyncPosts/UI/SettingsTabSyncPosts.php:375
+msgid "User login"
+msgstr "Felhasználó bejelentkezés"
+
+#: modules/presspermit-sync/classes/Permissions/SyncPosts/UI/SettingsTabSyncPosts.php:376
+msgid "User nicename"
+msgstr "Felhasználó kedves neve"
+
+#: modules/presspermit-sync/classes/Permissions/SyncPosts/UI/SettingsTabSyncPosts.php:401
+msgid "User Posts Created:"
+msgstr "Létrehozott felhasználói bejegyzések:"
+
+#: modules/presspermit-sync/classes/Permissions/SyncPosts/UI/SettingsTabSyncPosts.php:414
+msgid "Post Type"
+msgstr "Bejegyzéstípus"
+
+#: modules/presspermit-sync/classes/Permissions/SyncPosts/UI/SettingsTabSyncPosts.php:415
+msgid "Select where posts will be created for users."
+msgstr "Válassza ki, hol jönnek létre a bejegyzések a felhasználók számára."
+
+#: modules/presspermit-sync/classes/Permissions/SyncPosts/UI/SettingsTabSyncPosts.php:418
+msgid "New Users"
+msgstr "Új Felhasználók"
+
+#: modules/presspermit-sync/classes/Permissions/SyncPosts/UI/SettingsTabSyncPosts.php:419
+msgid "Create posts for new users."
+msgstr "Hozzon létre bejegyzéseket új felhasználók számára."
+
+#: modules/presspermit-sync/classes/Permissions/SyncPosts/UI/SettingsTabSyncPosts.php:422
+msgid "Current Users"
+msgstr "Jelenlegi Felhasználók"
+
+#: modules/presspermit-sync/classes/Permissions/SyncPosts/UI/SettingsTabSyncPosts.php:423
+msgid "Create posts for existing users."
+msgstr "Hozzon létre bejegyzéseket meglévő felhasználók számára."
+
+#: modules/presspermit-sync/classes/Permissions/SyncPosts/UI/SettingsTabSyncPosts.php:426
+msgid "Role"
+msgstr "Szerep"
+
+#: modules/presspermit-sync/classes/Permissions/SyncPosts/UI/SettingsTabSyncPosts.php:427
+msgid "Create posts for users in these roles."
+msgstr ""
+"Hozzon létre bejegyzéseket az ezekben a szerepekben lévő felhasználók "
+"számára."
+
+#: modules/presspermit-sync/classes/Permissions/SyncPosts/UI/SettingsTabSyncPosts.php:431
+msgid "Set the number of posts to create for each user."
+msgstr ""
+"Állítsa be a bejegyzések számát, amelyet minden felhasználó számára létre "
+"kell hozni."
+
+#: modules/presspermit-sync/classes/Permissions/SyncPosts/UI/SettingsTabSyncPosts.php:434
+msgid "Status"
+msgstr "Állapot"
+
+#: modules/presspermit-sync/classes/Permissions/SyncPosts/UI/SettingsTabSyncPosts.php:435
+msgid "Set the status for created posts."
+msgstr "Állítsa be a létrehozott bejegyzések állapotát."
+
+#: modules/presspermit-sync/classes/Permissions/SyncPosts/UI/SettingsTabSyncPosts.php:443
+msgid "No post types are enabled for user pages."
+msgstr "Nincsenek engedélyezett bejegyzéstípusok a felhasználói oldalakon."
+
+#: modules/presspermit-sync/classes/Permissions/SyncPosts/UI/SettingsTabSyncPosts.php:445
+msgid "Go to Permissions Settings"
+msgstr "Menjen a Jogosultságok Beállításaihoz"
+
+#: modules/presspermit-sync/classes/Permissions/SyncPosts/UI/SettingsTabSyncPosts.php:487
+msgid "Click to expand/collapse advanced settings"
+msgstr "Kattintson a fejlett beállítások kibővítéséhez/összehúzásához"
+
+#: modules/presspermit-sync/classes/Permissions/SyncPosts/UI/SettingsTabSyncPosts.php:533
+msgid "(All Roles)"
+msgstr "(Minden Szerep)"
+
+#: modules/presspermit-sync/classes/Permissions/SyncPosts/UI/SettingsTabSyncPosts.php:569
+msgid "Published"
+msgstr "Közzétéve"
+
+#: modules/presspermit-sync/classes/Permissions/SyncPosts/UI/SettingsTabSyncPosts.php:570
+msgid "Draft"
+msgstr "Vázlat"
+
+#: modules/presspermit-sync/classes/Permissions/SyncPosts/UI/SettingsTabSyncPosts.php:571
+msgid "Pending Review"
+msgstr "Felülvizsgálatra Vár"
+
+#: modules/presspermit-sync/classes/Permissions/SyncPosts/UI/SettingsTabSyncPosts.php:572
+msgid "Private"
+msgstr "Privát"
+
+#: modules/presspermit-sync/classes/Permissions/SyncPosts/UI/SettingsTabSyncPosts.php:589
+msgid "Avoid Creating Duplicates"
+msgstr "Ismétlődések Létrehozásának Elkerülése"
+
+#: modules/presspermit-sync/classes/Permissions/SyncPosts/UI/SettingsTabSyncPosts.php:590
+msgid ""
+"This setting can prevent the creation of duplicate posts for a user. If the "
+"selected fields are a match, a new post will not be created."
+msgstr ""
+"Ez a beállítás megakadályozhatja a duplikált bejegyzések létrehozását egy "
+"felhasználó számára. Ha a kiválasztott mezők megegyeznek, akkor új "
+"bejegyzés nem fog létrejönni."
+
+#: modules/presspermit-sync/classes/Permissions/SyncPosts/UI/SettingsTabSyncPosts.php:595
+msgid "Post Match Field"
+msgstr "Bejegyzés Megfelelési Mező"
+
+#: modules/presspermit-sync/classes/Permissions/SyncPosts/UI/SettingsTabSyncPosts.php:596
+msgid "Choose which post field to match with users."
+msgstr "Válassza ki, melyik bejegyzésmezőt szeretné összehangolni a felhasználókkal."
+
+#: modules/presspermit-sync/classes/Permissions/SyncPosts/UI/SettingsTabSyncPosts.php:636
+#: modules/presspermit-sync/classes/Permissions/SyncPosts/UI/SettingsTabSyncPosts.php:683
+msgid "(other)"
+msgstr "(más)"
+
+#: modules/presspermit-sync/classes/Permissions/SyncPosts/UI/SettingsTabSyncPosts.php:648
+#: modules/presspermit-sync/classes/Permissions/SyncPosts/UI/SettingsTabSyncPosts.php:692
+msgid "select..."
+msgstr "válasszon..."
+
+#: modules/presspermit-sync/classes/Permissions/SyncPosts/UI/SettingsTabSyncPosts.php:649
+#: modules/presspermit-sync/classes/Permissions/SyncPosts/UI/SettingsTabSyncPosts.php:693
+msgid "cancel"
+msgstr "lemondás"
+
+#: modules/presspermit-sync/classes/Permissions/SyncPosts/UI/SettingsTabSyncPosts.php:657
+msgid "User Match Field"
+msgstr "Felhasználói Összehangoló Mező"
+
+#: modules/presspermit-sync/classes/Permissions/SyncPosts/UI/SettingsTabSyncPosts.php:658
+msgid "Select which user field to match with posts."
+msgstr ""
+"Válassza ki, melyik felhasználói mezőt szeretné összehangolni a "
+"bejegyzésekkel."
+
+#: modules/presspermit-sync/classes/Permissions/SyncPosts/UI/SettingsTabSyncPosts.php:701
+msgid "Available Template Parameters"
+msgstr "Elérhető Sablon Paraméterek"
+
+#: modules/presspermit-sync/classes/Permissions/SyncPosts/UI/SettingsTabSyncPosts.php:704
+msgid ""
+"You can use these placeholders in the User Match Field to create custom "
+"templates:"
+msgstr ""
+"Ezeket a helyőrzőket használhatja a Felhasználói Összehangoló Mezőben "
+"testreszabott sablonok létrehozásához:"
+
+#: modules/presspermit-sync/classes/Permissions/SyncPosts/UI/SettingsTabSyncPosts.php:717
+msgid "Examples:"
+msgstr "Példák:"
+
+#: modules/presspermit-sync/classes/Permissions/SyncPosts/UI/SettingsTabSyncPosts.php:731
+msgid "Additional Field"
+msgstr "Kiegészítő Mező"
+
+#: modules/presspermit-sync/classes/Permissions/SyncPosts/UI/SettingsTabSyncPosts.php:732
+msgid "Additional configuration options for post creation."
+msgstr "További konfigurációs lehetőségek bejegyzések létrehozásához."
+
+#: modules/presspermit-sync/classes/Permissions/SyncPosts/UI/SettingsTabSyncPosts.php:737
+msgid "Parent Post ID"
+msgstr "Szülő Bejegyzés ID"
+
+#: modules/presspermit-sync/classes/Permissions/SyncPosts/UI/SettingsTabSyncPosts.php:738
+msgid "Specify the Post ID of a parent post for hierarchical post types."
+msgstr "Adja meg egy szülő bejegyzés ID-ját hierarchikus bejegyzéstípusokhoz."
+
+#: modules/presspermit-sync/classes/Permissions/SyncPosts/UI/SettingsTabSyncPosts.php:749
+msgid "Enter parent post ID (0 for no parent)"
+msgstr "Adja meg a szülő bejegyzés ID-ját (0, ha nincs szülő)"
+
+#: modules/presspermit-sync/classes/Permissions/SyncPosts/UI/SettingsTabSyncPosts.php:895
+msgid "Validation Errors in User Posts Settings:"
+msgstr "Érvényesítési Hibák a Felhasználói Bejegyzések Beállításaiban:"
+
+#: modules/presspermit-sync/classes/Permissions/SyncPosts/UI/SettingsTabSyncPosts.php:903
+msgid "Please fix these errors and try again."
+msgstr "Kérjük, javítsa ki ezeket a hibákat, és próbálja újra."
+
+#: modules/presspermit-sync/classes/Permissions/SyncPosts/UserSync.php:156
+#, php-format
+msgid "%s: Skipping because no roles are selected"
+msgstr "%s: Kihagyva, mert nincs kiválasztott szerepkör"
+
+#: modules/presspermit-sync/classes/Permissions/SyncPosts/UserSync.php:190
+#, php-format
+msgid "%s: Enabled PressPermit filtering (Core > Filtered Post Types)"
+msgstr "%s: Engedélyezve van a PressPermit szűrés (Core > Szűrt Bejegyzéstípusok)"
+
+#: modules/presspermit-sync/classes/Permissions/SyncPosts/UserSync.php:208
+#, php-format
+msgid "%1$s: Assigned extra %2$s Author role to %3$s role"
+msgstr "%1$s: Kiegészítő %2$s Szerző szerepkört rendelt a %3$s szerepkörhöz"
+
+#: modules/presspermit-sync/classes/Permissions/SyncPosts/UserSync.php:356
+#, php-format
+msgid "Ambiguous %1$s match (%2$s)"
+msgstr "Kétértelmű %1$s összepárosítás (%2$s)"
+
+#: modules/presspermit-sync/classes/Permissions/SyncPosts/UserSync.php:386
+#, php-format
+msgid "Ambiguous user match for %1$s (%2$s, post id %3$s"
+msgstr "Ambigous felhasználói egyezés %1$s számára (%2$s, bejegyzés azonosító %3$s"
+
+#: modules/presspermit-sync/classes/Permissions/SyncPosts/UserSync.php:411
+#, php-format
+msgid "Ambiguous user match for %1$s (%2$s, $post id %3$s)"
+msgstr "Ambigous felhasználói egyezés %1$s számára (%2$s, $bejegyzés azonosító %3$s)"
+
+#: modules/presspermit-sync/classes/Permissions/SyncPosts/UserSync.php:560
+#: modules/presspermit-sync/classes/Permissions/SyncPosts/UserSync.php:584
+#, php-format
+msgid "Ambiguous user match for %1$s (%2$s)"
+msgstr "Ambigous felhasználói egyezés %1$s számára (%2$s)"
+
+#: modules/presspermit-sync/classes/Permissions/SyncPosts/UserSync.php:620
+#, php-format
+msgid "%1$s: %2$s posts created."
+msgstr "%1$s: %2$s bejegyzés létrehozva."
+
+#: modules/presspermit-sync/classes/Permissions/SyncPosts/UserSync.php:626
+#, php-format
+msgid "%1$s: %2$s posts updated."
+msgstr "%1$s: %2$s bejegyzés frissítve."
+
+#: modules/presspermit-sync/classes/Permissions/SyncPosts/UserSync.php:642
+msgid "All Roles"
+msgstr "Minden szerep"
+
+#: modules/presspermit-sync/classes/Permissions/SyncPosts/UserSync.php:646
+#, php-format
+msgid "%1$s: Done for %2$s."
+msgstr "%1$s: Kész %2$s számára."
+
+#: modules/presspermit-sync/classes/Permissions/SyncPosts/UserSync.php:648
+#, php-format
+msgid "%s: Done."
+msgstr "%s: Kész."

@@ -12,13 +12,13 @@ msgstr ""
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "POT-Creation-Date: 2026-08-27T21:46:16+00:00\n"
-"PO-Revision-Date: 2026-10-01 22:29+0000\n"
+"PO-Revision-Date: 2026-10-15 20:08+0000\n"
 "X-Generator: Weblate 2026.6.1\n"
 "X-Domain: revisionary-pro\n"
 "% 100 >= 3 && n % 100 <= 10 ? 3 : n % 100 >= 11 ? 4 : 5);\n"
+"% 100 >= 3 && n % 100 <= 10 ? 3: n % 100 >= 11 ? 4 : 5);\n"
 "Language: ar\n"
 "&& n%100<=10 ? 3: n%100>=11 ? 4 : 5);\n"
-"% 100 >= 3 && n % 100 <= 10 ? 3: n % 100 >= 11 ? 4 : 5);\n"
 "Plural-Forms: nplurals=6; plural=(n == 0 ? 0 : n == 1 ? 1 : n == 2 ? 2 : n % 100 >= 3 && n % 100 <= 10 ? 3 : n % 100 >= 11 ? 4 : 5);\n"
 
 #: revisionary-pro.php:3
@@ -26,7 +26,7 @@ msgstr ""
 msgid "PublishPress Revisions Pro"
 msgstr "PublishPress Revisions Pro"
 
-#: revisionary-pro.php:4, fuzzy
+#: revisionary-pro.php:4
 #. Plugin URI of the plugin
 msgid "https://publishpress.com/revisionary/"
 msgstr "https://publishpress.com/revisionary/"
@@ -45,7 +45,7 @@ msgstr ""
 msgid "PublishPress"
 msgstr "PublishPress"
 
-#: revisionary-pro.php:7, fuzzy
+#: revisionary-pro.php:7
 #. Author URI of the plugin
 msgid "https://publishpress.com"
 msgstr "https://publishpress.com"
@@ -200,7 +200,7 @@ msgstr "المشاركة الحالية"
 #: dist/publishpress-revisions-pro_3.7.9/revisionary-pro_3.7.9/includes-pro/compat.php:405
 #: dist/publishpress-revisions-pro_3.9.0-rc2/revisionary-pro/includes-pro/compat.php:415
 #: dist/publishpress-revisions-pro_3.9.0_rc2/revisionary-pro/includes-pro/compat.php:415
-#: includes-pro/compat.php:915
+#: includes-pro/compat.php:992
 msgid "Featured Image"
 msgstr "صورة مميزة"
 
@@ -277,7 +277,7 @@ msgstr "صورة مميزة"
 #: dist/publishpress-revisions-pro_3.7.9/revisionary-pro_3.7.9/includes-pro/compat.php:577
 #: dist/publishpress-revisions-pro_3.9.0-rc2/revisionary-pro/includes-pro/compat.php:587
 #: dist/publishpress-revisions-pro_3.9.0_rc2/revisionary-pro/includes-pro/compat.php:587
-#: includes-pro/compat.php:1096
+#: includes-pro/compat.php:1173
 msgid "Requested Slug"
 msgstr "الترميز المطلوب"
 
@@ -354,7 +354,7 @@ msgstr "الترميز المطلوب"
 #: dist/publishpress-revisions-pro_3.7.9/revisionary-pro_3.7.9/includes-pro/compat.php:580
 #: dist/publishpress-revisions-pro_3.9.0-rc2/revisionary-pro/includes-pro/compat.php:590
 #: dist/publishpress-revisions-pro_3.9.0_rc2/revisionary-pro/includes-pro/compat.php:590
-#: includes-pro/compat.php:1099
+#: includes-pro/compat.php:1176
 msgid "Beaver Builder Data"
 msgstr "بيانات Beaver Builder"
 
@@ -431,7 +431,7 @@ msgstr "بيانات Beaver Builder"
 #: dist/publishpress-revisions-pro_3.7.9/revisionary-pro_3.7.9/includes-pro/compat.php:581
 #: dist/publishpress-revisions-pro_3.9.0-rc2/revisionary-pro/includes-pro/compat.php:591
 #: dist/publishpress-revisions-pro_3.9.0_rc2/revisionary-pro/includes-pro/compat.php:591
-#: includes-pro/compat.php:1100
+#: includes-pro/compat.php:1177
 msgid "Beaver Builder Settings"
 msgstr "إعدادات Beaver Builder"
 
@@ -508,7 +508,7 @@ msgstr "إعدادات Beaver Builder"
 #: dist/publishpress-revisions-pro_3.7.9/revisionary-pro_3.7.9/includes-pro/compat.php:585
 #: dist/publishpress-revisions-pro_3.9.0-rc2/revisionary-pro/includes-pro/compat.php:595
 #: dist/publishpress-revisions-pro_3.9.0_rc2/revisionary-pro/includes-pro/compat.php:595
-#: includes-pro/compat.php:1104
+#: includes-pro/compat.php:1181
 msgid "Author(s)"
 msgstr "المؤلف(ون)"
 
@@ -804,10 +804,10 @@ msgstr "المؤلف(ون)"
 #: dist/publishpress-revisions-pro_3.9.0_rc2/revisionary-pro/includes-pro/compat/divi.php:106
 #: dist/publishpress-revisions-pro_3.9.0_rc2/revisionary-pro/includes-pro/compat/divi.php:107
 #: dist/publishpress-revisions-pro_3.9.0_rc2/revisionary-pro/includes-pro/compat/elementor.php:1054
-#: includes-pro/compat/beaver-builder.php:121
+#: includes-pro/compat/beaver-builder.php:136
 #: includes-pro/compat/divi.php:111
 #: includes-pro/compat/divi.php:112
-#: includes-pro/compat/elementor.php:1082
+#: includes-pro/compat/elementor.php:1100
 msgid "Approve"
 msgstr "موافقة"
 
@@ -884,7 +884,7 @@ msgstr "موافقة"
 #: dist/publishpress-revisions-pro_3.7.9/revisionary-pro_3.7.9/includes-pro/compat/beaver-builder.php:184
 #: dist/publishpress-revisions-pro_3.9.0-rc2/revisionary-pro/includes-pro/compat/beaver-builder.php:212
 #: dist/publishpress-revisions-pro_3.9.0_rc2/revisionary-pro/includes-pro/compat/beaver-builder.php:212
-#: includes-pro/compat/beaver-builder.php:230, fuzzy
+#: includes-pro/compat/beaver-builder.php:245, fuzzy
 msgid "Beaver Builder"
 msgstr "Beaver Builder"
 
@@ -1034,8 +1034,8 @@ msgstr "Beaver Builder"
 #: dist/publishpress-revisions-pro_3.9.0-rc2/revisionary-pro/includes-pro/compat/divi.php:212
 #: dist/publishpress-revisions-pro_3.9.0_rc2/revisionary-pro/includes-pro/compat/divi.php:211
 #: dist/publishpress-revisions-pro_3.9.0_rc2/revisionary-pro/includes-pro/compat/divi.php:212
-#: includes-pro/compat/divi.php:238
-#: includes-pro/compat/divi.php:239, fuzzy
+#: includes-pro/compat/divi.php:241
+#: includes-pro/compat/divi.php:242, fuzzy
 msgid "Divi"
 msgstr "Divi"
 
@@ -1253,7 +1253,6 @@ msgstr ""
 #: dist/publishpress-revisions-pro_3.7.9/revisionary-pro_3.7.9/includes-pro/compat/elementor.php:604
 #: dist/publishpress-revisions-pro_3.9.0-rc2/revisionary-pro/includes-pro/compat/elementor.php:658
 #: dist/publishpress-revisions-pro_3.9.0_rc2/revisionary-pro/includes-pro/compat/elementor.php:658
-#: includes-pro/compat/elementor.php:666
 msgid ""
 "Redirect to preview if the revision is updated at least 15 seconds after "
 "loading the Elementor editor. This redirect relies on detection of UI "
@@ -1336,7 +1335,8 @@ msgstr ""
 #: dist/publishpress-revisions-pro_3.7.9/revisionary-pro_3.7.9/includes-pro/compat/elementor.php:909
 #: dist/publishpress-revisions-pro_3.9.0-rc2/revisionary-pro/includes-pro/compat/elementor.php:996
 #: dist/publishpress-revisions-pro_3.9.0_rc2/revisionary-pro/includes-pro/compat/elementor.php:996
-#: includes-pro/compat/elementor.php:1024
+#: includes-pro/compat/elementor.php:1042
+#: includes-pro/compat/elementor.php:1158
 msgid "Approval done."
 msgstr "تمت الموافقة."
 
@@ -1413,7 +1413,8 @@ msgstr "تمت الموافقة."
 #: dist/publishpress-revisions-pro_3.7.9/revisionary-pro_3.7.9/includes-pro/compat/elementor.php:911
 #: dist/publishpress-revisions-pro_3.9.0-rc2/revisionary-pro/includes-pro/compat/elementor.php:998
 #: dist/publishpress-revisions-pro_3.9.0_rc2/revisionary-pro/includes-pro/compat/elementor.php:998
-#: includes-pro/compat/elementor.php:1026
+#: includes-pro/compat/elementor.php:1044
+#: includes-pro/compat/elementor.php:1160
 msgid "Revision updated."
 msgstr "تم تحديث المراجعة."
 
@@ -1563,8 +1564,8 @@ msgstr "تم تحديث المراجعة."
 #: dist/publishpress-revisions-pro_3.9.0-rc2/revisionary-pro/includes-pro/compat/elementor.php:1028
 #: dist/publishpress-revisions-pro_3.9.0_rc2/revisionary-pro/includes-pro/compat/elementor.php:1027
 #: dist/publishpress-revisions-pro_3.9.0_rc2/revisionary-pro/includes-pro/compat/elementor.php:1028
-#: includes-pro/compat/elementor.php:1055
-#: includes-pro/compat/elementor.php:1056, fuzzy
+#: includes-pro/compat/elementor.php:1073
+#: includes-pro/compat/elementor.php:1074, fuzzy
 msgid "Elementor"
 msgstr "Elementor"
 
@@ -1641,7 +1642,7 @@ msgstr "Elementor"
 #: dist/publishpress-revisions-pro_3.7.9/revisionary-pro_3.7.9/includes-pro/compat/elementor.php:957
 #: dist/publishpress-revisions-pro_3.9.0-rc2/revisionary-pro/includes-pro/compat/elementor.php:1044
 #: dist/publishpress-revisions-pro_3.9.0_rc2/revisionary-pro/includes-pro/compat/elementor.php:1044
-#: includes-pro/compat/elementor.php:1072
+#: includes-pro/compat/elementor.php:1090
 msgid "Submit"
 msgstr "إرسال"
 
@@ -1937,11 +1938,11 @@ msgstr "إرسال"
 #: dist/publishpress-revisions-pro_3.9.0_rc2/revisionary-pro/includes-pro/compat/elementor.php:1056
 #: dist/publishpress-revisions-pro_3.9.0_rc2/revisionary-pro/includes-pro/compat/elementor.php:1062
 #: dist/publishpress-revisions-pro_3.9.0_rc2/revisionary-pro/includes-pro/compat/elementor.php:1066
-#: includes-pro/compat.php:733
-#: includes-pro/compat/elementor.php:1074
-#: includes-pro/compat/elementor.php:1084
-#: includes-pro/compat/elementor.php:1090
-#: includes-pro/compat/elementor.php:1094
+#: includes-pro/compat.php:810
+#: includes-pro/compat/elementor.php:1092
+#: includes-pro/compat/elementor.php:1102
+#: includes-pro/compat/elementor.php:1108
+#: includes-pro/compat/elementor.php:1112
 msgid "Update"
 msgstr "تحديث"
 
@@ -2018,7 +2019,7 @@ msgstr "تحديث"
 #: dist/publishpress-revisions-pro_3.7.9/revisionary-pro_3.7.9/includes-pro/compat/elementor.php:967
 #: dist/publishpress-revisions-pro_3.9.0-rc2/revisionary-pro/includes-pro/compat/elementor.php:1054
 #: dist/publishpress-revisions-pro_3.9.0_rc2/revisionary-pro/includes-pro/compat/elementor.php:1054
-#: includes-pro/compat/elementor.php:1082
+#: includes-pro/compat/elementor.php:1100
 msgid "Publish"
 msgstr "نشر"
 
@@ -2591,9 +2592,14 @@ msgstr[5] ""
 "and priority support, <a href=\"%s\">please renew</a>."
 msgstr[0] ""
 "ستنتهي صلاحية مفتاح الترخيص الخاص بك في %d يوم. للحصول على التحديثات والدعم "
-"ذي الأولوية، <a href=\"%s\">يرجى التجديد</a>.|ستنتهي صلاحية مفتاح الترخيص "
-"الخاص بك (لتحديثات الإضافات) في %d أيام. للحصول على التحديثات والدعم ذي "
-"الأولوية، <a href=\"%s\">يرجى التجديد</a>."
+"ذي الأولوية، <a href=\\\"%s\\\">يرجى التجديد</a>."
+msgstr[1] ""
+"ستنتهي صلاحية مفتاح الترخيص الخاص بك (لتحديثات الإضافات) في %d أيام. للحصول "
+"على التحديثات والدعم ذي الأولوية، <a href=\\\"%s\\\">يرجى التجديد</a>."
+msgstr[2] ""
+msgstr[3] ""
+msgstr[4] ""
+msgstr[5] ""
 
 #: dist/publishpress-revisions-pro-3.5.8.1/revisionary-pro/includes-pro/SettingsLicense.php:92
 #: dist/publishpress-revisions-pro-3.5.8.2/revisionary-pro/includes-pro/SettingsLicense.php:92
@@ -7677,50 +7683,58 @@ msgstr "مسح ذاكرة التخزين المؤقت لـ Elementor بالكا�
 msgid "Leave this disabled for better performance if possible."
 msgstr "اترك هذا معطلاً من أجل أداء أفضل إذا كان ذلك ممكنًا."
 
-#: includes-pro/compat.php:550
+#: includes-pro/compat.php:627
 msgid "You are not allowed to suppress comparison fields."
 msgstr "غير مسموح لك بإخفاء حقول المقارنة."
 
-#: includes-pro/compat.php:551
+#: includes-pro/compat.php:628
 msgid "You are not allowed to change ignored fields."
 msgstr "غير مسموح لك بتغيير الحقول المتجاهلة."
 
-#: includes-pro/compat.php:624
-#: includes-pro/compat.php:671
+#: includes-pro/compat.php:701
+#: includes-pro/compat.php:748
 #, php-format
 msgid "Review %d ignored / suppressed fields"
 msgstr "راجع %d حقل مهمل / مخفي"
 
-#: includes-pro/compat.php:625
-#: includes-pro/compat.php:672
-#: includes-pro/compat.php:699
+#: includes-pro/compat.php:702
+#: includes-pro/compat.php:749
+#: includes-pro/compat.php:776
 #, php-format
 msgid "Review %d ignored fields"
 msgstr "راجع %d حقل مهمل"
 
-#: includes-pro/compat.php:696
+#: includes-pro/compat.php:773
 msgid "Revision Comparison"
 msgstr "مقارنة المراجعة"
 
-#: includes-pro/compat.php:712
+#: includes-pro/compat.php:789
 msgid "Close"
 msgstr "إغلاق"
 
-#: includes-pro/compat.php:718
+#: includes-pro/compat.php:795
 msgid "Ignore Fields"
 msgstr "تجاهل الحقول"
 
-#: includes-pro/compat.php:719
+#: includes-pro/compat.php:796
 msgid "Changes to these fields will be hidden from the current user."
 msgstr "التغييرات في هذه الحقول ستظل مخفية عن المستخدم الحالي."
 
-#: includes-pro/compat.php:726
+#: includes-pro/compat.php:803
 msgid "Suppress Fields"
 msgstr "إخفاء الحقول"
 
-#: includes-pro/compat.php:727
+#: includes-pro/compat.php:804
 msgid "Changes to these fields will be hidden from all users."
 msgstr "التغييرات في هذه الحقول ستظل مخفية عن جميع المستخدمين."
+
+#: includes-pro/compat/elementor.php:666
+msgid ""
+"Redirect to the revision preview after submission or a revision status "
+"change in Elementor. Disable this option to remain in the editor."
+msgstr ""
+"إعادة التوجيه إلى معاينة المراجعة بعد الإرسال أو تغيير حالة المراجعة في "
+"Elementor. قم بتعطيل هذا الخيار للبقاء في المحرر."
 
 #: includes-pro/SettingsLicense.php:77
 #, php-format

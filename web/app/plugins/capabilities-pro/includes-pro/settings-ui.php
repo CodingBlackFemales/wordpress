@@ -32,7 +32,6 @@ class Pro_Settings_UI {
 
     public function otherTabs() {
         ?>
-        <li class="nav-tab"><a href="#ppcs-tab-admin-menus"><?php esc_html_e('Admin Menus', 'capabilities-pro');?></a></li>
         <?php
     }
 
@@ -433,30 +432,7 @@ class Pro_Settings_UI {
 
 
 
-    <table class="form-table" role="presentation" id="ppcs-tab-admin-menus" style="display:none;">
-        <tbody>
-            <tr>
-                <?php $checked = checked(!empty(get_option('cme_admin_menus_restriction_priority', 1)), true, false); ?>
-                <th scope="row"> <?php esc_html_e('Admin Menu', 'capabilities-pro'); ?></th>
-                <td>
-                    <label for="" title="<?php esc_attr_e('Admin Menus: treatment of multiple roles', 'capabilities-pro');?>">
-                        <select name="cme_admin_menus_restriction_priority" id="cme_admin_menus_restriction_priority" autocomplete="off">
-                            <option value="0"<?php echo ($checked) ? '' : ' selected';?>>
-                                <?php esc_html_e('Most permissive: Any non-restricted user role allows access', 'capabilities-pro');?>
-                            </option>
-                            <option value="1"<?php echo ($checked) ? ' selected' : '';?>>
-                                <?php esc_html_e('Most restrictive: Any restricted user role prevents access', 'capabilities-pro');?>
-                            </option>
-                        </select>
-                        <div class='cme-subtext'>
-                            <?php esc_html_e('This controls whether the most permissive or restrictive permissions are applied if a user has multiple roles.', 'capabilities-pro');?>
-                        </div>
-                    </label>
-                    <br>
-                </td>
-            </tr>
-        </tbody>
-    </table>
+
 
     <?php
     }

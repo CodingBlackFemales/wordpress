@@ -5,15 +5,17 @@ msgstr ""
 "Project-Id-Version: PublishPress Capabilities Pro 2.42.0\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/project\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
-"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language-Team: Hungarian "
+"<https://weblate.publishpress.com/projects/publishpress-capabilities-pro/"
+"capabilities-pro/hu/>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2026-09-21T12:57:17+00:00\n"
-"PO-Revision-Date: 2026-09-22 14:15+0000\n"
-"X-Generator: WP-CLI 2.12.0\n"
+"POT-Creation-Date: 2026-09-22T14:14:16+00:00\n"
+"PO-Revision-Date: 2026-10-14 11:01+0000\n"
+"X-Generator: Weblate 2026.6.1\n"
 "X-Domain: capabilities-pro\n"
-"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
 "Language: hu-HU\n"
 
 #: capabilities-pro.php:3
@@ -44,14 +46,14 @@ msgstr ""
 msgid "PublishPress"
 msgstr "PublishPress"
 
-#: includes-pro/admin-load.php:86
+#: includes-pro/admin-load.php:85
 #, php-format
 msgid "Note: Control of custom post statuses is %1$sdisabled%2$s."
 msgstr ""
 "Megjegyzés: A testreszabott bejegyzés státuszok vezérlése %1$ski van "
 "kapcsolva%2$s."
 
-#: includes-pro/admin-load.php:96
+#: includes-pro/admin-load.php:95
 #: includes-pro/admin.php:557
 #, php-format
 msgid "Note: Status-specific post editing capabilities are %1$sdisabled%2$s."
@@ -59,102 +61,37 @@ msgstr ""
 "Megjegyzés: A státusz-specifikus bejegyzés szerkesztési képességek %1$ski "
 "van kapcsolva%2$s."
 
-#: includes-pro/admin-load.php:185
-#: includes-pro/admin-load.php:208
-#: includes-pro/features/admin-menus/admin-menus.php:106
-#: includes-pro/settings-ui.php:35
-msgid "Admin Menus"
-msgstr "Admin menük"
-
-#: includes-pro/admin-load.php:209
-#: includes-pro/features/admin-menus/admin-menus.php:739
-msgid ""
-"Admin Menus allows you to edit the admin menu links and control who has "
-"access."
-msgstr ""
-"Az Admin menük lehetővé teszik az admin menü linkjeinek szerkesztését és a "
-"hozzáférés szabályozását."
-
-#: includes-pro/admin-load.php:272
-#: includes-pro/admin-load.php:296
-msgid "You do not have permission to manage menu restrictions."
-msgstr "Nincs jogosultsága a menükorlátozások kezelésére."
-
-#: includes-pro/admin-load.php:345
-msgid "Settings updated for all roles."
-msgstr "A beállítások frissítve lettek az összes szerepkörhöz."
-
-#: includes-pro/admin-load.php:351
-msgid "Settings updated."
-msgstr "A beállítások frissítve."
-
-#: includes-pro/admin-load.php:366
-msgid "Saving Menu Order..."
-msgstr "Menü sorrend mentése..."
-
-#: includes-pro/admin-load.php:367
-msgid "Saving Menu Name..."
-msgstr "Menü név mentése..."
-
-#: includes-pro/admin-load.php:368
-msgid "Menu Name can not be empty."
-msgstr "A menü név nem lehet üres."
-
-#: includes-pro/admin-load.php:369
-msgid "Change Icon"
-msgstr "Ikon módosítása"
-
-#: includes-pro/admin-load.php:370
-msgid "Search icons..."
-msgstr "Ikonok keresése..."
-
-#: includes-pro/admin-load.php:371
-msgid "Menu icon updated"
-msgstr "A menüikon frissítve"
-
-#: includes-pro/admin-load.php:372
-msgid "Error updating menu icon"
-msgstr "Hiba a menüikon frissítésekor"
-
-#: includes-pro/admin-load.php:373
-msgid "Duplicate menu with this Menu URL already exists"
-msgstr "A megadott Menü URL-lel már létezik másik menü"
-
-#: includes-pro/admin-load.php:374
-msgid "Duplicate submenu with the menu url already exist"
-msgstr "A menü URL-lel már létezik egy másik almenü"
-
-#: includes-pro/admin-load.php:480
+#: includes-pro/admin-load.php:279
 msgid "You do not have permission to manage settings."
 msgstr "Nincs jogosultsága a beállítások kezelésére."
 
-#: includes-pro/admin-load.php:581
+#: includes-pro/admin-load.php:380
 msgid "Homepage"
 msgstr "Főoldal"
 
-#: includes-pro/admin-load.php:582
+#: includes-pro/admin-load.php:381
 msgid "Archive Pages"
 msgstr "Archív oldalak"
 
-#: includes-pro/admin-load.php:583
+#: includes-pro/admin-load.php:382
 msgid "Single Pages"
 msgstr "Egyszerű oldalak"
 
-#: includes-pro/admin-load.php:586
+#: includes-pro/admin-load.php:385
 msgid "Select pages..."
 msgstr "Oldalak kiválasztása..."
 
-#: includes-pro/admin-load.php:595
+#: includes-pro/admin-load.php:394
 msgid "You can select page types where this element will be added."
 msgstr ""
 "Kiválaszthatja azokat az oldal típusokat, amelyekhez ez az elem hozzá lesz "
 "adva."
 
-#: includes-pro/admin-load.php:609
+#: includes-pro/admin-load.php:408
 msgid "Select post types..."
 msgstr "Bejegyzés típusok kiválasztása..."
 
-#: includes-pro/admin-load.php:623
+#: includes-pro/admin-load.php:422
 msgid ""
 "This will add a metabox on the post editing screen. You can use this "
 "feature to add body classes only for that post."
@@ -286,7 +223,7 @@ msgstr ""
 "Állapot tulajdonságok, bejegyzés típusok, képességkövetelmények "
 "konfigurálása"
 
-#: includes-pro/admin.php:573
+#: includes-pro/admin.php:579
 #, php-format
 msgid ""
 "To control revision editing and deletion, install the %1$sPublishPress "
@@ -295,7 +232,7 @@ msgstr ""
 "A módosítások szerkesztésének és törlésének vezérléséhez telepítse a "
 "%1$sPublishPress Revisions%2$s és a %3$sStatuses Pro%4$s bővítményeket."
 
-#: includes-pro/admin.php:581
+#: includes-pro/admin.php:584
 #, php-format
 msgid ""
 "To define and control Revision statuses, install the %1$sStatuses Pro%2$s "
@@ -304,7 +241,7 @@ msgstr ""
 "A módosítási állapotok meghatározásához és vezérléséhez telepítse a "
 "%1$sStatuses Pro%2$s bővítményt."
 
-#: includes-pro/admin.php:587
+#: includes-pro/admin.php:589
 #, php-format
 msgid ""
 "To define and control Revision statuses, install the %1$sPublishPress "
@@ -313,7 +250,7 @@ msgstr ""
 "A módosítási állapotok meghatározásához és vezérléséhez telepítse a "
 "%1$sPublishPress Revisions%2$s bővítményt."
 
-#: includes-pro/admin.php:594
+#: includes-pro/admin.php:596
 #, php-format
 msgid ""
 "To define and control Revision statuses, update the %1$sPublishPress "
@@ -322,7 +259,7 @@ msgstr ""
 "A módosítási állapotok meghatározásához és vezérléséhez frissítse a "
 "%1$sPublishPress Revisions%2$s bővítményt %3$s vagy újabb verzióra."
 
-#: includes-pro/admin.php:604
+#: includes-pro/admin.php:606
 #, php-format
 msgid ""
 "To control revision editing and deletion, please set %1$sRevisions "
@@ -332,8 +269,8 @@ msgstr ""
 "a %1$sRevisions Compatibility Mode%2$s-t \"Fejlett módosítási "
 "hozzáférés-vezérlés\" értékre."
 
-#: includes-pro/admin.php:612
-#: includes-pro/admin.php:630
+#: includes-pro/admin.php:614
+#: includes-pro/admin.php:642
 #, php-format
 msgid ""
 "To enable or disable enforcement of custom editing capabilities for any "
@@ -343,6 +280,14 @@ msgstr ""
 "A saját szerkesztési képességek érvényesítésének engedélyezéséhez vagy "
 "letiltásához bármely állapot esetén kattintson az %1$sÁllapotok "
 "táblázat%2$s Post Access cellájára, majd frissítse ezt a képernyőt."
+
+#: includes-pro/admin.php:624, fuzzy
+msgid "Get Statuses Pro"
+msgstr "Get Statuses Pro"
+
+#: includes-pro/admin.php:626, fuzzy
+msgid "Get PublishPress Revisions"
+msgstr "Get PublishPress Revisions"
 
 #: includes-pro/features/admin-features-block-url.php:50
 msgid "Block access to Plugins screen via direct link"
@@ -450,12 +395,7 @@ msgstr "Szerkesztés mentése"
 #: includes-pro/features/admin-features-block-url.php:358
 #: includes-pro/features/admin-features-css-hide.php:278
 #: includes-pro/features/admin-features-css-hide.php:377
-#: includes-pro/features/admin-menus/admin-menus-filters.php:424
-#: includes-pro/features/admin-menus/admin-menus-filters.php:455
-#: includes-pro/features/admin-menus/admin-menus-filters.php:505
-#: includes-pro/features/admin-menus/admin-menus-filters.php:547
-#: includes-pro/features/admin-menus/admin-menus-filters.php:608
-#: includes-pro/features/admin-menus/admin-menus-filters.php:660
+#: includes-pro/features/admin-menus/admin-menus-pro.php:26
 #: includes-pro/features/config/custom-config.php:179
 #: includes-pro/features/config/custom-config.php:248
 msgid "An error occured!"
@@ -505,8 +445,6 @@ msgstr "Szerkesztés"
 
 #: includes-pro/features/admin-features-block-url.php:336
 #: includes-pro/features/admin-features-css-hide.php:355
-#: includes-pro/features/admin-menus/admin-menus.php:493
-#: includes-pro/features/admin-menus/admin-menus.php:650
 msgid "Delete"
 msgstr "Törlés"
 
@@ -523,7 +461,6 @@ msgid "Selected item deleted successfully"
 msgstr "A kiválasztott elem sikeresen törölve"
 
 #: includes-pro/features/admin-features-block-url.php:477
-#: includes-pro/functions-admin.php:104
 msgid "You do not have permission to access this page."
 msgstr "Nincs jogosultsága ehhez az oldalhoz való hozzáféréshez."
 
@@ -629,321 +566,17 @@ msgstr "Célzott URL"
 msgid "URL wildcard"
 msgstr "URL wildcard"
 
-#: includes-pro/features/admin-menus/admin-menus-filters.php:429
-#: includes-pro/features/admin-menus/admin-menus-filters.php:460
-#: includes-pro/features/admin-menus/admin-menus-filters.php:510
-#: includes-pro/features/admin-menus/admin-menus-filters.php:552
-#: includes-pro/features/admin-menus/admin-menus-filters.php:613
-#: includes-pro/features/admin-menus/admin-menus-filters.php:665
+#: includes-pro/features/admin-menus/admin-menus-pro.php:31
 msgid "Security check failed"
 msgstr "Biztonsági ellenőrzés nem sikerült"
 
-#: includes-pro/features/admin-menus/admin-menus-filters.php:431
-#: includes-pro/features/admin-menus/admin-menus-filters.php:462
-#: includes-pro/features/admin-menus/admin-menus-filters.php:512
-#: includes-pro/features/admin-menus/admin-menus-filters.php:554
-#: includes-pro/features/admin-menus/admin-menus-filters.php:615
-#: includes-pro/features/admin-menus/admin-menus-filters.php:667
+#: includes-pro/features/admin-menus/admin-menus-pro.php:33
 msgid "Permission denied"
 msgstr "Hozzáférés megtagadva"
 
-#: includes-pro/features/admin-menus/admin-menus-filters.php:443
-msgid "Settings updated successfully."
-msgstr "A beállítások sikeresen frissítve."
-
-#: includes-pro/features/admin-menus/admin-menus-filters.php:472
-msgid "Admin Menu Order reset successfully. Reloading page..."
-msgstr "Az Admin Menü sorrendje sikeresen visszaállítva. Az oldal újratöltése..."
-
-#: includes-pro/features/admin-menus/admin-menus-filters.php:478
-msgid "Admin Menu Names reset successfully. Reloading page..."
-msgstr "Az Admin Menü neve sikeresen visszaállítva. Az oldal újratöltése..."
-
-#: includes-pro/features/admin-menus/admin-menus-filters.php:484
-msgid "Admin Menu Cache reset successfully. Reloading page..."
-msgstr "Az Admin Menü gyorsítótára sikeresen visszaállítva. Az oldal újratöltése..."
-
-#: includes-pro/features/admin-menus/admin-menus-filters.php:488
-msgid "Admin Menu reset successfully. Reloading page..."
-msgstr "Az Admin Menü sikeresen visszaállítva. Az oldal újratöltése..."
-
-#: includes-pro/features/admin-menus/admin-menus-filters.php:535
-msgid "Menu deleted successfully."
-msgstr "A menü sikeresen törölve."
-
-#: includes-pro/features/admin-menus/admin-menus-filters.php:597
+#: includes-pro/features/admin-menus/admin-menus-pro.php:76
 msgid "New menu added successfully. Reloading page..."
 msgstr "Új menü sikeresen hozzáadva. Az oldal újratöltése..."
-
-#: includes-pro/features/admin-menus/admin-menus-filters.php:625
-#: includes-pro/features/admin-menus/admin-menus-filters.php:672
-msgid "Invalid data"
-msgstr "Érvénytelen adat"
-
-#: includes-pro/features/admin-menus/admin-menus-filters.php:634
-msgid "Menu Name Updated for all roles."
-msgstr "A menü neve frissítve minden szerepkör számára."
-
-#: includes-pro/features/admin-menus/admin-menus-filters.php:638
-#: includes-pro/features/admin-menus/admin-menus-filters.php:645
-msgid "Menu Name Updated."
-msgstr "A menü neve frissítve."
-
-#: includes-pro/features/admin-menus/admin-menus-filters.php:676
-msgid "Menu Order Updated."
-msgstr "A menü sorrendje frissítve."
-
-#: includes-pro/features/admin-menus/admin-menus.php:136
-#: includes-pro/features/admin-menus/admin-menus.php:727
-msgid "Save for All Roles"
-msgstr "Mentés minden szerepkörhöz"
-
-#: includes-pro/features/admin-menus/admin-menus.php:153
-msgid "Type:"
-msgstr "Típus:"
-
-#: includes-pro/features/admin-menus/admin-menus.php:155
-msgid "Menu Link"
-msgstr "Menülink"
-
-#: includes-pro/features/admin-menus/admin-menus.php:156
-msgid "Submenu Link"
-msgstr "Almenülink"
-
-#: includes-pro/features/admin-menus/admin-menus.php:157
-msgid "Menu Separator"
-msgstr "Menüelválasztó"
-
-#: includes-pro/features/admin-menus/admin-menus.php:158
-msgid "Submenu Separator"
-msgstr "Almenüelválasztó"
-
-#: includes-pro/features/admin-menus/admin-menus.php:162
-msgid "Position:"
-msgstr "Pozíció:"
-
-#: includes-pro/features/admin-menus/admin-menus.php:164
-msgid "After"
-msgstr "Után"
-
-#: includes-pro/features/admin-menus/admin-menus.php:175
-msgid "Menu Title:"
-msgstr "Menü címe:"
-
-#: includes-pro/features/admin-menus/admin-menus.php:178
-msgid "My Custom Menu"
-msgstr "Saját menüm"
-
-#: includes-pro/features/admin-menus/admin-menus.php:180
-msgid "Menu Title is required."
-msgstr "A menü címe kötelező."
-
-#: includes-pro/features/admin-menus/admin-menus.php:183
-msgid "Separator Style"
-msgstr "Elválasztó stílus"
-
-#: includes-pro/features/admin-menus/admin-menus.php:185
-msgid "Line (____________________)"
-msgstr "Vonal (____________________)"
-
-#: includes-pro/features/admin-menus/admin-menus.php:186
-msgid "Empty Space"
-msgstr "Üres tér"
-
-#: includes-pro/features/admin-menus/admin-menus.php:187
-msgid "Text"
-msgstr "Szöveg"
-
-#: includes-pro/features/admin-menus/admin-menus.php:191
-msgid "Separator Color"
-msgstr "Elválasztó szín"
-
-#: includes-pro/features/admin-menus/admin-menus.php:196
-msgid "Menu URL:"
-msgstr "Menü URL:"
-
-#: includes-pro/features/admin-menus/admin-menus.php:200
-#, php-format
-msgid ""
-"Enter an internal link such as %1s or an external link such as %2s. Any "
-"link can only be used once for a Menu URL."
-msgstr ""
-"Adjon meg egy belső linket, mint például %1s vagy egy külső linket, mint "
-"például %2s. Bármely linket csak egyszer lehet használni a Menü URL-hez."
-
-#: includes-pro/features/admin-menus/admin-menus.php:207
-msgid "Menu with this url already exist."
-msgstr "A menü ezzel az URL-lel már létezik."
-
-#: includes-pro/features/admin-menus/admin-menus.php:214
-msgid "Menu Capability:"
-msgstr "Menü jogosultság:"
-
-#: includes-pro/features/admin-menus/admin-menus.php:219
-#, php-format
-msgid ""
-"This is the capability required to see this menu. For example: %1s or %2s "
-"If you're entering a custom capability, remember to add and assign it to "
-"preferred roles on the capabilities page"
-msgstr ""
-"Ez a jogosultság szükséges a menü megtekintéséhez. Például: %1s vagy %2s Ha "
-"egyéni jogosultságot ad meg, ne felejtse el hozzáadni és hozzárendelni a "
-"preferált szerepkörökhöz a jogosultságok oldalán"
-
-#: includes-pro/features/admin-menus/admin-menus.php:226
-msgid "Menu Capability is required."
-msgstr "A menü jogosultság kötelező."
-
-#: includes-pro/features/admin-menus/admin-menus.php:230
-msgid "Menu Icon"
-msgstr "Menü ikon"
-
-#: includes-pro/features/admin-menus/admin-menus.php:235
-msgid "Save Menu Link"
-msgstr "Menülink mentése"
-
-#: includes-pro/features/admin-menus/admin-menus.php:255
-#: includes-pro/features/admin-menus/admin-menus.php:278
-msgid "Toggle all"
-msgstr "Összes kapcsoló"
-
-#: includes-pro/features/admin-menus/admin-menus.php:261
-msgid "New Menu Link"
-msgstr "Új menülink"
-
-#: includes-pro/features/admin-menus/admin-menus.php:433
-#: includes-pro/features/admin-menus/admin-menus.php:594
-msgid "(Can't detect menu name)"
-msgstr "(Nem lehet érzékelni a menü nevét)"
-
-#: includes-pro/features/admin-menus/admin-menus.php:459
-#: includes-pro/features/admin-menus/admin-menus.php:616
-msgid ""
-"This menu name is not available in menu global data or directly registered "
-"with the menu"
-msgstr ""
-"Ez a menü név nem elérhető a menü globális adataiban, vagy közvetlenül "
-"nincs regisztrálva a menüvel"
-
-#: includes-pro/features/admin-menus/admin-menus.php:470
-#: includes-pro/features/admin-menus/admin-menus.php:626
-#, php-format
-msgid "%s Role"
-msgstr "%s szerep"
-
-#: includes-pro/features/admin-menus/admin-menus.php:471
-#: includes-pro/features/admin-menus/admin-menus.php:627
-msgid "All Roles"
-msgstr "Összes szerep"
-
-#: includes-pro/features/admin-menus/admin-menus.php:473
-#: includes-pro/features/admin-menus/admin-menus.php:630
-msgid "Save"
-msgstr "Mentés"
-
-#: includes-pro/features/admin-menus/admin-menus.php:476
-#: includes-pro/features/admin-menus/admin-menus.php:493
-#: includes-pro/features/admin-menus/admin-menus.php:633
-#: includes-pro/features/admin-menus/admin-menus.php:650
-msgid "Cancel"
-msgstr "Mégse"
-
-#: includes-pro/features/admin-menus/admin-menus.php:484
-#: includes-pro/features/admin-menus/admin-menus.php:641
-msgid "This option is disabled to prevent complete lockout"
-msgstr "Ez a lehetőség le van tiltva a teljes kizárás megakadályozása érdekében"
-
-#: includes-pro/features/admin-menus/admin-menus.php:493
-#: includes-pro/features/admin-menus/admin-menus.php:650
-#, php-format
-msgid "Are you sure you want to delete %1s? %2s %3s"
-msgstr "Biztosan törölni akarja %1s? %2s %3s"
-
-#: includes-pro/features/admin-menus/admin-menus.php:503
-#: includes-pro/features/admin-menus/admin-menus.php:660
-#, php-format
-msgid "The capability required to access this menu is %s"
-msgstr "A menü eléréséhez szükséges jogosultság: %s"
-
-#: includes-pro/features/admin-menus/admin-menus.php:508
-#: includes-pro/features/admin-menus/admin-menus.php:665
-msgid "Rename Menu"
-msgstr "Menü átnevezése"
-
-#: includes-pro/features/admin-menus/admin-menus.php:514
-#: includes-pro/features/admin-menus/admin-menus.php:671
-msgid "Move Up"
-msgstr "Felfelé mozgatás"
-
-#: includes-pro/features/admin-menus/admin-menus.php:517
-#: includes-pro/features/admin-menus/admin-menus.php:674
-msgid "Move Down"
-msgstr "Lefelé mozgatás"
-
-#: includes-pro/features/admin-menus/admin-menus.php:711
-msgid "No menu found"
-msgstr "Nincs található menü"
-
-#: includes-pro/features/admin-menus/admin-menus.php:737
-msgid "How to use Admin Menus"
-msgstr "Hogyan használjuk az Admin Menüket"
-
-#: includes-pro/features/admin-menus/admin-menus.php:741
-#: includes-pro/features/admin-menus/admin-menus.php:743
-msgid "usage key"
-msgstr "használati kulcs"
-
-#: includes-pro/features/admin-menus/admin-menus.php:742
-msgid "No change"
-msgstr "Nincs változás"
-
-#: includes-pro/features/admin-menus/admin-menus.php:744
-msgid "This feature is denied"
-msgstr "Ez a funkció megtagadva"
-
-#: includes-pro/features/admin-menus/admin-menus.php:746
-msgid "View Documentation"
-msgstr "Dokumentáció megtekintése"
-
-#: includes-pro/features/admin-menus/admin-menus.php:750, fuzzy
-msgid "Admin Menus Settings"
-msgstr "Admin Menus Settings"
-
-#: includes-pro/features/admin-menus/admin-menus.php:753, fuzzy
-msgid "Hide Submenus"
-msgstr "Hide Submenus"
-
-#: includes-pro/features/admin-menus/admin-menus.php:755, fuzzy
-msgid "Show Menu Slugs"
-msgstr "Show Menu Slugs"
-
-#: includes-pro/features/admin-menus/admin-menus.php:760, fuzzy
-msgid "Reset Admin Menus"
-msgstr "Reset Admin Menus"
-
-#: includes-pro/features/admin-menus/admin-menus.php:762
-msgid ""
-"You can reset admin menu order and name to their original position and "
-"names. You can also reset menu cache to fix issue of missing menu."
-msgstr ""
-"You can reset admin menu order and name to their original position and "
-"names. You can also reset menu cache to fix issue of missing menu."
-
-#: includes-pro/features/admin-menus/admin-menus.php:765, fuzzy
-msgid "Reset Menu Order"
-msgstr "Reset Menu Order"
-
-#: includes-pro/features/admin-menus/admin-menus.php:767, fuzzy
-msgid "Reset Cached Menu"
-msgstr "Reset Cached Menu"
-
-#: includes-pro/features/admin-menus/admin-menus.php:769, fuzzy
-msgid "Reset Menu Names"
-msgstr "Reset Menu Names"
-
-#: includes-pro/features/admin-menus/admin-menus.php:771, fuzzy
-msgid "Reset Selected Option"
-msgstr "Reset Selected Option"
 
 #: includes-pro/features/config/custom-config.php:29, fuzzy
 msgid "Add New Classic Editor Restrictions"
@@ -1000,11 +633,6 @@ msgstr "Custom Gutenberg Restrictions"
 msgid "Metaboxes"
 msgstr "Metaboxes"
 
-#: includes-pro/functions-admin.php:38
-#: includes-pro/settings-ui.php:440
-msgid "Admin Menu"
-msgstr "Admin menü"
-
 #: includes-pro/pro-maint.php:46
 #: includes-pro/pro-maint.php:59
 msgid "An error occurred. Please try again or contact the support team."
@@ -1016,123 +644,123 @@ msgstr ""
 msgid "License"
 msgstr "Licenc"
 
-#: includes-pro/settings-ui.php:44
+#: includes-pro/settings-ui.php:43
 msgid "Activate Key"
 msgstr "Kulcs aktiválása"
 
-#: includes-pro/settings-ui.php:45
+#: includes-pro/settings-ui.php:44
 msgid "Deactivate Key"
 msgstr "Kulcs deaktiválása"
 
-#: includes-pro/settings-ui.php:46
+#: includes-pro/settings-ui.php:45
 msgid "Connecting to publishpress.com server..."
 msgstr "Kapcsolódás a publishpress.com szerverhez..."
 
-#: includes-pro/settings-ui.php:47
+#: includes-pro/settings-ui.php:46
 msgid "The request could not be processed due to a connection failure."
 msgstr "A kérés nem feldolgozható a kapcsolat hibája miatt."
 
-#: includes-pro/settings-ui.php:48
+#: includes-pro/settings-ui.php:47
 msgid "Please enter the license key shown on your order receipt."
 msgstr "Kérjük, adja meg a rendelési bizonylatán látható licenckulcsot."
 
-#: includes-pro/settings-ui.php:49
+#: includes-pro/settings-ui.php:48
 msgid "An unidentified error occurred."
 msgstr "Azonosítatlan hiba történt."
 
-#: includes-pro/settings-ui.php:51
+#: includes-pro/settings-ui.php:50
 msgid "The key has been deactivated."
 msgstr "A kulcs deaktiválva lett."
 
-#: includes-pro/settings-ui.php:52
+#: includes-pro/settings-ui.php:51
 msgid "The key has been activated."
 msgstr "A kulcs aktiválva lett."
 
-#: includes-pro/settings-ui.php:53
+#: includes-pro/settings-ui.php:52
 msgid "The key has expired."
 msgstr "A kulcs lejárt."
 
-#: includes-pro/settings-ui.php:54
+#: includes-pro/settings-ui.php:53
 msgid "The key is invalid."
 msgstr "A kulcs érvénytelen."
 
-#: includes-pro/settings-ui.php:55
+#: includes-pro/settings-ui.php:54
 msgid "An unknown activation error occurred."
 msgstr "Ismeretlen aktiválási hiba történt."
 
-#: includes-pro/settings-ui.php:56
+#: includes-pro/settings-ui.php:55
 msgid "The key provided is not valid. Please double-check your entry."
 msgstr "A megadott kulcs nem érvényes. Kérjük, ellenőrizze a bevitelt."
 
-#: includes-pro/settings-ui.php:57
+#: includes-pro/settings-ui.php:56
 msgid "This site is not valid to activate the key."
 msgstr "Ez az oldal nem érvényes a kulcs aktiválásához."
 
-#: includes-pro/settings-ui.php:58
-#: includes-pro/settings-ui.php:64
+#: includes-pro/settings-ui.php:57
+#: includes-pro/settings-ui.php:63
 msgid "The key provided could not be validated by publishpress.com."
 msgstr "A megadott kulcsot a publishpress.com nem tudta érvényesíteni."
 
-#: includes-pro/settings-ui.php:59
+#: includes-pro/settings-ui.php:58
 msgid "The key provided is already active on another site."
 msgstr "A megadott kulcs már aktív egy másik oldalon."
 
-#: includes-pro/settings-ui.php:60
+#: includes-pro/settings-ui.php:59
 msgid "The key has already been activated on the allowed number of sites."
 msgstr "A kulcs már aktiválva lett az engedélyezett oldalak számán."
 
-#: includes-pro/settings-ui.php:61
+#: includes-pro/settings-ui.php:60
 msgid "An unknown deactivation error occurred."
 msgstr "Ismeretlen deaktiválási hiba történt."
 
-#: includes-pro/settings-ui.php:62
+#: includes-pro/settings-ui.php:61
 msgid "Unable to deactivate because the provided key is not valid."
 msgstr "Nem lehet deaktiválni, mert a megadott kulcs érvénytelen."
 
-#: includes-pro/settings-ui.php:63
+#: includes-pro/settings-ui.php:62
 msgid "This site is not valid to deactivate the key."
 msgstr "Ez az oldal nem érvényes a kulcs deaktiválására."
 
-#: includes-pro/settings-ui.php:65
+#: includes-pro/settings-ui.php:64
 msgid "The key provided is not active on the specified site."
 msgstr "A megadott kulcs nem aktív a megadott oldalon."
 
-#: includes-pro/settings-ui.php:70
+#: includes-pro/settings-ui.php:69
 #, php-format
 msgid "If this is incorrect, <a href=\"%s\">request activation help</a>."
 msgstr "Ha ez helytelen, <a href=\"%s\">kérje az aktiválási segítséget</a>."
 
-#: includes-pro/settings-ui.php:71
+#: includes-pro/settings-ui.php:70
 msgid "Please save settings before uploading site configuration."
 msgstr ""
 "Kérjük, mentse a beállításokat a weboldal konfigurációjának feltöltése "
 "előtt."
 
-#: includes-pro/settings-ui.php:86
+#: includes-pro/settings-ui.php:85
 msgid "(Locked on by Statuses Pro)"
 msgstr "(A Statuses Pro zárolta)"
 
-#: includes-pro/settings-ui.php:97
-#: includes-pro/settings-ui.php:207
+#: includes-pro/settings-ui.php:96
+#: includes-pro/settings-ui.php:206
 msgid "Control custom statuses"
 msgstr "Egyedi státuszok vezérlése"
 
-#: includes-pro/settings-ui.php:103
+#: includes-pro/settings-ui.php:102
 #, php-format
 msgid "Control selection of custom post statuses. %s"
 msgstr "Egyedi bejegyzés státuszok kiválasztásának vezérlése. %s"
 
-#: includes-pro/settings-ui.php:120
+#: includes-pro/settings-ui.php:119
 msgid "Apply status-specific capabilities for post editing, deletion."
 msgstr ""
 "Státuszspecifikus jogosultságok alkalmazása bejegyzés szerkesztéséhez, "
 "törléséhez."
 
-#: includes-pro/settings-ui.php:154
+#: includes-pro/settings-ui.php:153
 msgid "Enable Custom Visibility Statuses"
 msgstr "Egyedi láthatósági státuszok engedélyezése"
 
-#: includes-pro/settings-ui.php:162
+#: includes-pro/settings-ui.php:161
 #. Translators: %1$s and %2$s is link markup
 #, php-format
 msgid ""
@@ -1142,7 +770,7 @@ msgstr ""
 "A láthatósági státuszokhoz %1$sengedélyezze a Státusz Vezérlő modult%2$s a "
 "Permissions Pro-ban"
 
-#: includes-pro/settings-ui.php:183
+#: includes-pro/settings-ui.php:182
 msgid ""
 "Apply status-specific, type-specific editing capabilities for Visibility "
 "Statuses"
@@ -1150,11 +778,11 @@ msgstr ""
 "Státuszspecifikus, típusspecifikus szerkesztési jogosultságok alkalmazása a "
 "láthatósági státuszokhoz"
 
-#: includes-pro/settings-ui.php:248
+#: includes-pro/settings-ui.php:247
 msgid "License Key Activation"
 msgstr "Licenckulcs aktiválás"
 
-#: includes-pro/settings-ui.php:294
+#: includes-pro/settings-ui.php:293
 #, php-format
 msgid ""
 "Your PublishPress license key has expired. For continued priority support, "
@@ -1163,7 +791,7 @@ msgstr ""
 "A PublishPress licenckulcsa lejárt. A folyamatos prioritásos támogatás "
 "érdekében <a href=\"%s\">kérjük, újítsa meg</a>."
 
-#: includes-pro/settings-ui.php:305
+#: includes-pro/settings-ui.php:304
 #, php-format
 msgid ""
 "Your PublishPress license key will expire today. For updates and priority "
@@ -1172,7 +800,7 @@ msgstr ""
 "A PublishPress licenckulcsa ma lejár. Frissítésekhez és prioritásos "
 "támogatáshoz <a href=\"%s\">kérjük, újítsa meg</a>."
 
-#: includes-pro/settings-ui.php:310
+#: includes-pro/settings-ui.php:309
 #, php-format
 msgid ""
 "Your PublishPress license key will expire in %d day. For updates and "
@@ -1188,79 +816,55 @@ msgstr[1] ""
 "lejár. Frissítések és prioritásos támogatás érdekében, <a "
 "href=\"%s\">kérem, újítsa meg</a>."
 
-#: includes-pro/settings-ui.php:332
+#: includes-pro/settings-ui.php:331
 msgid "Key Expired"
 msgstr "A kulcs lejárt"
 
-#: includes-pro/settings-ui.php:337
-#: includes-pro/settings-ui.php:347
+#: includes-pro/settings-ui.php:336
+#: includes-pro/settings-ui.php:346
 msgid "Deactivate"
 msgstr "Deaktiválás"
 
-#: includes-pro/settings-ui.php:341
+#: includes-pro/settings-ui.php:340
 msgid "Activated"
 msgstr "Aktiválva"
 
-#: includes-pro/settings-ui.php:344
+#: includes-pro/settings-ui.php:343
 msgid "Enter your license key"
 msgstr "Adja meg a licenckulcsát"
 
-#: includes-pro/settings-ui.php:347
+#: includes-pro/settings-ui.php:346
 msgid "Activate"
 msgstr "Aktiválás"
 
-#: includes-pro/settings-ui.php:373
+#: includes-pro/settings-ui.php:372
 #, php-format
 msgid "view %s&nbsp;details"
 msgstr "nézet %s&nbsp; részletek"
 
-#: includes-pro/settings-ui.php:383
+#: includes-pro/settings-ui.php:382
 msgid "Update&nbsp;Available"
 msgstr "Frissítés&nbsp;elérhető"
 
-#: includes-pro/settings-ui.php:390
+#: includes-pro/settings-ui.php:389
 msgid "Update&nbsp;Check"
 msgstr "Frissítés&nbsp;ellenőrzés"
 
-#: includes-pro/settings-ui.php:396
+#: includes-pro/settings-ui.php:395
 msgid "Account"
 msgstr "Fiók"
 
-#: includes-pro/settings-ui.php:402
+#: includes-pro/settings-ui.php:401
 msgid "Pricing"
 msgstr "Árazás"
 
-#: includes-pro/settings-ui.php:420
+#: includes-pro/settings-ui.php:419
 msgid "Display PublishPress Branding"
 msgstr "PublishPress márkázás megjelenítése"
 
-#: includes-pro/settings-ui.php:422
+#: includes-pro/settings-ui.php:421
 msgid "Hide the PublishPress footer and other branding."
 msgstr "A PublishPress lábléc és más márkázás elrejtése."
-
-#: includes-pro/settings-ui.php:442
-msgid "Admin Menus: treatment of multiple roles"
-msgstr "Admin menük: több szerep kezelése"
-
-#: includes-pro/settings-ui.php:445
-msgid "Most permissive: Any non-restricted user role allows access"
-msgstr ""
-"A legnagyobb engedékenység: Bármely nem korlátozott felhasználói szerep "
-"hozzáférést engedélyez"
-
-#: includes-pro/settings-ui.php:448
-msgid "Most restrictive: Any restricted user role prevents access"
-msgstr ""
-"A legnagyobb korlátozás: Bármely korlátozott felhasználói szerep "
-"megakadályozza a hozzáférést"
-
-#: includes-pro/settings-ui.php:452
-msgid ""
-"This controls whether the most permissive or restrictive permissions are "
-"applied if a user has multiple roles."
-msgstr ""
-"Ez határozza meg, hogy a legnagyobb engedékeny vagy korlátozó jogosultságok "
-"alkalmazásra kerülnek-e, ha a felhasználónak több szerepe van."
 
 #: includes-pro/statuses-intro.php:126
 #, php-format
@@ -1284,28 +888,10 @@ msgstr ""
 
 #: includes-pro/common/js/admin.dev.js:477
 #: includes-pro/common/js/admin.js:1
-#: includes-pro/features/admin-menus/assets/js/admin-menus.js:919
 msgid "Changes saved!"
 msgstr "Változások mentve!"
 
 #: includes-pro/common/js/admin.dev.js:477
 #: includes-pro/common/js/admin.js:1
-#: includes-pro/features/admin-menus/assets/js/admin-menus.js:919
 msgid " Error: changes can't be saved."
 msgstr "Hiba: a változások nem menthetők el."
-
-#: includes-pro/features/admin-menus/assets/js/admin-menus.js:337
-msgid "Deleting menu..."
-msgstr "Menü törlése..."
-
-#: includes-pro/features/admin-menus/assets/js/admin-menus.js:380
-msgid "Updating Settings..."
-msgstr "Beállítások frissítése..."
-
-#: includes-pro/features/admin-menus/assets/js/admin-menus.js:404
-msgid "You must check at least one option to reset."
-msgstr "Legalább egy lehetőséget ellenőriznie kell a visszaállításhoz."
-
-#: includes-pro/features/admin-menus/assets/js/admin-menus.js:416
-msgid "Resetting option..."
-msgstr "Lehetőség visszaállítása..."

@@ -1,0 +1,1689 @@
+# Copyright (C) 2026 PublishPress
+# This file is distributed under the same license as the PublishPress Permissions Pro plugin.
+msgid ""
+msgstr ""
+"Project-Id-Version: PublishPress Permissions Pro 4.8.1\n"
+"Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/project\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: Croatian "
+"<https://weblate.publishpress.com/projects/publishpress-permissions-pro/"
+"presspermit-pro/hr/>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"POT-Creation-Date: 2026-04-02T18:54:49+00:00\n"
+"PO-Revision-Date: 2026-10-01 19:50+0000\n"
+"X-Generator: Weblate 2026.6.1\n"
+"X-Domain: presspermit-pro\n"
+"n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
+"Language: hr\n"
+">= 2 && n % 10 <= 4 && (n % 100 < 10 || n % 100 >= 20) ? 1: 2);\n"
+"Plural-Forms: nplurals=3; plural=(n % 10 == 1 && n % 100 != 11 ? 0 : n % 10 >= 2 && n % 10 <= 4 && (n % 100 < 10 || n % 100 >= 20) ? 1 : 2);\n"
+
+#: presspermit-pro.php:4, fuzzy
+#. Plugin Name of the plugin
+msgid "PublishPress Permissions Pro"
+msgstr "PublishPress Permissions Pro"
+
+#: presspermit-pro.php:5
+#. Plugin URI of the plugin
+msgid "https://publishpress.com/permissions"
+msgstr "https://publishpress.com/permissions"
+
+#: presspermit-pro.php:6
+#. Description of the plugin
+msgid ""
+"PublishPress Permissions allows you to enable or deny access to posts, "
+"pages, categories, tags and more."
+msgstr ""
+"PublishPress Permissions omogućuje vam da omogućite ili odbijete pristup "
+"objavama, stranicama, kategorijama, oznakama i još mnogo toga."
+
+#: presspermit-pro.php:8
+#. Author of the plugin
+msgid "PublishPress"
+msgstr "PublishPress"
+
+#: presspermit-pro.php:9
+#. Author URI of the plugin
+msgid "https://publishpress.com/"
+msgstr "https://publishpress.com/"
+
+#: includes-pro/admin-load.php:93
+#, php-format
+msgid ""
+"Should pages with privacy status \"premium\" require set_pages_premium and "
+"edit_premium_pages capabilities? If so, you can %1$sassign a "
+"status-specific Page Editor role%2$s or %3$sadd the capabilities directly "
+"to a role%4$s."
+msgstr ""
+"Trebaju li stranice s privatnim statusom \"premium\" zahtijevati "
+"set_pages_premium i edit_premium_pages mogućnosti? Ako da, možete "
+"%1$sdodijeliti ulogu urednika stranica specifičnu za status%2$s ili "
+"%3$sdodati mogućnosti izravno ulozi%4$s."
+
+#: includes-pro/admin-load.php:121
+#, php-format
+msgid ""
+"Note: Workflow sequence and branching for pre-publication is configured "
+"%son a separate screen%s"
+msgstr ""
+"Napomena: Sekvenca radnog toka i grananje za preobjavu je konfigurirano "
+"%son a separate screen%s"
+
+#: includes-pro/admin-load.php:136
+#, php-format
+msgid "Additional settings provided by the %s module."
+msgstr "Dodatne postavke pruža %s modul."
+
+#: includes-pro/admin-load.php:140
+msgid ""
+"Note: If you deactive, re-entry of the license key will be required for "
+"re-activation."
+msgstr ""
+"Napomena: Ako deaktivirate, ponovni unos ključa licence bit će potreban za "
+"ponovnu aktivaciju."
+
+#: includes-pro/admin-load.php:145
+msgid ""
+"If enabled, custom group membership is applied network-wide (though role "
+"assignments are still site-specific)."
+msgstr ""
+"Ako je omogućeno, prilagođeno članstvo u grupi primjenjuje se na razini "
+"mreže (iako su dodijeljene uloge još uvijek specifične za stranicu)."
+
+#: includes-pro/admin-load.php:148
+msgid "Can create network-wide permission groups"
+msgstr "Može kreirati grupe dozvola na razini mreže"
+
+#: includes-pro/admin-load.php:151
+msgid "If group editing is allowed, can also modify network group membership"
+msgstr ""
+"Ako je uređivanje grupa dopušteno, također može modificirati članstvo u "
+"mrežnim grupama"
+
+#: includes-pro/admin-load.php:156
+msgid ""
+"This feature will control direct URL access to files in /uploads/ folder. "
+"By default, files are blocked if they are attached to a post which the user "
+"can't view."
+msgstr ""
+"Ova značajka će kontrolirati izravni URL pristup datotekama u /uploads/ "
+"mapi. Prema zadanim postavkama, datoteke su blokirane ako su povezane s "
+"objavom koju korisnik ne može vidjeti."
+
+#: includes-pro/admin-load.php:159
+#, php-format
+msgid ""
+"File Access on multisite installations will require the following rules to "
+"be inserted above the stock ms-files.php rules in the %1$smain .htaccess "
+"file%2$s:"
+msgstr ""
+"Pristup datotekama na multisite instalacijama zahtijevat će da se sljedeća "
+"pravila umetnu iznad osnovnih ms-files.php pravila u %1$smain .htaccess "
+"datoteci%2$s:"
+
+#: includes-pro/admin-load.php:162
+msgid "But your .htaccess is missing or not writeable!"
+msgstr "No, vaša .htaccess datoteka nedostaje ili nije moguće pisati!"
+
+#: includes-pro/admin-load.php:165
+msgid ".htaccess needs to be updated to include these rules."
+msgstr ".htaccess treba ažurirati kako bi uključio ova pravila."
+
+#: includes-pro/admin-load.php:168
+msgid ".htaccess file has all required rules."
+msgstr ".htaccess datoteka ima sva potrebna pravila."
+
+#: includes-pro/admin-load.php:171
+msgid ""
+"These rules will not be inserted automatically.  You are responsible for "
+"editing .htaccess and later removing the rules if the functionality is no "
+"longer desired."
+msgstr ""
+"Ova pravila neće biti umetnuta automatski. Vi ste odgovorni za uređivanje "
+".htaccess i naknadno uklanjanje pravila ako funkcionalnost više nije "
+"željena."
+
+#: includes-pro/admin-load.php:174
+#, php-format
+msgid ""
+"Note that an additional rule will need to be added with each new site. "
+"%1$sTo eliminate this requirement, research \"WordPress remove "
+"ms-files\".%2$s"
+msgstr ""
+"Imajte na umu da će se dodatno pravilo morati dodati s svakom novom "
+"stranicom. %1$sKako biste uklonili ovaj zahtjev, istražite \"WordPress "
+"remove ms-files\".%2$s"
+
+#: includes-pro/admin-load.php:177
+msgid ""
+"You will need to manually restore the .htacces file to default contents if "
+"anything goes wrong. Proceed?"
+msgstr ""
+"Morat ćete ručno vratiti .htacces datoteku na zadani sadržaj ako nešto pođe "
+"po zlu. Nastaviti?"
+
+#: includes-pro/admin-load.php:180
+msgid "Update .htaccess now"
+msgstr "Ažurirajte .htaccess sada"
+
+#: includes-pro/admin-load.php:183
+msgid "only for sites with protected files"
+msgstr "samo za stranice s zaštićenim datotekama"
+
+#: includes-pro/admin-load.php:186
+msgid "for all sites"
+msgstr "za sve stranice"
+
+#: includes-pro/admin-load.php:189
+msgid "NONE: remove Permissions rules"
+msgstr "NIŠTA: uklonite pravila o dozvolama"
+
+#: includes-pro/admin-load.php:192
+msgid ""
+"Since the plugin is not network-activated, you will need to modify the "
+".htaccess file manually, inserting a RewriteRule as shown above for each "
+"site which needs file filtering."
+msgstr ""
+"Budući da dodatak nije aktiviran na mreži, morat ćete ručno izmijeniti "
+".htaccess datoteku, umetnuvši RewriteRule kao što je prikazano iznad za "
+"svaku stranicu koja treba filtriranje datoteka."
+
+#: includes-pro/admin-load.php:195
+msgid ""
+"This extends the File Access feature to files that are not attached to any "
+"post. This will not apply to user who have the edit_private_files or "
+"pp_list_all_files capability."
+msgstr ""
+"Ovo proširuje značajku pristupa datotekama na datoteke koje nisu povezane s "
+"nijednom objavom. Ovo se neće primijeniti na korisnike koji imaju mogućnost "
+"edit_private_files ili pp_list_all_files."
+
+#: includes-pro/admin-load.php:198
+msgid ""
+"Make attached files unreadable to users who do not have the "
+"edit_private_files or pp_list_all_files capability."
+msgstr ""
+"Učinite povezane datoteke nečitljivima za korisnike koji nemaju mogućnost "
+"edit_private_files ili pp_list_all_files."
+
+#: includes-pro/admin-load.php:201
+msgid ""
+"Improve Media Library performance by disabling file filtering for "
+"thumbnails (size specified in Settings > Media)."
+msgstr ""
+"Poboljšajte performanse Medijske biblioteke onemogućavanjem filtriranja "
+"datoteka za mini slike (veličina određena u Postavke > Mediji)."
+
+#: includes-pro/admin-load.php:204
+msgid ""
+"On some sites, an additional redirect is required to correctly deliver "
+"protected files. Leave this disabled for better performance if possible."
+msgstr ""
+"Na nekim stranicama potrebna je dodatna preusmjeravanje za ispravno "
+"isporučivanje zaštićenih datoteka. Ostavite ovo onemogućeno za bolju "
+"izvedbu ako je moguće."
+
+#: includes-pro/admin-load.php:207
+#, php-format
+msgid ""
+"The File Access feature uses an %1$s.htaccess%2$s file located at "
+"%3$suploads/.htaccess%4$s. Normally no action is needed, but clicking the "
+"button below will update the URL keys (at next site access) that protect "
+"the files."
+msgstr ""
+"Značajka pristupa datotekama koristi %1$s.htaccess%2$s datoteku smještenu u "
+"%3$suploads/.htaccess%4$s. Obično nije potrebna nikakva akcija, ali klikom "
+"na gumb ispod ažurirat će se URL ključevi (prilikom sljedećeg pristupa "
+"stranici) koji štite datoteke."
+
+#: includes-pro/admin-load.php:210
+#, php-format
+msgid ""
+"The File Access feature uses an %1$s.htaccess%2$s file located at "
+"%3$suploads/.htaccess%4$s. Normally no action is needed, but clicking the "
+"button below will update the URL keys that protect the files."
+msgstr ""
+"Značajka pristupa datotekama koristi %1$s.htaccess%2$s datoteku smještenu u "
+"%3$suploads/.htaccess%4$s. Obično nije potrebna nikakva akcija, ali klikom "
+"na gumb ispod ažurirat će se URL ključevi koji štite datoteke."
+
+#: includes-pro/admin-load.php:213
+msgid ""
+"Best practice is to access the above url periodically (using your own cron "
+"service) to prevent long-term bookmarking of protected files."
+msgstr ""
+"Najbolja praksa je povremeno pristupiti gornjem URL-u (koristeći vlastitu "
+"cron uslugu) kako bi se spriječilo dugotrajno označavanje zaštićenih "
+"datoteka."
+
+#: includes-pro/admin-load.php:216
+msgid ""
+"Supply a custom key which will enable a support url to regenerate file "
+"access keys.  Then execute the url regularly (using your own cron service) "
+"to prevent long-term bookmarking of protected files."
+msgstr ""
+"Pružite prilagođeni ključ koji će omogućiti podržanom URL-u da regenerira "
+"ključeve za pristup datotekama. Zatim redovito izvršavajte URL (koristeći "
+"vlastitu cron uslugu) kako biste spriječili dugotrajno označavanje "
+"zaštićenih datoteka."
+
+#: includes-pro/admin-load.php:219
+msgid ""
+"File Access can also protect files uploaded by FTP or other manual file "
+"copy, but does not detect them automatically. Click the button below to "
+"scan your uploads folder for files to protect."
+msgstr ""
+"Pristup datotekama također može zaštititi datoteke prenesene putem FTP-a "
+"ili druge ručne kopije datoteka, ali ih ne prepoznaje automatski. Kliknite "
+"gumb ispod za skeniranje vaše mape s prijenosima za datoteke koje treba "
+"zaštititi."
+
+#: includes-pro/admin-load.php:223
+msgid "Invalid file filtering key argument."
+msgstr "Nevažeći argument ključa za filtriranje datoteka."
+
+#: includes-pro/admin-load.php:226
+msgid "Please configure File Access options!"
+msgstr "Molimo konfigurirajte opcije pristupa datotekama!"
+
+#: includes-pro/admin-load.php:229
+msgid "The wp-content folder cannot be relocated outside the main WordPress folder."
+msgstr "Mapa wp-content ne može se premjestiti izvan glavne WordPress mape."
+
+#: includes-pro/admin-load.php:238
+#, php-format
+msgid ""
+"Files linked in post content must be in %1$s (or a subfolder of it). If you "
+"move files, consider using a %2$s search and replace plugin%3$s to update "
+"those URLs."
+msgstr ""
+"Datoteke povezane u sadržaju objave moraju biti u %1$s (ili podmapi). Ako "
+"premjestite datoteke, razmislite o korištenju %2$s dodatka za pretraživanje "
+"i zamjenu%3$s kako biste ažurirali te URL-ove."
+
+#: includes-pro/admin-load.php:241
+msgid ""
+"File Access can also protect files uploaded by FTP or other manual "
+"processes, but does not detect them automatically. This utility can find "
+"and protect any uploaded files."
+msgstr ""
+"Pristup datotekama također može zaštititi datoteke prenesene putem FTP-a "
+"ili drugih ručnih procesa, ali ih ne otkriva automatski. Ova alat može "
+"pronaći i zaštititi sve prenesene datoteke."
+
+#: includes-pro/admin-load.php:244
+msgid ""
+"To run this utility by cron task or other direct request, use the following "
+"URL:"
+msgstr ""
+"Za pokretanje ovog alata putem cron zadatka ili drugog izravnog zahtjeva, "
+"upotrijebite sljedeći URL:"
+
+#: includes-pro/admin-load.php:247
+msgid ""
+"To run this utility by direct URL, set a file filtering regen key on "
+"Permissions Settings"
+msgstr ""
+"Za pokretanje ovog alata putem izravnog URL-a, postavite ključ filtriranja "
+"datoteka u Postavkama dozvola"
+
+#: includes-pro/admin-load.php:250
+msgid ""
+"Note: Direct access to uploaded file attachments cannot be filtered because "
+"your WP_CONTENT_DIR is not in the WordPress branch."
+msgstr ""
+"Napomena: Izravan pristup učitanim privicima datoteka ne može se filtrirati "
+"jer vaš WP_CONTENT_DIR nije u WordPress grani."
+
+#: includes-pro/admin-load.php:253
+msgid "The operation was terminated due to an invalid configuration."
+msgstr "Operacija je prekinuta zbog nevažeće konfiguracije."
+
+#: includes-pro/admin-load.php:256
+#, php-format
+msgid "Checking %s posts / pages..."
+msgstr "Provjera %s objava / stranica..."
+
+#: includes-pro/admin-load.php:259
+#, php-format
+msgid "%1$s skipping unfilterable file in %2$s \"%3$s\":%4$s %5$s"
+msgstr "%1$s preskočena nefiltrabilna datoteka u %2$s \"%3$s\":%4$s %5$s"
+
+#: includes-pro/admin-load.php:262
+#, php-format
+msgid "%1$s skipping missing file in %2$s \"%3$s\":%4$s %5$s"
+msgstr "%1$s preskočena nedostajuća datoteka u %2$s \"%3$s\":%4$s %5$s"
+
+#: includes-pro/admin-load.php:265
+#: includes-pro/admin-load.php:268
+#, php-format
+msgid "%1$sNew attachment in %2$s \"%3$s\":%4$s %5$s"
+msgstr "%1$sNovi privitak u %2$s \"%3$s\":%4$s %5$s"
+
+#: includes-pro/admin-load.php:271
+#, php-format
+msgid "%s linked uploads were found in your post / page content."
+msgstr "%s povezani uploadi pronađeni su u sadržaju vaše objave / stranice."
+
+#: includes-pro/admin-load.php:274
+#, php-format
+msgid "%s attachment records were added to the database."
+msgstr "%s zapisa o privicima dodano je u bazu podataka."
+
+#: includes-pro/admin-load.php:277
+msgid "All linked uploads are already registered as attachments."
+msgstr "Svi povezani uploadi već su registrirani kao privici."
+
+#: includes-pro/admin-load.php:282
+msgid ""
+"Statuses enabled here are available as Visibility options for post "
+"publishing. Affected posts become inaccessable without a corresponding "
+"status-specific role assignment."
+msgstr ""
+"Statusi omogućeni ovdje dostupni su kao opcije vidljivosti za objavljivanje "
+"postova. Pogođeni postovi postaju nedostupni bez odgovarajuće dodjele uloge "
+"specifične za status."
+
+#: includes-pro/admin-load.php:285
+msgid ""
+"Statuses enabled here are available in the editor as additional steps "
+"between Draft and Published."
+msgstr ""
+"Statusi omogućeni ovdje dostupni su u uređivaču kao dodatni koraci između "
+"Nacrta i Objavljeno."
+
+#: includes-pro/admin-load.php:288
+msgid ""
+"Statuses alter your content's accessibility by imposing additional "
+"capability requirements."
+msgstr ""
+"Statusi mijenjaju dostupnost vašeg sadržaja nametajući dodatne zahtjeve za "
+"sposobnosti."
+
+#: includes-pro/admin-load.php:291
+#, php-format
+msgid ""
+"Enable Custom Capabilities by toggling the link below status name. If "
+"enabled, non-Editors will need a corresponding %ssupplemental role%s to "
+"edit posts of that status."
+msgstr ""
+"Omogućite prilagođene sposobnosti prebacivanjem veze ispod imena statusa. "
+"Ako je omogućeno, ne-urednici će trebati odgovarajuću %ssupplentalnu "
+"ulogu%s za uređivanje postova tog statusa."
+
+#: includes-pro/admin-load.php:294
+#, php-format
+msgid ""
+"For post edit by a user who cannot publish, %sworkflow is configured%s to "
+"make the Publish button increment the post to the next workflow status "
+"permitted."
+msgstr ""
+"Za uređivanje posta od strane korisnika koji ne može objaviti, %sworkflow "
+"je konfiguriran%s da gumb Objavi poveća post na sljedeći dopušteni status "
+"radnog tijeka."
+
+#: includes-pro/admin-load.php:297
+#, php-format
+msgid ""
+"For post edit by a user who cannot publish, %sworkflow is configured%s to "
+"make the Publish button escalate the post to the highest-ordered workflow "
+"status permitted."
+msgstr ""
+"Za uređivanje posta od strane korisnika koji ne može objaviti, %sworkflow "
+"je konfiguriran%s da gumb Objavi eskalira post na najviši dopušteni status "
+"radnog tijeka."
+
+#: includes-pro/admin-load.php:300
+msgid ""
+"For post edit by a user who cannot publish, the Publish button will "
+"escalate the post to the highest-order status permitted to the user."
+msgstr ""
+"Za uređivanje posta od strane korisnika koji ne može objaviti, gumb Objavi "
+"će eskalirati post na najviši status dopušten korisniku."
+
+#: includes-pro/admin-load.php:303
+#, php-format
+msgid "Please enable the PublishPress %sStatuses feature%s."
+msgstr "Molimo omogućite PublishPress %sStatusi značajku%s."
+
+#: includes-pro/admin-load.php:306
+#, php-format
+msgid ""
+"Note that the Post Type itself will also need to have %sPermissions%s "
+"enabled."
+msgstr ""
+"Napomena da će se i sam tip posta također morati imati %sDozvole%s "
+"omogućene."
+
+#: includes-pro/admin-load.php:314
+msgid ""
+"To disable custom visibility statuses, first re-assign posts to a different "
+"status."
+msgstr ""
+"Da biste onemogućili prilagođene vidljivosti statuse, prvo ponovno "
+"dodijelite postove drugom statusu."
+
+#: includes-pro/admin-load.php:317
+msgid ""
+"Note, this only applies if the role definition includes the pp_moderate_any "
+"capability"
+msgstr ""
+"Napomena, to se odnosi samo ako definicija uloge uključuje sposobnost "
+"pp_moderate_any"
+
+#: includes-pro/admin-load.php:320
+msgid "Create or edit custom Privacy or Workflow statuses."
+msgstr "Izradite ili uredite prilagođene statusa privatnosti ili tijeka rada."
+
+#: includes-pro/admin-load.php:323
+msgid "Create or edit custom Privacy statuses."
+msgstr "Izradite ili uredite prilagođene statusa privatnosti."
+
+#: includes-pro/admin-load.php:326
+msgid ""
+"Extra Roles created as a type-specific copy of this role will enable "
+"assignment of specified custom statuses."
+msgstr ""
+"Dodatne uloge stvorene kao specifična kopija ove uloge omogućit će dodjelu "
+"određenih prilagođenih statusa."
+
+#: includes-pro/admin-load.php:329
+msgid ""
+"Editors do not need status-specific editing capabilities for workflow posts "
+"(Assigned, In Progress, Approved)."
+msgstr ""
+"Urednici ne trebaju specifične sposobnosti uređivanja za postove radnog "
+"tijeka (Dodijeljeno, U tijeku, Odobreno)."
+
+#: includes-pro/admin-load.php:332
+msgid ""
+"If enabled, non-Editors will need to be granted editing access via the "
+"\"Permissions\" screen."
+msgstr ""
+"Ako je omogućeno, ne-urednici će morati dobiti pristup uređivanju putem "
+"ekrana \"Dozvole\"."
+
+#: includes-pro/admin-load.php:335
+msgid ""
+"If enabled, a Visibility Status dropdown will appear in Quick Edit for easy "
+"status assignment."
+msgstr ""
+"Ako je omogućeno, padajući izbornik Vidljivost Statusa pojavit će se u "
+"Brzom Uređivanju za jednostavno dodjeljivanje statusa."
+
+#: includes-pro/admin-load.php:338
+msgid ""
+"If enabled, this will add Visibility Statuses support to the PublishPress "
+"Status plugin."
+msgstr ""
+"Ako je omogućeno, ovo će dodati podršku za Vidljivost Statuse dodatku "
+"PublishPress Status."
+
+#: includes-pro/admin-load.php:343
+msgid "Post property or meta field to match with user field"
+msgstr "Postavljanje svojstva ili meta polja za usklađivanje s korisničkim poljem"
+
+#: includes-pro/admin-load.php:346
+msgid "User property or meta field to match with post field"
+msgstr "Korisničko svojstvo ili meta polje za usklađivanje s poljem objave"
+
+#: includes-pro/admin-load.php:349
+msgid "User meta field to match with post field"
+msgstr "Korisničko meta polje za usklađivanje s poljem objave"
+
+#: includes-pro/admin-load.php:352
+msgid "User role to include in synchronization"
+msgstr "Korisnička uloga koju uključiti u sinkronizaciju"
+
+#: includes-pro/admin-load.php:355
+msgid "Parent id for created posts"
+msgstr "ID roditelja za stvorene objave"
+
+#: includes-pro/admin-load.php:358
+msgid "Choose post field from suggested meta key names"
+msgstr "Odaberite polje objave iz predloženih naziva meta ključeva"
+
+#: includes-pro/admin-load.php:361
+msgid ""
+"When a new user of specified role is added, create or designate a post for "
+"them."
+msgstr ""
+"Kada se doda novi korisnik određene uloge, stvorite ili odredite objavu za "
+"njih."
+
+#: includes-pro/admin-load.php:364
+msgid "Create or designate a post for existing users."
+msgstr "Izradite ili odredite objavu za postojeće korisnike."
+
+#: includes-pro/admin-load.php:367
+msgid "This post type is not hierarchical"
+msgstr "Ova vrsta objave nije hijerarhijska"
+
+#: includes-pro/admin-load.php:370
+msgid "Automatically create a post for each user in selected roles."
+msgstr "Automatski stvorite objavu za svakog korisnika u odabranim ulogama."
+
+#: includes-pro/admin-load.php:373
+#, php-format
+msgid ""
+"Hint: If %s have custom fields (like email address), create one to assist "
+"field name discovery."
+msgstr ""
+"Savjet: Ako %s imaju prilagođena polja (kao što je adresa e-pošte), "
+"stvorite jedno kako biste olakšali otkrivanje naziva polja."
+
+#: includes-pro/admin-load.php:376
+msgid "Enable each user to edit their own User Posts."
+msgstr "Omogućite svakom korisniku da uređuje svoje vlastite korisničke objave."
+
+#: includes-pro/admin-load.php:380
+#, php-format
+msgid ""
+"Settings for replacing unreadable content with teaser text, provided by the "
+"%s module."
+msgstr ""
+"Postavke za zamjenu nečitljivog sadržaja s teaser tekstom, koje pruža %s "
+"modul."
+
+#: includes-pro/admin-load.php:383
+msgid ""
+"Settings on this tab do not apply because teaser filtering is disabled for "
+"all post types."
+msgstr ""
+"Postavke na ovoj kartici ne primjenjuju se jer je filtriranje teasera "
+"onemogućeno za sve vrste objava."
+
+#: includes-pro/admin-load.php:386
+msgid ""
+"Since some browsers will cache feeds without regard to user login, block "
+"RSS content even for qualified users."
+msgstr ""
+"Budući da neki preglednici keširaju feedove bez obzira na prijavu "
+"korisnika, blokirajte RSS sadržaj čak i za kvalificirane korisnike."
+
+#: includes-pro/admin-load.php:389
+msgid ""
+"This feature controls what users will see when trying to view content they "
+"are blocked from accessing."
+msgstr ""
+"Ova funkcija kontrolira što će korisnici vidjeti kada pokušaju pregledati "
+"sadržaj kojem nemaju pristup."
+
+#: includes-pro/admin-load.php:392
+msgid ""
+"These settings adjust which views, link types and visibility statuses the "
+"teaser is applied to."
+msgstr ""
+"Ove postavke prilagođavaju koje se prikaze, tipovi poveznica i statusi "
+"vidljivosti primjenjuju na teaser."
+
+#: includes-pro/admin-load.php:401
+msgid ""
+"You can override Teaser settings within the Nav Menu by hiding links to "
+"unreadable posts that are associated with the terms you select below."
+msgstr ""
+"Možete poništiti postavke teasera unutar izbornika navigacije skrivanjem "
+"poveznica na nečitljive objave koje su povezane s pojmovima koje odaberete "
+"u nastavku."
+
+#: includes-pro/admin-load.php:404
+msgid ""
+"Keep unreadable content hidden in the blogroll and link lists, but show the "
+"teaser on direct access attempts."
+msgstr ""
+"Skrivite nečitljiv sadržaj u blogrollu i popisima poveznica, ali prikažite "
+"teaser prilikom pokušaja izravnog pristupa."
+
+#: includes-pro/admin-load.php:407
+msgid ""
+"Hide unreadable private posts, but show a teaser for posts which are "
+"unreadable due to regular Privacy or Role Restrictions."
+msgstr ""
+"Skrivite nečitljive privatne objave, ali prikažite teaser za objave koje su "
+"nečitljive zbog redovitih ograničenja privatnosti ili uloge."
+
+#: includes-pro/admin-load.php:410
+msgid ""
+"If anyone tries to view a post they don't have access to, redirect to "
+"another post instead of displaying a teaser."
+msgstr ""
+"Ako netko pokuša pregledati objavu na koju nema pristup, preusmjerite ga na "
+"drugu objavu umjesto da prikažete teaser."
+
+#: includes-pro/admin-load.php:413
+msgid ""
+"Replace post content or excerpt with custom text, possibly including an "
+"inline login form. You can also add text before or after the post title and "
+"excerpt."
+msgstr ""
+"Zamijenite sadržaj objave ili izvadak s prilagođenim tekstom, moguće "
+"uključujući inline obrazac za prijavu. Također možete dodati tekst prije "
+"ili nakon naslova objave i izvatka."
+
+#: includes-pro/admin-load.php:416
+msgid ""
+"Unreadable items of these comma-separated types will have nav menu item "
+"hidden."
+msgstr ""
+"Nečitljivi elementi ovih tipova odvojenih zarezima imat će skriveni stavku "
+"izbornika navigacije."
+
+#: includes-pro/admin-load.php:420
+msgid "Visibility Circle membership does not limit viewing access."
+msgstr "Članstvo u Vidljivom Krugu ne ograničava pristup gledanju."
+
+#: includes-pro/admin-load.php:423
+msgid "Editorial Circle membership does not limit editing access."
+msgstr "Članstvo u Uredničkom Krugu ne ograničava pristup uređivanju."
+
+#: includes-pro/admin-load.php:435
+msgid ""
+"When searching for users via Permissions ajax, return return only users "
+"registered to current site"
+msgstr ""
+"Kada tražite korisnike putem Permissions ajax, vratite samo korisnike "
+"registrirane na trenutnoj stranici."
+
+#: includes-pro/admin-load.php:438
+msgid ""
+"If user is a super admin or has 'pp_manage_network_members' capability, "
+"user searches via Permissions ajax return users from all sites"
+msgstr ""
+"Ako je korisnik super admin ili ima 'pp_manage_network_members' sposobnost, "
+"pretraživanje korisnika putem Permissions ajax vraća korisnike sa svih "
+"stranica."
+
+#: includes-pro/admin-load.php:446
+msgid ""
+"Count users as a member of a BuddyPress Permissions Group only if they are "
+"a moderator of the BP group"
+msgstr ""
+"Brojite korisnike kao članove BuddyPress Permissions Grupe samo ako su "
+"moderatori BP grupe."
+
+#: includes-pro/admin-load.php:449
+msgid ""
+"Count users as a member of a BuddyPress Permissions Group only if they are "
+"an administrator of the BP group"
+msgstr ""
+"Brojite korisnike kao članove BuddyPress Permissions Grupe samo ako su "
+"administratori BP grupe."
+
+#: includes-pro/admin-load.php:457
+msgid ""
+"CMS Page Tree View plugin: hide 'add' links (for all hierarchical post "
+"types) based on user's association permissions"
+msgstr ""
+"CMS Page Tree View plugin: sakrijte 'dodaj' poveznice (za sve hijerarhijske "
+"vrste objava) na temelju dopuštenja korisnika."
+
+#: includes-pro/admin-load.php:460
+msgid ""
+"CMS Page Tree View plugin: hide 'add' links (for pages) based on user's "
+"page association permissions"
+msgstr ""
+"CMS Page Tree View plugin: sakrijte 'dodaj' poveznice (za stranice) na "
+"temelju dopuštenja korisnika za povezivanje sa stranicama."
+
+#: includes-pro/admin-load.php:463
+msgid ""
+"CMS Page Tree View plugin: hide 'add' links (for specified hierarchical "
+"post type) based on user's association permissions"
+msgstr ""
+"CMS Page Tree View plugin: sakrijte 'dodaj' poveznice (za određenu "
+"hijerarhijsku vrstu objave) na temelju dopuštenja korisnika."
+
+#: includes-pro/admin-load.php:470
+msgid "Prevent Permission from filtering the Nested Pages listing at all"
+msgstr "Spriječite da dozvole filtriraju popis Ugniježdenih stranica"
+
+#: includes-pro/admin-load.php:473
+msgid "Force Permissions to filter the Nested Pages listing"
+msgstr "Prisili dozvole da filtriraju popis Ugniježdenih stranica"
+
+#: includes-pro/admin-load.php:476
+msgid "Comma-separated list of roles that are allowed to Quick Edit nested pages"
+msgstr ""
+"Popis uloga odvojenih zarezima koje imaju pravo na Brzo uređivanje "
+"ugniježdenih stranica"
+
+#: includes-pro/admin-load.php:479
+msgid "Comma-separated list of roles that are allowed to use the Context Menu"
+msgstr ""
+"Popis uloga odvojenih zarezima koje imaju pravo na korištenje Kontekstnog "
+"izbornika"
+
+#: includes-pro/admin-load.php:482
+msgid ""
+"Never allow unfiltered users to use the Context Menu, even if they have "
+"pp_force_quick_edit capability"
+msgstr ""
+"Nikada ne dopuštajte nefiltriranim korisnicima korištenje kontekstnog "
+"izbornika, čak i ako imaju pp_force_quick_edit sposobnost"
+
+#: includes-pro/admin-load.php:485
+msgid ""
+"Disable Add Child link unless user is unfiltered (Administrator or has "
+"pp_nested_pages_unfiltered capability)"
+msgstr ""
+"Onemogućite poveznicu Dodaj dijete osim ako korisnik nije nefiltriran "
+"(Administrator ili ima pp_nested_pages_unfiltered sposobnost)"
+
+#: includes-pro/admin-load.php:488
+msgid "Disable Add Child Page link unless user is unfiltered"
+msgstr "Onemogući vezu Dodaj stranicu dijete osim ako korisnik nije filtriran"
+
+#: includes-pro/admin-load.php:491
+msgid "Disable Insert Page Before link unless user is unfiltered"
+msgstr "Onemogući vezu Umetni stranicu prije osim ako korisnik nije filtriran"
+
+#: includes-pro/admin-load.php:494
+msgid "Disable Insert Page After link unless user is unfiltered"
+msgstr "Onemogući vezu Umetni stranicu nakon osim ako korisnik nije filtriran"
+
+#: includes-pro/admin-load.php:497
+msgid "Disable Push to Top link unless user is unfiltered"
+msgstr "Onemogući vezu Pomiči na vrh osim ako korisnik nije filtriran"
+
+#: includes-pro/admin-load.php:500
+msgid "Disable Push to Bottom link unless user is unfiltered"
+msgstr "Onemogući vezu Pomiči na dno osim ako korisnik nije filtriran"
+
+#: includes-pro/admin-load.php:503
+msgid "Disable Clone link unless user is unfiltered"
+msgstr "Onemogući vezu Kloniraj osim ako korisnik nije filtriran"
+
+#: includes-pro/SettingsTabInstall.php:21
+msgid "License"
+msgstr "Licenca"
+
+#: includes-pro/SettingsTabInstall.php:28
+#: includes-pro/SettingsTabInstall.php:128
+msgid "License Key"
+msgstr "Ključ licence"
+
+#: includes-pro/SettingsTabInstall.php:29
+msgid "Version"
+msgstr "Verzija"
+
+#: includes-pro/SettingsTabInstall.php:41
+#: includes-pro/SettingsTabInstall.php:42
+msgid "settings"
+msgstr "postavke"
+
+#: includes-pro/SettingsTabInstall.php:121
+msgid "Key Expired"
+msgstr "Ključ istekao"
+
+#: includes-pro/SettingsTabInstall.php:124
+#: includes-pro/SettingsTabInstall.php:136
+#: includes-pro/SettingsTabInstall.php:348
+msgid "Deactivate Key"
+msgstr "Deaktiviraj ključ"
+
+#: includes-pro/SettingsTabInstall.php:127
+msgid "Key Activated"
+msgstr "Ključ aktiviran"
+
+#: includes-pro/SettingsTabInstall.php:131
+msgid "(please enter publishpress.com key)"
+msgstr "(molimo unesite publishpress.com ključ)"
+
+#: includes-pro/SettingsTabInstall.php:135
+#: includes-pro/SettingsTabInstall.php:347
+msgid "Activate Key"
+msgstr "Aktiviraj ključ"
+
+#: includes-pro/SettingsTabInstall.php:146
+msgid ""
+"Note: Renewal does not require deactivation. If you do deactivate, re-entry "
+"of the license key will be required."
+msgstr ""
+"Napomena: Obnova ne zahtijeva deaktivaciju. Ako deaktivirate, bit će "
+"potrebno ponovno unijeti ključ licence."
+
+#: includes-pro/SettingsTabInstall.php:178
+#: includes-pro/SettingsTabInstall.php:214
+#, php-format
+msgid ""
+"Your license key has expired. For continued priority support, %1$splease "
+"renew%2$s."
+msgstr ""
+"Vaš licencni ključ je istekao. Za nastavak prioritetne podrške, %1$smolimo "
+"obnovite%2$s."
+
+#: includes-pro/SettingsTabInstall.php:185
+#, php-format
+msgid ""
+"Your license key will expire today. For updates and priority support, "
+"%1$splease renew%2$s."
+msgstr ""
+"Vaš licencni ključ će isteći danas. Za ažuriranja i prioritetnu podršku, "
+"%1$smolimo obnovite%2$s."
+
+#: includes-pro/SettingsTabInstall.php:191
+#, php-format
+msgid ""
+"Your license key (for plugin updates) will expire in %1$d day(s). For "
+"updates and priority support, %2$splease renew%3$s."
+msgstr ""
+"Vaš licencni ključ (za ažuriranja dodataka) će isteći za %1$d dan(a). Za "
+"ažuriranja i prioritetnu podršku, %2$smolimo obnovite%3$s."
+
+#: includes-pro/SettingsTabInstall.php:199
+#, php-format
+msgid ""
+"For updates to Permissions Pro, activate your %1$sPublishPress license "
+"key%2$s."
+msgstr ""
+"Za ažuriranja Permissions Pro, aktivirajte svoj %1$sPublishPress licencni "
+"ključ%2$s."
+
+#: includes-pro/SettingsTabInstall.php:208
+msgid "reload module info"
+msgstr "ponovno učitaj informacije o modulu"
+
+#: includes-pro/SettingsTabInstall.php:258
+#: includes-pro/SettingsTabInstall.php:266
+#, php-format
+msgid "Permissions Pro Version: %1$s %2$s"
+msgstr "Pro verzija dozvola: %1$s %2$s"
+
+#: includes-pro/SettingsTabInstall.php:262
+#, php-format
+msgid "view %s&nbsp;details"
+msgstr "prikaži %s&nbsp;detalje"
+
+#: includes-pro/SettingsTabInstall.php:276
+msgid "update check / install"
+msgstr "provjera ažuriranja / instalacija"
+
+#: includes-pro/SettingsTabInstall.php:280
+#, php-format
+msgid "Database Schema Version: %s"
+msgstr "Verzija sheme baze podataka: %s"
+
+#: includes-pro/SettingsTabInstall.php:291
+msgid "Installation History"
+msgstr "Povijest instalacija"
+
+#: includes-pro/SettingsTabInstall.php:313
+#, php-format
+msgid "%s (previous install)"
+msgstr "%s (prethodna instalacija)"
+
+#: includes-pro/SettingsTabInstall.php:330
+#, php-format
+msgid "WordPress Version: %s"
+msgstr "Verzija WordPressa: %s"
+
+#: includes-pro/SettingsTabInstall.php:334
+#, php-format
+msgid "PHP Version: %s"
+msgstr "Verzija PHP-a: %s"
+
+#: includes-pro/SettingsTabInstall.php:349
+msgid "The request could not be processed due to a connection failure."
+msgstr "Zahtjev nije mogao biti obrađen zbog greške u vezi."
+
+#: includes-pro/SettingsTabInstall.php:350
+msgid "Please enter the license key shown on your order receipt."
+msgstr "Molimo unesite licencni ključ prikazan na vašem računu narudžbe."
+
+#: includes-pro/SettingsTabInstall.php:351
+msgid "An unidentified error occurred."
+msgstr "Dogodila se neidentificirana greška."
+
+#: includes-pro/SettingsTabInstall.php:353
+msgid "The key has been deactivated."
+msgstr "Ključ je deaktiviran."
+
+#: includes-pro/SettingsTabInstall.php:354
+msgid "The key has been activated."
+msgstr "Ključ je aktiviran."
+
+#: includes-pro/SettingsTabInstall.php:355
+msgid "The key has expired."
+msgstr "Ključ je istekao."
+
+#: includes-pro/SettingsTabInstall.php:356
+msgid "The key is invalid."
+msgstr "Ključ je nevažeći."
+
+#: includes-pro/SettingsTabInstall.php:357
+msgid "The key could not be activated. Please retry."
+msgstr "Ključ nije mogao biti aktiviran. Molimo pokušajte ponovo."
+
+#: modules/presspermit-circles/classes/Permissions/Circles/UI/Dashboard/Profile.php:19
+msgid "Circle Membership"
+msgstr "Članstvo u krugu"
+
+#: modules/presspermit-circles/classes/Permissions/Circles/UI/Dashboard/Profile.php:21
+msgid "Viewing"
+msgstr "Pregledavanje"
+
+#: modules/presspermit-circles/classes/Permissions/Circles/UI/Dashboard/Profile.php:21
+msgid "Editing"
+msgstr "Uređivanje"
+
+#: modules/presspermit-circles/classes/Permissions/Circles/UI/Dashboard/Profile.php:27
+#, php-format
+msgid "%s is limited to circle authors only, for these post types:"
+msgstr "%s je ograničeno samo na autore kruga, za ove tipove postova:"
+
+#: modules/presspermit-circles/classes/Permissions/Circles/UI/GroupEdit.php:47
+msgid "Circle Activation"
+msgstr "Aktivacija kruga"
+
+#: modules/presspermit-circles/classes/Permissions/Circles/UI/GroupEdit.php:57
+msgid "Visibility Circle"
+msgstr "Vidljivost kruga"
+
+#: modules/presspermit-circles/classes/Permissions/Circles/UI/GroupEdit.php:57
+msgid "Editorial Circle"
+msgstr "Urednički krug"
+
+#: modules/presspermit-circles/classes/Permissions/Circles/UI/GroupEdit.php:75
+msgid ""
+"Users in this group will only be able to view posts that were authored by "
+"other users in this group."
+msgstr ""
+"Korisnici u ovoj grupi moći će pregledavati samo objave koje su napisali "
+"drugi korisnici u ovoj grupi."
+
+#: modules/presspermit-circles/classes/Permissions/Circles/UI/GroupEdit.php:76
+msgid ""
+"Users in this group will only be able to edit posts that were authored by "
+"other users in this group."
+msgstr ""
+"Korisnici u ovoj grupi moći će uređivati samo objave koje su napisali drugi "
+"korisnici u ovoj grupi."
+
+#: modules/presspermit-circles/classes/Permissions/Circles/UI/GroupEdit.php:78
+msgid "Normal capability requirements will also be enforced."
+msgstr "Normalni zahtjevi za sposobnost također će se provoditi."
+
+#: modules/presspermit-circles/classes/Permissions/Circles/UI/GroupEdit.php:82
+#, php-format
+msgid "This group is a %s"
+msgstr "Ova grupa je %s"
+
+#: modules/presspermit-circles/classes/Permissions/Circles/UI/GroupEdit.php:95
+#, php-format
+msgid "Circles cannot be enforced on roles with %s capabilities."
+msgstr "Krugovi se ne mogu primijeniti na uloge s %s sposobnostima."
+
+#: modules/presspermit-circles/classes/Permissions/Circles/UI/GroupEdit.php:104
+#, php-format
+msgid "%s%s restrictions%s do not apply to this role. %s"
+msgstr "%s%s ograničenja%s ne primjenjuju se na ovu ulogu. %s"
+
+#: modules/presspermit-circles/classes/Permissions/Circles/UI/GroupEdit.php:135
+msgid "Apply limitation for post types:"
+msgstr "Primijeni ograničenje za vrste objava:"
+
+#: modules/presspermit-circles/classes/Permissions/Circles/UI/GroupEdit.php:213
+#, php-format
+msgid ""
+"Users may be excused from Circle restrictions by adding the %1$s or %2$s "
+"capability to their role."
+msgstr ""
+"Korisnici mogu biti isključeni iz ograničenja Kruga dodavanjem %1$s ili "
+"%2$s sposobnosti svojoj ulozi."
+
+#: modules/presspermit-circles/classes/Permissions/Circles/UI/GroupsListing.php:14
+msgid "Circle Type"
+msgstr "Vrsta Kruga"
+
+#: modules/presspermit-circles/classes/Permissions/Circles/UI/GroupsListing.php:47
+msgid "Visibility"
+msgstr "Vidljivost"
+
+#: modules/presspermit-circles/classes/Permissions/Circles/UI/GroupsListing.php:55
+msgid "Editorial"
+msgstr "Urednički"
+
+#: modules/presspermit-circles/classes/Permissions/CirclesHooksAdmin.php:54
+msgid "Access Circle restrictions apply to revisions"
+msgstr "Ograničenja pristupa Kruga primjenjuju se na revizije"
+
+#: modules/presspermit-compatibility/classes/Permissions/Compat/BBPress/HooksAdmin.php:39
+msgid "Create Topics in"
+msgstr "Kreiraj teme u"
+
+#: modules/presspermit-compatibility/classes/Permissions/Compat/BBPress/HooksAdmin.php:40
+msgid "Topic Creation"
+msgstr "Kreiranje teme"
+
+#: modules/presspermit-compatibility/classes/Permissions/Compat/BBPress/HooksAdmin.php:41
+msgid "Create Topic"
+msgstr "Kreiraj temu"
+
+#: modules/presspermit-compatibility/classes/Permissions/Compat/BBPress/HooksAdmin.php:46
+msgid "Submit Replies in"
+msgstr "Podnesi odgovore u"
+
+#: modules/presspermit-compatibility/classes/Permissions/Compat/BBPress/HooksAdmin.php:47
+msgid "Reply Submission"
+msgstr "Podnošenje odgovora"
+
+#: modules/presspermit-compatibility/classes/Permissions/Compat/BBPress/HooksAdmin.php:48
+msgid "Submit Reply"
+msgstr "Podnesi odgovor"
+
+#: modules/presspermit-compatibility/classes/Permissions/Compat/BuddyPress/PermissionGroups/GroupsListTable.php:298
+msgid "Show more details"
+msgstr "Prikaži više detalja"
+
+#: modules/presspermit-compatibility/classes/Permissions/Compat/BuddyPress/PermissionGroups/Hooks.php:37
+msgid "BuddyPress Group"
+msgstr "BuddyPress Grupa"
+
+#: modules/presspermit-compatibility/classes/Permissions/Compat/BuddyPress/PermissionGroups/HooksAdmin.php:160
+msgid "BP Permission Group"
+msgstr "BP Grupa dopuštenja"
+
+#: modules/presspermit-compatibility/classes/Permissions/Compat/BuddyPress/PermissionGroups/HooksAdmin.php:161
+msgid "BP Permission Groups"
+msgstr "BP Grupe dopuštenja"
+
+#: modules/presspermit-compatibility/classes/Permissions/Compat/BuddyPress/PermissionGroups/HooksAdmin.php:174
+msgid "Manage"
+msgstr "Upravljaj"
+
+#: modules/presspermit-compatibility/classes/Permissions/Compat/BuddyPress/PermissionGroups/HooksAdmin.php:185
+msgid "BuddyPress Groups"
+msgstr "BuddyPress Grupe"
+
+#: modules/presspermit-compatibility/classes/Permissions/Compat/CMSTreeView.php:112
+msgid ""
+"Page creation was blocked because you are not allowed to select that parent "
+"page."
+msgstr "Nemate dopuštenje za odabir te roditeljske stranice."
+
+#: modules/presspermit-compatibility/classes/Permissions/Compat/CMSTreeView.php:113
+msgid "Back to Dashboard"
+msgstr "Povratak na Nadzornu ploču"
+
+#: modules/presspermit-compatibility/classes/Permissions/Compat/CMSTreeView.php:115
+msgid "Permission Denied"
+msgstr "Dopuštenje Odbijeno"
+
+#: modules/presspermit-compatibility/classes/Permissions/Compat/CMSTreeView.php:117
+msgid "You are not allowed to select that parent page."
+msgstr "Nemate dopuštenje za odabir te roditeljske stranice."
+
+#: modules/presspermit-compatibility/classes/Permissions/Compat/NetwideGroups.php:19
+msgid "Network Groups"
+msgstr "Mrežne Grupe"
+
+#: modules/presspermit-compatibility/classes/Permissions/Compat/NetwideGroups.php:19
+msgid "Network Group"
+msgstr "Mrežna Grupa"
+
+#: modules/presspermit-compatibility/classes/Permissions/Compat/UI/Settings.php:46
+msgid "Teaser text"
+msgstr "Tekst uvoda"
+
+#: modules/presspermit-compatibility/classes/Permissions/Compat/UI/Settings.php:54
+msgid "Network"
+msgstr "Mreža"
+
+#: modules/presspermit-compatibility/classes/Permissions/Compat/UI/Settings.php:64
+msgid "Groups"
+msgstr "Grupe"
+
+#: modules/presspermit-compatibility/classes/Permissions/Compat/UI/Settings.php:73
+msgid "Forum Teaser"
+msgstr "Forum Uvod"
+
+#: modules/presspermit-compatibility/classes/Permissions/Compat/UI/Settings.php:88
+msgid "Network-wide groups"
+msgstr "Grupe širom mreže"
+
+#: modules/presspermit-compatibility/classes/Permissions/Compat/UI/Settings.php:92
+msgid "Teaser Topics"
+msgstr "Teaser Tema"
+
+#: modules/presspermit-compatibility/classes/Permissions/Compat/UI/Settings.php:93
+msgid "Hide Topic / Reply Author Link"
+msgstr "Sakrij poveznicu autora teme / odgovora"
+
+#: modules/presspermit-compatibility/classes/Permissions/Compat/UI/Settings.php:126
+msgid "Compatibility Pack"
+msgstr "Kompatibilnost Paket"
+
+#: modules/presspermit-compatibility/classes/Permissions/Compat/UI/Settings.php:184
+#, php-format
+msgid "Topic Teaser Text (%s):"
+msgstr "Tekst uvoda teme (%s):"
+
+#: modules/presspermit-compatibility/classes/Permissions/Compat/UI/Settings.php:185
+#, php-format
+msgid "Reply Teaser Text (%s):"
+msgstr "Tekst uvoda odgovora (%s):"
+
+#: modules/presspermit-compatibility/classes/Permissions/Compat/UI/Settings.php:189
+msgid "First Reply"
+msgstr "Prvi Odgovor"
+
+#: modules/presspermit-compatibility/classes/Permissions/Compat/UI/Settings.php:190
+msgid "Other Replies"
+msgstr "Ostali Odgovori"
+
+#: modules/presspermit-compatibility/classes/Permissions/Compat/UI/Settings.php:207
+msgid "Not Logged In"
+msgstr "Niste prijavljeni"
+
+#: modules/presspermit-compatibility/classes/Permissions/Compat/UI/Settings.php:207
+msgid "Logged In Users"
+msgstr "Prijavljeni korisnici"
+
+#: modules/presspermit-compatibility/classes/Permissions/Compat/UI/Settings.php:240
+#, php-format
+msgid "Insert a login form by using %s[login_form]%s shortcode."
+msgstr "Umetnite obrazac za prijavu koristeći %s[login_form]%s shortcode."
+
+#: modules/presspermit-compatibility/classes/Permissions/Compat/UI/Settings.php:284
+msgid "Hide Topics and Replies"
+msgstr "Sakrij teme i odgovore"
+
+#: modules/presspermit-compatibility/classes/Permissions/Compat/UI/Settings.php:285
+msgid "Tease Topics and Replies"
+msgstr "Zavodite teme i odgovore"
+
+#: modules/presspermit-compatibility/classes/Permissions/Compat/UI/Settings.php:286
+msgid "Show Topics, Tease Replies"
+msgstr "Prikaži teme, zavodite odgovore"
+
+#: modules/presspermit-compatibility/classes/Permissions/Compat/UI/Settings.php:320
+msgid ""
+"The single forum teaser may be customized by "
+"STYLESHEETPATH/press-permit/teaser-content-forum.php"
+msgstr ""
+"Jedan forum teaser može se prilagoditi putem "
+"STYLESHEETPATH/press-permit/teaser-content-forum.php"
+
+#: modules/presspermit-compatibility/classes/Permissions/CompatHooks.php:237
+#: modules/presspermit-compatibility/classes/Permissions/CompatHooks.php:241
+msgid "[This topic requires additional permissions or membership.]"
+msgstr "[Ova tema zahtijeva dodatne dozvole ili članstvo.]"
+
+#: modules/presspermit-compatibility/classes/Permissions/CompatHooks.php:238
+#: modules/presspermit-compatibility/classes/Permissions/CompatHooks.php:242, fuzzy
+msgid "[...]"
+msgstr "[...]"
+
+#: modules/presspermit-compatibility/classes/Permissions/CompatHooks.php:239
+msgid "[This topic requires site login.]"
+msgstr "[Ova tema zahtijeva prijavu na stranicu.]"
+
+#: modules/presspermit-compatibility/classes/Permissions/CompatHooks.php:240
+#: modules/presspermit-compatibility/classes/Permissions/CompatHooks.php:244
+msgid "[login required]"
+msgstr "[prijava potrebna]"
+
+#: modules/presspermit-compatibility/classes/Permissions/CompatHooks.php:243
+msgid "[This reply requires site login.]"
+msgstr "[Ovaj odgovor zahtijeva prijavu na stranicu.]"
+
+#: modules/presspermit-file-access/classes/Permissions/FileAccess/UI/SettingsTabFileAccess.php:31
+#: modules/presspermit-file-access/classes/Permissions/FileAccess/UI/SettingsTabFileAccess.php:38
+msgid "File Access"
+msgstr "Pristup datotekama"
+
+#: modules/presspermit-file-access/classes/Permissions/FileAccess/UI/SettingsTabFileAccess.php:50
+#: modules/presspermit-file-access/classes/Permissions/FileAccess/UI/SettingsTabFileAccess.php:286
+msgid "File Access Reset Key:"
+msgstr "Ključa za resetiranje pristupa datotekama:"
+
+#: modules/presspermit-file-access/classes/Permissions/FileAccess/UI/SettingsTabFileAccess.php:51
+msgid "Small Thumbnails Unfiltered"
+msgstr "Mali sličice bez filtra"
+
+#: modules/presspermit-file-access/classes/Permissions/FileAccess/UI/SettingsTabFileAccess.php:52
+msgid "Make Unattached Files Private"
+msgstr "Učinite privremene datoteke privatnima"
+
+#: modules/presspermit-file-access/classes/Permissions/FileAccess/UI/SettingsTabFileAccess.php:53
+msgid "Make Attached Files Private"
+msgstr "Učinite priložene datoteke privatnima"
+
+#: modules/presspermit-file-access/classes/Permissions/FileAccess/UI/SettingsTabFileAccess.php:86
+#, php-format
+msgid ""
+"%1$sNote%2$s: Direct access to uploaded file attachments cannot be filtered "
+"because mod_rewrite is not enabled on your server."
+msgstr ""
+"%1$sNapomena%2$s: Izravan pristup učitanim privicima ne može se filtrirati "
+"jer mod_rewrite nije omogućen na vašem poslužitelju."
+
+#: modules/presspermit-file-access/classes/Permissions/FileAccess/UI/SettingsTabFileAccess.php:92
+#, php-format
+msgid ""
+"%1$sNote%2$s: Direct access to uploaded file attachments will not be "
+"filtered due to your nonstandard UPLOADS path."
+msgstr ""
+"%1$sNapomena%2$s: Izravan pristup učitanim privicima neće se filtrirati "
+"zbog vašeg nestandardnog UPLOADS puta."
+
+#: modules/presspermit-file-access/classes/Permissions/FileAccess/UI/SettingsTabFileAccess.php:100
+#, php-format
+msgid ""
+"%1$sNote%2$s: Direct access to uploaded file attachments cannot be filtered "
+"because WordPress permalinks are set to default."
+msgstr ""
+"%1$sNapomena%2$s: Izravan pristup učitanim privicima ne može se filtrirati "
+"jer su WordPress permalinks postavljeni na zadano."
+
+#: modules/presspermit-file-access/classes/Permissions/FileAccess/UI/SettingsTabFileAccess.php:160
+msgid "show required rules"
+msgstr "prikaži potrebna pravila"
+
+#: modules/presspermit-file-access/classes/Permissions/FileAccess/UI/SettingsTabFileAccess.php:292
+msgid "Copy"
+msgstr "Kopiraj"
+
+#: modules/presspermit-file-access/classes/Permissions/FileAccess/UI/SettingsTabFileAccess.php:303
+msgid "Copied!"
+msgstr "Kopirano!"
+
+#: modules/presspermit-file-access/classes/Permissions/FileAccess/UI/SettingsTabFileAccess.php:353
+msgid "Regenerate Access File"
+msgstr "Regeneriraj datoteku s pristupom"
+
+#: modules/presspermit-file-access/classes/Permissions/FileAccess/UI/SettingsTabFileAccess.php:365
+#: modules/presspermit-file-access/classes/Permissions/FileAccess/UI/SettingsUtility.php:80
+msgid "Attachments Utility"
+msgstr "Alat za privitke"
+
+#: modules/presspermit-file-access/classes/Permissions/FileAccess/UI/SettingsTabFileAccess.php:375
+#, php-format
+msgid "For Nginx integration, see %spublishpress.com documentation%s."
+msgstr "Za Nginx integraciju, pogledajte %spublishpress.com dokumentaciju%s."
+
+#: modules/presspermit-file-access/classes/Permissions/FileAccess/UI/SettingsUtility.php:83
+msgid "Back to Permissions Settings"
+msgstr "Povratak na postavke dozvola"
+
+#: modules/presspermit-file-access/classes/Permissions/FileAccess/UI/SettingsUtility.php:88
+msgid "File Access for Files Uploaded via FTP"
+msgstr "Pristup datotekama za datoteke učitane putem FTP-a"
+
+#: modules/presspermit-file-access/classes/Permissions/FileAccess/UI/SettingsUtility.php:95
+msgid "Find Files Uploaded via FTP"
+msgstr "Pronađi datoteke učitane putem FTP-a"
+
+#: modules/presspermit-file-access/classes/Permissions/FileAccess/UI/SettingsUtility.php:104
+msgid ""
+"The network attachment scan has been queued and will continue in the "
+"background via WP-Cron."
+msgstr ""
+"Skener za mrežne privitke je stavljen u red i nastavit će se u pozadini "
+"putem WP-Cron-a."
+
+#: modules/presspermit-file-access/classes/Permissions/FileAccess/UI/SettingsUtility.php:106
+msgid "A network attachment scan is already in progress or could not be scheduled."
+msgstr "Skener za mrežne privitke već je u tijeku ili se nije mogao zakazati."
+
+#: modules/presspermit-file-access/classes/Permissions/FileAccess/UI/SettingsUtility.php:116
+msgid "Site Configuration Requirements"
+msgstr "Zahtjevi za konfiguraciju stranice"
+
+#: modules/presspermit-file-access/classes/Permissions/FileAccess/UI/SettingsUtility.php:118
+msgid ""
+"For proper access control of direct file URLs, your site must meet these "
+"requirements:"
+msgstr ""
+"Za pravilnu kontrolu pristupa izravnim URL-ovima datoteka, vaša stranica "
+"mora ispunjavati ove zahtjeve:"
+
+#: modules/presspermit-file-access/classes/Permissions/FileAccess/UI/SettingsUtility.php:150
+msgid "Automated Processing"
+msgstr "Automatizirana obrada"
+
+#: modules/presspermit-file-access/classes/Permissions/FileAccess/UI/SettingsUtility.php:166
+msgid "Utility Endpoint URL:"
+msgstr "URL krajnje točke alata:"
+
+#: modules/presspermit-file-access/classes/Permissions/FileAccess/UI/SettingsUtility.php:168
+msgid "Copy URL"
+msgstr "Kopiraj URL"
+
+#: modules/presspermit-file-access/classes/Permissions/FileAccess/UI/SettingsUtility.php:173
+msgid "Go to Settings"
+msgstr "Idi na postavke"
+
+#: modules/presspermit-file-access/classes/Permissions/FileAccess/UI/SettingsUtility.php:270
+msgid "RUNNING"
+msgstr "U TIJEKU"
+
+#: modules/presspermit-file-access/classes/Permissions/FileAccess/UI/SettingsUtility.php:445
+msgid "Operation complete"
+msgstr "Operacija završena"
+
+#: modules/presspermit-file-access/classes/Permissions/FileAccess/UI/SettingsUtility.php:471
+msgid "Scan Again"
+msgstr "Skeniraj ponovo"
+
+#: modules/presspermit-membership/classes/Permissions/Membership/UI/GroupEdit.php:178
+#: modules/presspermit-membership/classes/Permissions/Membership/UI/GroupEdit.php:184
+#, fuzzy, php-format
+msgid "%1$s (%2$s - %3$s)"
+msgstr "%1$s (%2$s - %3$s)"
+
+#: modules/presspermit-sync/classes/Permissions/SyncHooksAdmin.php:169
+#, php-format
+msgid "Role selection is required for %s. Please select at least one role."
+msgstr "Odabir uloge je obavezan za %s. Molimo odaberite najmanje jednu ulogu."
+
+#: modules/presspermit-sync/classes/Permissions/SyncPosts/UI/Helper.php:61
+#, php-format
+msgid ""
+"You seem to be using a Team / Staff plugin. To synchronize posts to users "
+"and give them editing permission, go to %1$sPermissions > Settings > Sync "
+"Posts%2$s"
+msgstr ""
+"Čini se da koristite Team / Staff dodatak. Da biste sinkronizirali objave s "
+"korisnicima i dali im dozvolu za uređivanje, idite na %1$sDozvole > "
+"Postavke > Sinkroniziraj objave%2$s"
+
+#: modules/presspermit-sync/classes/Permissions/SyncPosts/UI/SettingsTabSyncPosts.php:33
+msgid "User Posts"
+msgstr "Korisnički postovi"
+
+#: modules/presspermit-sync/classes/Permissions/SyncPosts/UI/SettingsTabSyncPosts.php:41
+msgid "Synchronize Posts"
+msgstr "Sinkroniziraj postove"
+
+#: modules/presspermit-sync/classes/Permissions/SyncPosts/UI/SettingsTabSyncPosts.php:54
+#: modules/presspermit-sync/classes/Permissions/SyncPosts/UI/SettingsTabSyncPosts.php:112
+msgid "Create Posts for Users"
+msgstr "Kreiraj postove za korisnike"
+
+#: modules/presspermit-sync/classes/Permissions/SyncPosts/UI/SettingsTabSyncPosts.php:55
+#: modules/presspermit-sync/classes/Permissions/SyncPosts/UI/SettingsTabSyncPosts.php:130
+msgid "Grant Author Permissions"
+msgstr "Dodijeli dozvole autoru"
+
+#: modules/presspermit-sync/classes/Permissions/SyncPosts/UI/SettingsTabSyncPosts.php:56
+msgid "Post Types"
+msgstr "Tipovi postova"
+
+#: modules/presspermit-sync/classes/Permissions/SyncPosts/UI/SettingsTabSyncPosts.php:57
+msgid "Match Post Field"
+msgstr "Uskladi polje posta"
+
+#: modules/presspermit-sync/classes/Permissions/SyncPosts/UI/SettingsTabSyncPosts.php:58
+msgid "Match User Field"
+msgstr "Uskladi polje korisnika"
+
+#: modules/presspermit-sync/classes/Permissions/SyncPosts/UI/SettingsTabSyncPosts.php:59
+msgid "User Role"
+msgstr "Uloga korisnika"
+
+#: modules/presspermit-sync/classes/Permissions/SyncPosts/UI/SettingsTabSyncPosts.php:60
+msgid "Parent Post"
+msgstr "Roditeljski post"
+
+#: modules/presspermit-sync/classes/Permissions/SyncPosts/UI/SettingsTabSyncPosts.php:61
+#: modules/presspermit-sync/classes/Permissions/SyncPosts/UI/SettingsTabSyncPosts.php:430
+msgid "Quantity"
+msgstr "Količina"
+
+#: modules/presspermit-sync/classes/Permissions/SyncPosts/UI/SettingsTabSyncPosts.php:62
+msgid "Post Status"
+msgstr "Status posta"
+
+#: modules/presspermit-sync/classes/Permissions/SyncPosts/UI/SettingsTabSyncPosts.php:368
+msgid "Post Title"
+msgstr "Naslov posta"
+
+#: modules/presspermit-sync/classes/Permissions/SyncPosts/UI/SettingsTabSyncPosts.php:369
+msgid "Post slug"
+msgstr "Slug posta"
+
+#: modules/presspermit-sync/classes/Permissions/SyncPosts/UI/SettingsTabSyncPosts.php:373
+msgid "User Display Name"
+msgstr "Prikazno ime korisnika"
+
+#: modules/presspermit-sync/classes/Permissions/SyncPosts/UI/SettingsTabSyncPosts.php:374
+msgid "User email"
+msgstr "E-mail korisnika"
+
+#: modules/presspermit-sync/classes/Permissions/SyncPosts/UI/SettingsTabSyncPosts.php:375
+msgid "User login"
+msgstr "Prijava korisnika"
+
+#: modules/presspermit-sync/classes/Permissions/SyncPosts/UI/SettingsTabSyncPosts.php:376
+msgid "User nicename"
+msgstr "Lijepo ime korisnika"
+
+#: modules/presspermit-sync/classes/Permissions/SyncPosts/UI/SettingsTabSyncPosts.php:401
+msgid "User Posts Created:"
+msgstr "Korisnički postovi kreirani:"
+
+#: modules/presspermit-sync/classes/Permissions/SyncPosts/UI/SettingsTabSyncPosts.php:414
+msgid "Post Type"
+msgstr "Tip posta"
+
+#: modules/presspermit-sync/classes/Permissions/SyncPosts/UI/SettingsTabSyncPosts.php:415
+msgid "Select where posts will be created for users."
+msgstr "Odaberite gdje će postovi biti kreirani za korisnike."
+
+#: modules/presspermit-sync/classes/Permissions/SyncPosts/UI/SettingsTabSyncPosts.php:418
+msgid "New Users"
+msgstr "Novi korisnici"
+
+#: modules/presspermit-sync/classes/Permissions/SyncPosts/UI/SettingsTabSyncPosts.php:419
+msgid "Create posts for new users."
+msgstr "Kreirajte objave za nove korisnike."
+
+#: modules/presspermit-sync/classes/Permissions/SyncPosts/UI/SettingsTabSyncPosts.php:422
+msgid "Current Users"
+msgstr "Trenutni korisnici"
+
+#: modules/presspermit-sync/classes/Permissions/SyncPosts/UI/SettingsTabSyncPosts.php:423
+msgid "Create posts for existing users."
+msgstr "Kreirajte objave za postojeće korisnike."
+
+#: modules/presspermit-sync/classes/Permissions/SyncPosts/UI/SettingsTabSyncPosts.php:426
+msgid "Role"
+msgstr "Uloga"
+
+#: modules/presspermit-sync/classes/Permissions/SyncPosts/UI/SettingsTabSyncPosts.php:427
+msgid "Create posts for users in these roles."
+msgstr "Kreirajte objave za korisnike u ovim ulogama."
+
+#: modules/presspermit-sync/classes/Permissions/SyncPosts/UI/SettingsTabSyncPosts.php:431
+msgid "Set the number of posts to create for each user."
+msgstr "Postavite broj objava koje treba kreirati za svakog korisnika."
+
+#: modules/presspermit-sync/classes/Permissions/SyncPosts/UI/SettingsTabSyncPosts.php:434, fuzzy
+msgid "Status"
+msgstr "Status"
+
+#: modules/presspermit-sync/classes/Permissions/SyncPosts/UI/SettingsTabSyncPosts.php:435
+msgid "Set the status for created posts."
+msgstr "Postavite status za kreirane objave."
+
+#: modules/presspermit-sync/classes/Permissions/SyncPosts/UI/SettingsTabSyncPosts.php:443
+msgid "No post types are enabled for user pages."
+msgstr "Nema vrsta objava omogućeno za stranice korisnika."
+
+#: modules/presspermit-sync/classes/Permissions/SyncPosts/UI/SettingsTabSyncPosts.php:445
+msgid "Go to Permissions Settings"
+msgstr "Idite na postavke dozvola"
+
+#: modules/presspermit-sync/classes/Permissions/SyncPosts/UI/SettingsTabSyncPosts.php:487
+msgid "Click to expand/collapse advanced settings"
+msgstr "Kliknite za proširenje/smanjenje naprednih postavki"
+
+#: modules/presspermit-sync/classes/Permissions/SyncPosts/UI/SettingsTabSyncPosts.php:533
+msgid "(All Roles)"
+msgstr "(Sve uloge)"
+
+#: modules/presspermit-sync/classes/Permissions/SyncPosts/UI/SettingsTabSyncPosts.php:569
+msgid "Published"
+msgstr "Objavljeno"
+
+#: modules/presspermit-sync/classes/Permissions/SyncPosts/UI/SettingsTabSyncPosts.php:570
+msgid "Draft"
+msgstr "Nacrt"
+
+#: modules/presspermit-sync/classes/Permissions/SyncPosts/UI/SettingsTabSyncPosts.php:571
+msgid "Pending Review"
+msgstr "Na čekanju za pregled"
+
+#: modules/presspermit-sync/classes/Permissions/SyncPosts/UI/SettingsTabSyncPosts.php:572
+msgid "Private"
+msgstr "Privatno"
+
+#: modules/presspermit-sync/classes/Permissions/SyncPosts/UI/SettingsTabSyncPosts.php:589
+msgid "Avoid Creating Duplicates"
+msgstr "Izbjegavajte stvaranje duplikata"
+
+#: modules/presspermit-sync/classes/Permissions/SyncPosts/UI/SettingsTabSyncPosts.php:590
+msgid ""
+"This setting can prevent the creation of duplicate posts for a user. If the "
+"selected fields are a match, a new post will not be created."
+msgstr ""
+"Ova postavka može spriječiti stvaranje dupliciranih objava za korisnika. "
+"Ako su odabrana polja podudarna, nova objava neće biti stvorena."
+
+#: modules/presspermit-sync/classes/Permissions/SyncPosts/UI/SettingsTabSyncPosts.php:595
+msgid "Post Match Field"
+msgstr "Polje za podudaranje objave"
+
+#: modules/presspermit-sync/classes/Permissions/SyncPosts/UI/SettingsTabSyncPosts.php:596
+msgid "Choose which post field to match with users."
+msgstr "Odaberite koje polje objave odgovara korisnicima."
+
+#: modules/presspermit-sync/classes/Permissions/SyncPosts/UI/SettingsTabSyncPosts.php:636
+#: modules/presspermit-sync/classes/Permissions/SyncPosts/UI/SettingsTabSyncPosts.php:683
+msgid "(other)"
+msgstr "(drugo)"
+
+#: modules/presspermit-sync/classes/Permissions/SyncPosts/UI/SettingsTabSyncPosts.php:648
+#: modules/presspermit-sync/classes/Permissions/SyncPosts/UI/SettingsTabSyncPosts.php:692
+msgid "select..."
+msgstr "odaberi..."
+
+#: modules/presspermit-sync/classes/Permissions/SyncPosts/UI/SettingsTabSyncPosts.php:649
+#: modules/presspermit-sync/classes/Permissions/SyncPosts/UI/SettingsTabSyncPosts.php:693
+msgid "cancel"
+msgstr "otkaži"
+
+#: modules/presspermit-sync/classes/Permissions/SyncPosts/UI/SettingsTabSyncPosts.php:657
+msgid "User Match Field"
+msgstr "Polje za podudaranje korisnika"
+
+#: modules/presspermit-sync/classes/Permissions/SyncPosts/UI/SettingsTabSyncPosts.php:658
+msgid "Select which user field to match with posts."
+msgstr "Odaberite koje polje korisnika odgovara objavama."
+
+#: modules/presspermit-sync/classes/Permissions/SyncPosts/UI/SettingsTabSyncPosts.php:701
+msgid "Available Template Parameters"
+msgstr "Dostupni parametri predložaka"
+
+#: modules/presspermit-sync/classes/Permissions/SyncPosts/UI/SettingsTabSyncPosts.php:704
+msgid ""
+"You can use these placeholders in the User Match Field to create custom "
+"templates:"
+msgstr ""
+"Možete koristiti ove zamjene u Polju podudaranja korisnika za izradu "
+"prilagođenih predložaka:"
+
+#: modules/presspermit-sync/classes/Permissions/SyncPosts/UI/SettingsTabSyncPosts.php:717
+msgid "Examples:"
+msgstr "Primjeri:"
+
+#: modules/presspermit-sync/classes/Permissions/SyncPosts/UI/SettingsTabSyncPosts.php:731
+msgid "Additional Field"
+msgstr "Dodatno polje"
+
+#: modules/presspermit-sync/classes/Permissions/SyncPosts/UI/SettingsTabSyncPosts.php:732
+msgid "Additional configuration options for post creation."
+msgstr "Dodatne opcije konfiguracije za kreiranje objava."
+
+#: modules/presspermit-sync/classes/Permissions/SyncPosts/UI/SettingsTabSyncPosts.php:737
+msgid "Parent Post ID"
+msgstr "ID roditeljske objave"
+
+#: modules/presspermit-sync/classes/Permissions/SyncPosts/UI/SettingsTabSyncPosts.php:738
+msgid "Specify the Post ID of a parent post for hierarchical post types."
+msgstr "Odredite ID objave roditelja za hijerarhijske tipove objava."
+
+#: modules/presspermit-sync/classes/Permissions/SyncPosts/UI/SettingsTabSyncPosts.php:749
+msgid "Enter parent post ID (0 for no parent)"
+msgstr "Unesite ID roditeljske objave (0 za bez roditelja)"
+
+#: modules/presspermit-sync/classes/Permissions/SyncPosts/UI/SettingsTabSyncPosts.php:895
+msgid "Validation Errors in User Posts Settings:"
+msgstr "Pogreške pri validaciji u postavkama korisničkih objava:"
+
+#: modules/presspermit-sync/classes/Permissions/SyncPosts/UI/SettingsTabSyncPosts.php:903
+msgid "Please fix these errors and try again."
+msgstr "Ispravite ove pogreške i pokušajte ponovo."
+
+#: modules/presspermit-sync/classes/Permissions/SyncPosts/UserSync.php:156
+#, php-format
+msgid "%s: Skipping because no roles are selected"
+msgstr "%s: Preskočeno jer nisu odrole odabrane"
+
+#: modules/presspermit-sync/classes/Permissions/SyncPosts/UserSync.php:190
+#, php-format
+msgid "%s: Enabled PressPermit filtering (Core > Filtered Post Types)"
+msgstr "%s: Omogućeno filtriranje PressPermit (Osnovno > Filtrirani tipovi objava)"
+
+#: modules/presspermit-sync/classes/Permissions/SyncPosts/UserSync.php:208
+#, php-format
+msgid "%1$s: Assigned extra %2$s Author role to %3$s role"
+msgstr "%1$s: Dodijeljena dodatna %2$s uloga autora %3$s ulozi"
+
+#: modules/presspermit-sync/classes/Permissions/SyncPosts/UserSync.php:356
+#, php-format
+msgid "Ambiguous %1$s match (%2$s)"
+msgstr "Nejasno %1$s podudaranje (%2$s)"
+
+#: modules/presspermit-sync/classes/Permissions/SyncPosts/UserSync.php:386
+#, php-format
+msgid "Ambiguous user match for %1$s (%2$s, post id %3$s"
+msgstr "Nesigurni korisnički podudaranje za %1$s (%2$s, post id %3$s"
+
+#: modules/presspermit-sync/classes/Permissions/SyncPosts/UserSync.php:411
+#, php-format
+msgid "Ambiguous user match for %1$s (%2$s, $post id %3$s)"
+msgstr "Nesigurni korisnički podudaranje za %1$s (%2$s, $post id %3$s)"
+
+#: modules/presspermit-sync/classes/Permissions/SyncPosts/UserSync.php:560
+#: modules/presspermit-sync/classes/Permissions/SyncPosts/UserSync.php:584
+#, php-format
+msgid "Ambiguous user match for %1$s (%2$s)"
+msgstr "Nesigurni korisnički podudaranje za %1$s (%2$s)"
+
+#: modules/presspermit-sync/classes/Permissions/SyncPosts/UserSync.php:620
+#, php-format
+msgid "%1$s: %2$s posts created."
+msgstr "%1$s: %2$s objava stvoreno."
+
+#: modules/presspermit-sync/classes/Permissions/SyncPosts/UserSync.php:626
+#, php-format
+msgid "%1$s: %2$s posts updated."
+msgstr "%1$s: %2$s objava ažurirano."
+
+#: modules/presspermit-sync/classes/Permissions/SyncPosts/UserSync.php:642
+msgid "All Roles"
+msgstr "Sve uloge"
+
+#: modules/presspermit-sync/classes/Permissions/SyncPosts/UserSync.php:646
+#, php-format
+msgid "%1$s: Done for %2$s."
+msgstr "%1$s: Gotovo za %2$s."
+
+#: modules/presspermit-sync/classes/Permissions/SyncPosts/UserSync.php:648
+#, php-format
+msgid "%s: Done."
+msgstr "%s: Gotovo."

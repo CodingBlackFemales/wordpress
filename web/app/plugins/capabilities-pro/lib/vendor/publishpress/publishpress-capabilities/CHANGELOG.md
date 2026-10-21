@@ -1,6 +1,24 @@
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
+[2.53.0] - 14 October, 2026
+
+- Feature : Move Admin Menus into the free version, #1809
+- Feature : Add WP-CLI commands to list and restore backups,, #1804
+- Feature : Show inherited group permissions and extra roles on the User Capabilities screen, #1831
+- Update : Add PublishPress Cart capability integration, #1795
+- Update : Add WS Form lock and unlock capabilities for forms and form styles, #1868
+- Update : Match text separators to the normal admin menu typography and preserve the entered case, #1834
+- Update : Restyle the inline Statuses Pro promotion, #1753
+- Fixed : Prevent silent Profile Features capture failures on multisite sub-sites and show an explanation when no eligible user is available, #1845
+- Fixed : Show Profile Features capture warnings only after a capture attempt, #1869
+- Fixed : Prevent fatal errors when saving custom Admin Styles with invalid role settings, #1847
+- Fixed : Apply custom Admin Styles button colors to WordPress/Gutenberg components, including hover and focus states fixing Hub buttons, #1848
+- Fixed : Keep User Switching suggestions open while search text is entered, #1846
+- Fixed : Hide decorative SVG illustrations and external-link icons from assistive technology, #1849
+- Fixed : Add accessible names to plugin selectors, checkboxes, textareas, and style controls, #1850
+- Fixed : Add alt text to generated admin logo and favicon previews, #1851
+
 [2.52.0] - 22 September, 2026
 
 - Fixed : Issue with search for capabilities on the Capabilities screen, #1833

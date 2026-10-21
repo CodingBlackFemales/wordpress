@@ -1,0 +1,74 @@
+PublishPress Permissions Pro Sync Posts 2.7
+
+Posts to Users Synchronization feature for Team Member plugins 
+(automated post creation and author editing permissions)
+
+Note that the large percentage of compatible plugins also suggests that 
+the synchronization feature will work with most custom-built solutions.
+
+=== COMPATIBLE PLUGINS ===
+AMO Team Showcase
+AWSM Team
+Cherry Team Members
+Company Directory
+Divi Team Members
+Employee Directory
+Employee Spotlight
+GS Team Members
+Profile Grid
+Simple Staff List
+Staffer
+Staff List
+TC Team Members
+Team Showcase by pickplugins
+Team by ADL
+Team by Radius
+Team by ShapedPlugin
+Team Rosters
+Team Showcase by themepoints
+Team WD
+Total Team
+WordPress Team Manager
+WP Team Showcase and Slider
+
+
+=== UNTESTED PLUGINS: ===
+Heroes Assemble Team Showcase
+
+
+=== PARTIALLY COMPATIBLE PLUGINS (synchronize team, but not team members) ===
+Team by Dazzlersoft
+Team Builder by wpsmartshop
+Team Members by WP Darko
+
+
+=== INCOMPATIBLE PLUGINS: ===
+Team Showcase with Slider by Hasan
+
+
+=== OPTIMALLY COMPATIBLE PLUGINS: ===
+
+Of the compatible plugins, those that support synchronization by e-mail address (as opposed to just user Display Name) are:
+
+Company Directory
+Divi Team Members
+Employee Directory
+Employee Spotlight
+Simple Staff List
+Staffer
+Team Pro by ShapedPlugin
+Team Showcase by themepoints
+Team WD
+WordPress Team Manager
+
+The following are suitable for synchronization by Twitter and other social urls:
+
+Divi Team Members
+Employee Directory
+Employee Spotlight
+Staffer
+Team by ShapedPlugin
+Team Pro by ShapedPlugin
+Team Showcase by themepoints
+WordPress Team Manager
+WP Team Showcase and Slider

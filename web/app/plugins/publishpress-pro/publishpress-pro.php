@@ -3,7 +3,7 @@
  * Plugin Name: PublishPress Planner Pro
  * Plugin URI: https://publishpress.com/
  * Description: PublishPress Planner helps you plan and publish content inside WordPress. Features include a content calendar, kanban board, and notifications.
- * Version: 4.8.1
+ * Version: 4.8.2
  * Author: PublishPress
  * Author URI: https://publishpress.com
  * Text Domain: publishpress-pro
@@ -111,7 +111,7 @@ if (!function_exists('checkupRanSuccessfully')) {
 
 if (checkupRanSuccessfully() && ! defined('PUBLISHPRESS_PRO_LOADED')) {
 
-    define('PUBLISHPRESS_PRO_VERSION', '4.8.1');
+    define('PUBLISHPRESS_PRO_VERSION', '4.8.2');
 
     define('PUBLISHPRESS_PRO_FILE', __FILE__);
 

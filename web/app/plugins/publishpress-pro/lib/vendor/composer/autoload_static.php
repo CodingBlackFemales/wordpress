@@ -19,13 +19,13 @@ class ComposerStaticInitPublishPressPlannerPro
     );
 
     public static $prefixLengthsPsr4 = array (
-        'S' => 
+        'S' =>
         array (
             'Sabre\\Xml\\' => 10,
             'Sabre\\VObject\\' => 14,
             'Sabre\\Uri\\' => 10,
         ),
-        'P' => 
+        'P' =>
         array (
             'PublishPress\\WordPressEDDLicense\\' => 33,
             'PublishPressPro\\' => 16,
@@ -33,23 +33,23 @@ class ComposerStaticInitPublishPressPlannerPro
     );
 
     public static $prefixDirsPsr4 = array (
-        'Sabre\\Xml\\' => 
+        'Sabre\\Xml\\' =>
         array (
             0 => __DIR__ . '/..' . '/sabre/xml/lib',
         ),
-        'Sabre\\VObject\\' => 
+        'Sabre\\VObject\\' =>
         array (
             0 => __DIR__ . '/..' . '/sabre/vobject/lib',
         ),
-        'Sabre\\Uri\\' => 
+        'Sabre\\Uri\\' =>
         array (
             0 => __DIR__ . '/..' . '/sabre/uri/lib',
         ),
-        'PublishPress\\WordPressEDDLicense\\' => 
+        'PublishPress\\WordPressEDDLicense\\' =>
         array (
             0 => __DIR__ . '/..' . '/publishpress/wordpress-edd-license/src/classes',
         ),
-        'PublishPressPro\\' => 
+        'PublishPressPro\\' =>
         array (
             0 => __DIR__ . '/../..' . '/../core',
         ),

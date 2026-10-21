@@ -1,0 +1,1682 @@
+# Copyright (C) 2026 PublishPress
+# This file is distributed under the same license as the PublishPress Permissions Pro plugin.
+msgid ""
+msgstr ""
+"Project-Id-Version: PublishPress Permissions Pro 4.8.1\n"
+"Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/project\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: Finnish "
+"<https://weblate.publishpress.com/projects/publishpress-permissions-pro/"
+"presspermit-pro/fi/>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"POT-Creation-Date: 2026-04-02T18:54:49+00:00\n"
+"PO-Revision-Date: 2026-10-01 19:50+0000\n"
+"X-Generator: Weblate 2026.6.1\n"
+"X-Domain: presspermit-pro\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"Language: fi\n"
+
+#: presspermit-pro.php:4, fuzzy
+#. Plugin Name of the plugin
+msgid "PublishPress Permissions Pro"
+msgstr "PublishPress Permissions Pro"
+
+#: presspermit-pro.php:5
+#. Plugin URI of the plugin
+msgid "https://publishpress.com/permissions"
+msgstr "https://publishpress.com/permissions"
+
+#: presspermit-pro.php:6
+#. Description of the plugin
+msgid ""
+"PublishPress Permissions allows you to enable or deny access to posts, "
+"pages, categories, tags and more."
+msgstr ""
+"PublishPress Permissions mahdollistaa pääsyn sallimisen tai estämisen "
+"kirjoituksiin, sivuihin, kategorioihin, tageihin ja muuhun."
+
+#: presspermit-pro.php:8
+#. Author of the plugin
+msgid "PublishPress"
+msgstr "PublishPress"
+
+#: presspermit-pro.php:9
+#. Author URI of the plugin
+msgid "https://publishpress.com/"
+msgstr "https://publishpress.com/"
+
+#: includes-pro/admin-load.php:93
+#, php-format
+msgid ""
+"Should pages with privacy status \"premium\" require set_pages_premium and "
+"edit_premium_pages capabilities? If so, you can %1$sassign a "
+"status-specific Page Editor role%2$s or %3$sadd the capabilities directly "
+"to a role%4$s."
+msgstr ""
+"Pitääkö yksityisyystilassa \"premium\" olevien sivujen vaatia "
+"set_pages_premium ja edit_premium_pages -oikeudet? Jos näin on, voit "
+"%1$santaa statuskohtaisen Sivun Muokkaaja -roolin%2$s tai %3$slisätä "
+"oikeudet suoraan rooliin%4$s."
+
+#: includes-pro/admin-load.php:121
+#, php-format
+msgid ""
+"Note: Workflow sequence and branching for pre-publication is configured "
+"%son a separate screen%s"
+msgstr ""
+"Huom: Työnkulun sekvenssi ja haarautuminen ennakkotarkastuksessa on "
+"määritetty %son erillisellä näytöllä%s"
+
+#: includes-pro/admin-load.php:136
+#, php-format
+msgid "Additional settings provided by the %s module."
+msgstr "Lisäasetukset, joita %s-moduuli tarjoaa."
+
+#: includes-pro/admin-load.php:140
+msgid ""
+"Note: If you deactive, re-entry of the license key will be required for "
+"re-activation."
+msgstr ""
+"Huom: Jos poistat käytöstä, lisenssiavaimen uudelleen syöttö vaaditaan "
+"uudelleenaktivointia varten."
+
+#: includes-pro/admin-load.php:145
+msgid ""
+"If enabled, custom group membership is applied network-wide (though role "
+"assignments are still site-specific)."
+msgstr ""
+"Jos käytössä, mukautettu ryhmäjäsenyys sovelletaan koko verkossa (vaikka "
+"rooliin liittyvät tehtävät ovat edelleen sivukohtaisia)."
+
+#: includes-pro/admin-load.php:148
+msgid "Can create network-wide permission groups"
+msgstr "Voi luoda verkon laajuisia käyttöoikeusryhmiä"
+
+#: includes-pro/admin-load.php:151
+msgid "If group editing is allowed, can also modify network group membership"
+msgstr "Jos ryhmän muokkaus on sallittu, voi myös muokata verkon ryhmän jäsenyyksiä"
+
+#: includes-pro/admin-load.php:156
+msgid ""
+"This feature will control direct URL access to files in /uploads/ folder. "
+"By default, files are blocked if they are attached to a post which the user "
+"can't view."
+msgstr ""
+"Tämä ominaisuus hallitsee suoran URL-pääsyn tiedostoihin "
+"/uploads/-kansiossa. Oletusarvoisesti tiedostot estetään, jos ne on "
+"liitetty julkaisuun, jota käyttäjä ei voi nähdä."
+
+#: includes-pro/admin-load.php:159
+#, php-format
+msgid ""
+"File Access on multisite installations will require the following rules to "
+"be inserted above the stock ms-files.php rules in the %1$smain .htaccess "
+"file%2$s:"
+msgstr ""
+"Tiedostopääsy monisivustoinstallaatiolla vaatii seuraavien sääntöjen "
+"lisäämistä varastoidun ms-files.php -säännön ylle %1$smain .htaccess "
+"-tiedostoon%2$s:"
+
+#: includes-pro/admin-load.php:162
+msgid "But your .htaccess is missing or not writeable!"
+msgstr "Mutta .htaccess-tiedostosi puuttuu tai sitä ei voi kirjoittaa!"
+
+#: includes-pro/admin-load.php:165
+msgid ".htaccess needs to be updated to include these rules."
+msgstr ".htaccess-tiedostoa on päivitettävä näiden sääntöjen sisällyttämiseksi."
+
+#: includes-pro/admin-load.php:168
+msgid ".htaccess file has all required rules."
+msgstr ".htaccess-tiedostossa on kaikki vaaditut säännöt."
+
+#: includes-pro/admin-load.php:171
+msgid ""
+"These rules will not be inserted automatically.  You are responsible for "
+"editing .htaccess and later removing the rules if the functionality is no "
+"longer desired."
+msgstr ""
+"Näitä sääntöjä ei lisätä automaattisesti. Olet vastuussa .htaccessin "
+"muokkaamisesta ja myöhemmin sääntöjen poistamisesta, jos toimintoa ei enää "
+"haluta."
+
+#: includes-pro/admin-load.php:174
+#, php-format
+msgid ""
+"Note that an additional rule will need to be added with each new site. "
+"%1$sTo eliminate this requirement, research \"WordPress remove "
+"ms-files\".%2$s"
+msgstr ""
+"Huomaa, että jokaiseen uuteen sivustoon on lisättävä lisäsääntö. "
+"%1$sPoistaaksesi tämän vaatimuksen, tutki \"WordPress remove ms-files\".%2$s"
+
+#: includes-pro/admin-load.php:177
+msgid ""
+"You will need to manually restore the .htacces file to default contents if "
+"anything goes wrong. Proceed?"
+msgstr ""
+"Sinun on palautettava .htaccess-tiedosto manuaalisesti oletussisältöön, jos "
+"jokin menee pieleen. Jatketaanko?"
+
+#: includes-pro/admin-load.php:180
+msgid "Update .htaccess now"
+msgstr "Päivitä .htaccess nyt"
+
+#: includes-pro/admin-load.php:183
+msgid "only for sites with protected files"
+msgstr "vain suojatuilla tiedostoilla varustetuille sivustoille"
+
+#: includes-pro/admin-load.php:186
+msgid "for all sites"
+msgstr "kaikille sivustoille"
+
+#: includes-pro/admin-load.php:189
+msgid "NONE: remove Permissions rules"
+msgstr "EI MITÄÄN: poista Oikeudet-säännöt"
+
+#: includes-pro/admin-load.php:192
+msgid ""
+"Since the plugin is not network-activated, you will need to modify the "
+".htaccess file manually, inserting a RewriteRule as shown above for each "
+"site which needs file filtering."
+msgstr ""
+"Koska lisäosa ei ole verkkoaktivoitu, sinun on muokattava "
+".htaccess-tiedostoa manuaalisesti lisäämällä RewriteRule kuten yllä on "
+"esitetty jokaiselle sivustolle, joka tarvitsee tiedostojen suodatusta."
+
+#: includes-pro/admin-load.php:195
+msgid ""
+"This extends the File Access feature to files that are not attached to any "
+"post. This will not apply to user who have the edit_private_files or "
+"pp_list_all_files capability."
+msgstr ""
+"Tämä laajentaa Tiedostojen pääsy -ominaisuutta tiedostoihin, jotka eivät "
+"liity mihinkään julkaisuun. Tämä ei koske käyttäjiä, joilla on "
+"edit_private_files tai pp_list_all_files -oikeudet."
+
+#: includes-pro/admin-load.php:198
+msgid ""
+"Make attached files unreadable to users who do not have the "
+"edit_private_files or pp_list_all_files capability."
+msgstr ""
+"Tee liitetyt tiedostot lukukelvottomiksi käyttäjille, joilla ei ole "
+"edit_private_files tai pp_list_all_files -oikeuksia."
+
+#: includes-pro/admin-load.php:201
+msgid ""
+"Improve Media Library performance by disabling file filtering for "
+"thumbnails (size specified in Settings > Media)."
+msgstr ""
+"Paranna Media-kirjaston suorituskykyä poistamalla tiedostojen suodatus "
+"pikkukuvista (koko määritelty Asetukset > Media)."
+
+#: includes-pro/admin-load.php:204
+msgid ""
+"On some sites, an additional redirect is required to correctly deliver "
+"protected files. Leave this disabled for better performance if possible."
+msgstr ""
+"Joillakin sivustoilla tarvitaan lisäohjaus suojattujen tiedostojen oikean "
+"toimittamisen varmistamiseksi. Jätä tämä pois päältä paremman suorituskyvyn "
+"saavuttamiseksi, jos mahdollista."
+
+#: includes-pro/admin-load.php:207
+#, php-format
+msgid ""
+"The File Access feature uses an %1$s.htaccess%2$s file located at "
+"%3$suploads/.htaccess%4$s. Normally no action is needed, but clicking the "
+"button below will update the URL keys (at next site access) that protect "
+"the files."
+msgstr ""
+"Tiedostojen pääsy -ominaisuus käyttää %1$s.htaccess%2$s-tiedostoa, joka "
+"sijaitsee %3$suploads/.htaccess%4$s. Normaalisti mitään toimintoa ei "
+"tarvita, mutta alla olevaa painiketta napsauttamalla päivitetään "
+"URL-avaimet (seuraavalla sivuston käytöllä), jotka suojaavat tiedostoja."
+
+#: includes-pro/admin-load.php:210
+#, php-format
+msgid ""
+"The File Access feature uses an %1$s.htaccess%2$s file located at "
+"%3$suploads/.htaccess%4$s. Normally no action is needed, but clicking the "
+"button below will update the URL keys that protect the files."
+msgstr ""
+"Tiedostojen pääsy -ominaisuus käyttää %1$s.htaccess%2$s-tiedostoa, joka "
+"sijaitsee %3$suploads/.htaccess%4$s. Normaalisti mitään toimintoa ei "
+"tarvita, mutta alla olevaa painiketta napsauttamalla päivitetään "
+"URL-avaimet, jotka suojaavat tiedostoja."
+
+#: includes-pro/admin-load.php:213
+msgid ""
+"Best practice is to access the above url periodically (using your own cron "
+"service) to prevent long-term bookmarking of protected files."
+msgstr ""
+"Paras käytäntö on käyttää yllä olevaa URL-osoitetta säännöllisesti (oman "
+"cron-palvelimesi avulla) estääksesi suojattujen tiedostojen pitkäaikaisen "
+"kirjanmerkkauksen."
+
+#: includes-pro/admin-load.php:216
+msgid ""
+"Supply a custom key which will enable a support url to regenerate file "
+"access keys.  Then execute the url regularly (using your own cron service) "
+"to prevent long-term bookmarking of protected files."
+msgstr ""
+"Toimita mukautettu avain, joka mahdollistaa tukisivun tiedostojen "
+"pääsyavainten regenerointiin. Suorita sitten URL säännöllisesti (oman "
+"cron-palvelimesi avulla) estääksesi suojattujen tiedostojen pitkäaikaisen "
+"kirjanmerkkauksen."
+
+#: includes-pro/admin-load.php:219
+msgid ""
+"File Access can also protect files uploaded by FTP or other manual file "
+"copy, but does not detect them automatically. Click the button below to "
+"scan your uploads folder for files to protect."
+msgstr ""
+"Tiedostojen pääsy voi myös suojata FTP:llä tai muulla manuaalisella "
+"tiedostokopion avulla ladattuja tiedostoja, mutta ei havaitse niitä "
+"automaattisesti. Napsauta alla olevaa painiketta skannataksesi "
+"latauskansiosi suojattavien tiedostojen löytämiseksi."
+
+#: includes-pro/admin-load.php:223
+msgid "Invalid file filtering key argument."
+msgstr "Virheellinen tiedostojen suodatusavaimen argumentti."
+
+#: includes-pro/admin-load.php:226
+msgid "Please configure File Access options!"
+msgstr "Määritä Tiedostojen pääsy -asetukset!"
+
+#: includes-pro/admin-load.php:229
+msgid "The wp-content folder cannot be relocated outside the main WordPress folder."
+msgstr "wp-content-kansiota ei voi siirtää pää WordPress -kansion ulkopuolelle."
+
+#: includes-pro/admin-load.php:238
+#, php-format
+msgid ""
+"Files linked in post content must be in %1$s (or a subfolder of it). If you "
+"move files, consider using a %2$s search and replace plugin%3$s to update "
+"those URLs."
+msgstr ""
+"Julkaisu sisältä linkitettyjen tiedostojen on oltava %1$s (tai sen "
+"alikansiossa). Jos siirrät tiedostoja, harkitse %2$s hakemista ja "
+"korvaamista lisäosa%3$s käyttämistä näiden URL-osoitteiden päivittämiseksi."
+
+#: includes-pro/admin-load.php:241
+msgid ""
+"File Access can also protect files uploaded by FTP or other manual "
+"processes, but does not detect them automatically. This utility can find "
+"and protect any uploaded files."
+msgstr ""
+"Tiedostojen pääsy voi myös suojata FTP:llä tai muilla manuaalisilla "
+"prosesseilla ladattuja tiedostoja, mutta ei havaitse niitä automaattisesti. "
+"Tämä työkalu voi löytää ja suojata mitä tahansa ladattuja tiedostoja."
+
+#: includes-pro/admin-load.php:244
+msgid ""
+"To run this utility by cron task or other direct request, use the following "
+"URL:"
+msgstr ""
+"Suorittaaksesi tämän työkalun cron-tehtävänä tai muuna suoraan pyyntönä, "
+"käytä seuraavaa URL-osoitetta:"
+
+#: includes-pro/admin-load.php:247
+msgid ""
+"To run this utility by direct URL, set a file filtering regen key on "
+"Permissions Settings"
+msgstr ""
+"Suorittaaksesi tämän työkalun suoran URL-osoitteen kautta, aseta "
+"tiedostojen suodatus regenerointiavain oikeusasetuksissa"
+
+#: includes-pro/admin-load.php:250
+msgid ""
+"Note: Direct access to uploaded file attachments cannot be filtered because "
+"your WP_CONTENT_DIR is not in the WordPress branch."
+msgstr ""
+"Huom: Suoraa pääsyä ladattuihin tiedostoihin ei voida suodattaa, koska "
+"WP_CONTENT_DIR:si ei ole WordPress-haarassa."
+
+#: includes-pro/admin-load.php:253
+msgid "The operation was terminated due to an invalid configuration."
+msgstr "Toiminto keskeytettiin virheellisten asetusten vuoksi."
+
+#: includes-pro/admin-load.php:256
+#, php-format
+msgid "Checking %s posts / pages..."
+msgstr "Tarkistetaan %s viestiä / sivua..."
+
+#: includes-pro/admin-load.php:259
+#, php-format
+msgid "%1$s skipping unfilterable file in %2$s \"%3$s\":%4$s %5$s"
+msgstr "%1$s ohittaa suodatettavissa olevat tiedostot %2$s \"%3$s\":%4$s %5$s"
+
+#: includes-pro/admin-load.php:262
+#, php-format
+msgid "%1$s skipping missing file in %2$s \"%3$s\":%4$s %5$s"
+msgstr "%1$s ohittaa puuttuvan tiedoston %2$s \"%3$s\":%4$s %5$s"
+
+#: includes-pro/admin-load.php:265
+#: includes-pro/admin-load.php:268
+#, php-format
+msgid "%1$sNew attachment in %2$s \"%3$s\":%4$s %5$s"
+msgstr "%1$sUusi liite %2$s \"%3$s\":%4$s %5$s"
+
+#: includes-pro/admin-load.php:271
+#, php-format
+msgid "%s linked uploads were found in your post / page content."
+msgstr "%s linkitettyä latausta löydettiin viestin / sivun sisällöstäsi."
+
+#: includes-pro/admin-load.php:274
+#, php-format
+msgid "%s attachment records were added to the database."
+msgstr "%s liitetietueita lisättiin tietokantaan."
+
+#: includes-pro/admin-load.php:277
+msgid "All linked uploads are already registered as attachments."
+msgstr "Kaikki linkitetyt lataukset on jo rekisteröity liitteinä."
+
+#: includes-pro/admin-load.php:282
+msgid ""
+"Statuses enabled here are available as Visibility options for post "
+"publishing. Affected posts become inaccessable without a corresponding "
+"status-specific role assignment."
+msgstr ""
+"Täällä käytettävissä olevat tilat ovat saatavilla näkyvyysvaihtoehtoina "
+"viestin julkaisemiseksi. Vaikuttavat viestit muuttuvat käyttökelvottomiksi "
+"ilman vastaavaa tilakohtaista roolijakoa."
+
+#: includes-pro/admin-load.php:285
+msgid ""
+"Statuses enabled here are available in the editor as additional steps "
+"between Draft and Published."
+msgstr ""
+"Täällä käytettävissä olevat tilat ovat saatavilla editorissa lisävaiheina "
+"luonnoksen ja julkaistun välillä."
+
+#: includes-pro/admin-load.php:288
+msgid ""
+"Statuses alter your content's accessibility by imposing additional "
+"capability requirements."
+msgstr "Tilat muokkaavat sisältösi saatavuutta asettamalla lisäkykyvaatimuksia."
+
+#: includes-pro/admin-load.php:291
+#, php-format
+msgid ""
+"Enable Custom Capabilities by toggling the link below status name. If "
+"enabled, non-Editors will need a corresponding %ssupplemental role%s to "
+"edit posts of that status."
+msgstr ""
+"Ota käyttöön mukautetut kyvyt kytkemällä alla olevaan linkkiin tilan nimen "
+"alla. Jos otettu käyttöön, ei-toimitusjohtajilta vaaditaan vastaava "
+"%ssupplementaalinen rooli%s muokataksesi kyseisen tilan viestejä."
+
+#: includes-pro/admin-load.php:294
+#, php-format
+msgid ""
+"For post edit by a user who cannot publish, %sworkflow is configured%s to "
+"make the Publish button increment the post to the next workflow status "
+"permitted."
+msgstr ""
+"Viestiä muokkaavalle käyttäjälle, joka ei voi julkaista, %sworkflow on "
+"määritetty%s niin, että Julkaise-painike nostaa viestin seuraavaan "
+"workflow-tilaan, joka on sallittu."
+
+#: includes-pro/admin-load.php:297
+#, php-format
+msgid ""
+"For post edit by a user who cannot publish, %sworkflow is configured%s to "
+"make the Publish button escalate the post to the highest-ordered workflow "
+"status permitted."
+msgstr ""
+"Viestiä muokkaavalle käyttäjälle, joka ei voi julkaista, %sworkflow on "
+"määritetty%s niin, että Julkaise-painike nostaa viestin korkeimpaan "
+"sallitun workflow-tilan."
+
+#: includes-pro/admin-load.php:300
+msgid ""
+"For post edit by a user who cannot publish, the Publish button will "
+"escalate the post to the highest-order status permitted to the user."
+msgstr ""
+"Viestiä muokkaavalle käyttäjälle, joka ei voi julkaista, Julkaise-painike "
+"nostaa viestin korkeimpaan käyttäjälle sallitun tilaan."
+
+#: includes-pro/admin-load.php:303
+#, php-format
+msgid "Please enable the PublishPress %sStatuses feature%s."
+msgstr "Ota käyttöön PublishPress %sTilat-toiminto%s."
+
+#: includes-pro/admin-load.php:306
+#, php-format
+msgid ""
+"Note that the Post Type itself will also need to have %sPermissions%s "
+"enabled."
+msgstr "Huomaa, että myös Viestityypissä itsessään on oltava %sOikeudet%s käytössä."
+
+#: includes-pro/admin-load.php:314
+msgid ""
+"To disable custom visibility statuses, first re-assign posts to a different "
+"status."
+msgstr ""
+"Poista mukautetut näkyvyystilat käytöstä, siirtämällä ensin viestit toiseen "
+"tilaan."
+
+#: includes-pro/admin-load.php:317
+msgid ""
+"Note, this only applies if the role definition includes the pp_moderate_any "
+"capability"
+msgstr ""
+"Huomaa, että tämä pätee vain, jos roolimäärityksessä on "
+"pp_moderate_any-ominaisuus"
+
+#: includes-pro/admin-load.php:320
+msgid "Create or edit custom Privacy or Workflow statuses."
+msgstr "Luo tai muokkaa mukautettuja tietosuoja- tai työnkulku-tiloja."
+
+#: includes-pro/admin-load.php:323
+msgid "Create or edit custom Privacy statuses."
+msgstr "Luo tai muokkaa mukautettuja tietosuoja-tiloja."
+
+#: includes-pro/admin-load.php:326
+msgid ""
+"Extra Roles created as a type-specific copy of this role will enable "
+"assignment of specified custom statuses."
+msgstr ""
+"Lisäroolit, jotka on luotu tämän roolin tyyppikohtaiseksi kopioksi, "
+"mahdollistavat määriteltyjen mukautettujen tilojen osoittamisen."
+
+#: includes-pro/admin-load.php:329
+msgid ""
+"Editors do not need status-specific editing capabilities for workflow posts "
+"(Assigned, In Progress, Approved)."
+msgstr ""
+"Toimittajilta ei vaadita tila-spesifisiä muokkausominaisuuksia "
+"työnkulkuviesteille (Määrätty, Käynnissä, Hyväksytty)."
+
+#: includes-pro/admin-load.php:332
+msgid ""
+"If enabled, non-Editors will need to be granted editing access via the "
+"\"Permissions\" screen."
+msgstr ""
+"Jos se on käytössä, ei-toimittajille on myönnettävä muokkausoikeus "
+"\"Oikeudet\" -näytön kautta."
+
+#: includes-pro/admin-load.php:335
+msgid ""
+"If enabled, a Visibility Status dropdown will appear in Quick Edit for easy "
+"status assignment."
+msgstr ""
+"Jos se on käytössä, näkyvyysstatus-pudotusvalikko tulee näkyviin "
+"Pikamuokkauksessa helpottamaan tilan määrittämistä."
+
+#: includes-pro/admin-load.php:338
+msgid ""
+"If enabled, this will add Visibility Statuses support to the PublishPress "
+"Status plugin."
+msgstr ""
+"Jos se on käytössä, tämä lisää näkyvyysstatus-tuen PublishPress Status "
+"-lisäosaan."
+
+#: includes-pro/admin-load.php:343
+msgid "Post property or meta field to match with user field"
+msgstr "Viestin ominaisuus tai meta-kenttä, joka vastaa käyttäjäkenttää"
+
+#: includes-pro/admin-load.php:346
+msgid "User property or meta field to match with post field"
+msgstr "Käyttäjän ominaisuus tai meta-kenttä, joka vastaa viestikenttää"
+
+#: includes-pro/admin-load.php:349
+msgid "User meta field to match with post field"
+msgstr "Käyttäjän meta-kenttä, joka vastaa viestikenttää"
+
+#: includes-pro/admin-load.php:352
+msgid "User role to include in synchronization"
+msgstr "Käyttäjän rooli, joka sisällytetään synkronointiin"
+
+#: includes-pro/admin-load.php:355
+msgid "Parent id for created posts"
+msgstr "Luotujen viestien vanhempi id"
+
+#: includes-pro/admin-load.php:358
+msgid "Choose post field from suggested meta key names"
+msgstr "Valitse viestikenttä ehdotetuista meta-avainnimistä"
+
+#: includes-pro/admin-load.php:361
+msgid ""
+"When a new user of specified role is added, create or designate a post for "
+"them."
+msgstr ""
+"Kun uusi määriteltyä roolia edustava käyttäjä lisätään, luo tai nimeä "
+"heille viesti."
+
+#: includes-pro/admin-load.php:364
+msgid "Create or designate a post for existing users."
+msgstr "Luo tai nimeä viesti olemassa oleville käyttäjille."
+
+#: includes-pro/admin-load.php:367
+msgid "This post type is not hierarchical"
+msgstr "Tämä viestityyppi ei ole hierarkkinen"
+
+#: includes-pro/admin-load.php:370
+msgid "Automatically create a post for each user in selected roles."
+msgstr ""
+"Luo automaattisesti viesti jokaiselle valituissa rooleissa olevalle "
+"käyttäjälle."
+
+#: includes-pro/admin-load.php:373
+#, php-format
+msgid ""
+"Hint: If %s have custom fields (like email address), create one to assist "
+"field name discovery."
+msgstr ""
+"Vihje: Jos %s:lla on mukautettuja kenttiä (kuten sähköpostiosoite), luo "
+"yksi kentän nimen löytämistä varten."
+
+#: includes-pro/admin-load.php:376
+msgid "Enable each user to edit their own User Posts."
+msgstr "Mahdollista jokaisen käyttäjän muokata omia käyttäjäviestejään."
+
+#: includes-pro/admin-load.php:380
+#, php-format
+msgid ""
+"Settings for replacing unreadable content with teaser text, provided by the "
+"%s module."
+msgstr ""
+"Asetukset, joilla vaihdetaan luettavaksi kelpaamaton sisältö "
+"esittelytekstiksi, jota tarjoaa %s-moduuli."
+
+#: includes-pro/admin-load.php:383
+msgid ""
+"Settings on this tab do not apply because teaser filtering is disabled for "
+"all post types."
+msgstr ""
+"Tämän välilehden asetuksia ei sovelleta, koska esittelysuodatus on "
+"poistettu käytöstä kaikille julkaisutyypeille."
+
+#: includes-pro/admin-load.php:386
+msgid ""
+"Since some browsers will cache feeds without regard to user login, block "
+"RSS content even for qualified users."
+msgstr ""
+"Koska jotkut selaimet välimuistittavat syötteet riippumatta käyttäjän "
+"kirjautumisesta, estä RSS-sisältö jopa kelvollisille käyttäjille."
+
+#: includes-pro/admin-load.php:389
+msgid ""
+"This feature controls what users will see when trying to view content they "
+"are blocked from accessing."
+msgstr ""
+"Tämä ominaisuus ohjaa, mitä käyttäjät näkevät yrittäessään katsella "
+"sisältöä, johon heillä ei ole pääsyä."
+
+#: includes-pro/admin-load.php:392
+msgid ""
+"These settings adjust which views, link types and visibility statuses the "
+"teaser is applied to."
+msgstr ""
+"Nämä asetukset säätävät, mihin näkymiin, linkkityyppeihin ja "
+"näkyvyystiloihin esittelyä sovelletaan."
+
+#: includes-pro/admin-load.php:401
+msgid ""
+"You can override Teaser settings within the Nav Menu by hiding links to "
+"unreadable posts that are associated with the terms you select below."
+msgstr ""
+"Voit ohittaa esittelyasetukset Nav-valikossa piilottamalla linkit "
+"luettavaksi kelpaamattomiin julkaisuihin, jotka liittyvät alla valitsemiisi "
+"termeihin."
+
+#: includes-pro/admin-load.php:404
+msgid ""
+"Keep unreadable content hidden in the blogroll and link lists, but show the "
+"teaser on direct access attempts."
+msgstr ""
+"Pidä luettavaksi kelpaamaton sisältö piilossa blogilistassa ja "
+"linkkilistoissa, mutta näytä esittely suoran pääsyn yrityksissä."
+
+#: includes-pro/admin-load.php:407
+msgid ""
+"Hide unreadable private posts, but show a teaser for posts which are "
+"unreadable due to regular Privacy or Role Restrictions."
+msgstr ""
+"Piilota luettavaksi kelpaamattomat yksityiset julkaisut, mutta näytä "
+"esittely julkaisuista, jotka ovat luettavaksi kelpaamattomia tavallisten "
+"yksityisyys- tai roolirajoitusten vuoksi."
+
+#: includes-pro/admin-load.php:410
+msgid ""
+"If anyone tries to view a post they don't have access to, redirect to "
+"another post instead of displaying a teaser."
+msgstr ""
+"Jos joku yrittää katsella julkaisua, johon heillä ei ole pääsyä, ohjaa "
+"toiseen julkaisuun sen sijaan, että näyttäisit esittelyn."
+
+#: includes-pro/admin-load.php:413
+msgid ""
+"Replace post content or excerpt with custom text, possibly including an "
+"inline login form. You can also add text before or after the post title and "
+"excerpt."
+msgstr ""
+"Vaihda julkaisun sisältö tai tiivistelmä mukautettuun tekstiin, "
+"mahdollisesti sisältäen sisäisen kirjautumislomakkeen. Voit myös lisätä "
+"tekstiä ennen tai jälkeen julkaisun otsikon ja tiivistelmän."
+
+#: includes-pro/admin-load.php:416
+msgid ""
+"Unreadable items of these comma-separated types will have nav menu item "
+"hidden."
+msgstr ""
+"Luettavaksi kelpaamattomilla näillä pilkuilla erotetuilla tyypeillä on "
+"nav-valikon kohde piilotettu."
+
+#: includes-pro/admin-load.php:420
+msgid "Visibility Circle membership does not limit viewing access."
+msgstr "Näkyvyysympyrän jäsenyys ei rajoita katselu pääsyä."
+
+#: includes-pro/admin-load.php:423
+msgid "Editorial Circle membership does not limit editing access."
+msgstr "Toimituksellisen ympyrän jäsenyys ei rajoita muokkaus pääsyä."
+
+#: includes-pro/admin-load.php:435
+msgid ""
+"When searching for users via Permissions ajax, return return only users "
+"registered to current site"
+msgstr ""
+"Kun etsit käyttäjiä käyttöoikeuksien ajaxin kautta, palauta vain käyttäjät, "
+"jotka on rekisteröity nykyiselle sivustolle"
+
+#: includes-pro/admin-load.php:438
+msgid ""
+"If user is a super admin or has 'pp_manage_network_members' capability, "
+"user searches via Permissions ajax return users from all sites"
+msgstr ""
+"Jos käyttäjä on superadmin tai hänellä on "
+"'pp_manage_network_members'-oikeus, käyttäjähaut käyttöoikeuksien ajaxin "
+"kautta palauttavat käyttäjiä kaikilta sivustoilta"
+
+#: includes-pro/admin-load.php:446
+msgid ""
+"Count users as a member of a BuddyPress Permissions Group only if they are "
+"a moderator of the BP group"
+msgstr ""
+"Laske käyttäjät BuddyPress-käyttöoikeusryhmän jäseniksi vain, jos he ovat "
+"BP-ryhmän moderaattoreita"
+
+#: includes-pro/admin-load.php:449
+msgid ""
+"Count users as a member of a BuddyPress Permissions Group only if they are "
+"an administrator of the BP group"
+msgstr ""
+"Laske käyttäjät BuddyPress-käyttöoikeusryhmän jäseniksi vain, jos he ovat "
+"BP-ryhmän ylläpitäjiä"
+
+#: includes-pro/admin-load.php:457
+msgid ""
+"CMS Page Tree View plugin: hide 'add' links (for all hierarchical post "
+"types) based on user's association permissions"
+msgstr ""
+"CMS-sivupuun näkymä -laajennus: piilota 'lisää' -linkit (kaikille "
+"hierarkkisille julkaisutyypeille) käyttäjän yhdistämisoikeuksien perusteella"
+
+#: includes-pro/admin-load.php:460
+msgid ""
+"CMS Page Tree View plugin: hide 'add' links (for pages) based on user's "
+"page association permissions"
+msgstr ""
+"CMS-sivupuun näkymä -laajennus: piilota 'lisää' -linkit (sivuille) "
+"käyttäjän sivuyhdistämisoikeuksien perusteella"
+
+#: includes-pro/admin-load.php:463
+msgid ""
+"CMS Page Tree View plugin: hide 'add' links (for specified hierarchical "
+"post type) based on user's association permissions"
+msgstr ""
+"CMS-sivupuun näkymä -laajennus: piilota 'lisää' -linkit (määritetylle "
+"hierarkkiselle julkaisutyypille) käyttäjän yhdistämisoikeuksien perusteella"
+
+#: includes-pro/admin-load.php:470
+msgid "Prevent Permission from filtering the Nested Pages listing at all"
+msgstr "Estä oikeuksia suodattamasta sisäisten sivujen luetteloa lainkaan"
+
+#: includes-pro/admin-load.php:473
+msgid "Force Permissions to filter the Nested Pages listing"
+msgstr "Pakota oikeudet suodattamaan sisäisten sivujen luettelo"
+
+#: includes-pro/admin-load.php:476
+msgid "Comma-separated list of roles that are allowed to Quick Edit nested pages"
+msgstr ""
+"Pilkuilla eroteltu luettelo rooleista, joilla on oikeus muokata nopeasti "
+"sisäisiä sivuja"
+
+#: includes-pro/admin-load.php:479
+msgid "Comma-separated list of roles that are allowed to use the Context Menu"
+msgstr ""
+"Pilkuilla eroteltu luettelo rooleista, joilla on oikeus käyttää "
+"kontekstivalikkoa"
+
+#: includes-pro/admin-load.php:482
+msgid ""
+"Never allow unfiltered users to use the Context Menu, even if they have "
+"pp_force_quick_edit capability"
+msgstr ""
+"Älä koskaan salli suodattamattomien käyttäjien käyttää kontekstivalikkoa, "
+"vaikka heillä olisi pp_force_quick_edit -oikeus"
+
+#: includes-pro/admin-load.php:485
+msgid ""
+"Disable Add Child link unless user is unfiltered (Administrator or has "
+"pp_nested_pages_unfiltered capability)"
+msgstr ""
+"Poista Lisää lapsi -linkki käytöstä, ellei käyttäjä ole suodattamaton "
+"(ylläpitäjä tai hänellä on pp_nested_pages_unfiltered -oikeus)"
+
+#: includes-pro/admin-load.php:488
+msgid "Disable Add Child Page link unless user is unfiltered"
+msgstr "Poista Lisää lapsisivu -linkki käytöstä, ellei käyttäjä ole suodattamaton"
+
+#: includes-pro/admin-load.php:491
+msgid "Disable Insert Page Before link unless user is unfiltered"
+msgstr "Poista Lisää sivu ennen -linkki käytöstä, ellei käyttäjä ole suodattamaton"
+
+#: includes-pro/admin-load.php:494
+msgid "Disable Insert Page After link unless user is unfiltered"
+msgstr "Poista Lisää sivu jälkeen -linkki käytöstä, ellei käyttäjä ole suodattamaton"
+
+#: includes-pro/admin-load.php:497
+msgid "Disable Push to Top link unless user is unfiltered"
+msgstr "Poista Työnnä ylös -linkki käytöstä, ellei käyttäjä ole suodattamaton"
+
+#: includes-pro/admin-load.php:500
+msgid "Disable Push to Bottom link unless user is unfiltered"
+msgstr "Poista Työnnä alas -linkki käytöstä, ellei käyttäjä ole suodattamaton"
+
+#: includes-pro/admin-load.php:503
+msgid "Disable Clone link unless user is unfiltered"
+msgstr "Poista Kloonaa -linkki käytöstä, ellei käyttäjä ole suodattamaton"
+
+#: includes-pro/SettingsTabInstall.php:21
+msgid "License"
+msgstr "Lisenssi"
+
+#: includes-pro/SettingsTabInstall.php:28
+#: includes-pro/SettingsTabInstall.php:128
+msgid "License Key"
+msgstr "Lisenssiavain"
+
+#: includes-pro/SettingsTabInstall.php:29
+msgid "Version"
+msgstr "Versio"
+
+#: includes-pro/SettingsTabInstall.php:41
+#: includes-pro/SettingsTabInstall.php:42
+msgid "settings"
+msgstr "asetukset"
+
+#: includes-pro/SettingsTabInstall.php:121
+msgid "Key Expired"
+msgstr "Avain vanhentunut"
+
+#: includes-pro/SettingsTabInstall.php:124
+#: includes-pro/SettingsTabInstall.php:136
+#: includes-pro/SettingsTabInstall.php:348
+msgid "Deactivate Key"
+msgstr "Deaktivoi avain"
+
+#: includes-pro/SettingsTabInstall.php:127
+msgid "Key Activated"
+msgstr "Avain aktivoitu"
+
+#: includes-pro/SettingsTabInstall.php:131
+msgid "(please enter publishpress.com key)"
+msgstr "(ole hyvä ja syötä publishpress.com-avain)"
+
+#: includes-pro/SettingsTabInstall.php:135
+#: includes-pro/SettingsTabInstall.php:347
+msgid "Activate Key"
+msgstr "Aktivoi avain"
+
+#: includes-pro/SettingsTabInstall.php:146
+msgid ""
+"Note: Renewal does not require deactivation. If you do deactivate, re-entry "
+"of the license key will be required."
+msgstr ""
+"Huomautus: Uusiminen ei vaadi deaktivointia. Jos kuitenkin deaktivoit, "
+"lisenssiavaimen syöttäminen vaaditaan uudelleen."
+
+#: includes-pro/SettingsTabInstall.php:178
+#: includes-pro/SettingsTabInstall.php:214
+#, php-format
+msgid ""
+"Your license key has expired. For continued priority support, %1$splease "
+"renew%2$s."
+msgstr ""
+"Lisenssiavaimesi on vanhentunut. Jatkuvaa ensisijaista tukea varten, "
+"%1$sole hyvä ja uusi%2$s."
+
+#: includes-pro/SettingsTabInstall.php:185
+#, php-format
+msgid ""
+"Your license key will expire today. For updates and priority support, "
+"%1$splease renew%2$s."
+msgstr ""
+"Lisenssiavaimesi vanhenee tänään. Päivityksiä ja ensisijaista tukea varten, "
+"%1$sole hyvä ja uusi%2$s."
+
+#: includes-pro/SettingsTabInstall.php:191
+#, php-format
+msgid ""
+"Your license key (for plugin updates) will expire in %1$d day(s). For "
+"updates and priority support, %2$splease renew%3$s."
+msgstr ""
+"Lisenssiavaimesi (laajennuspäivityksille) vanhenee %1$d päivän(k) kuluttua. "
+"Päivityksiä ja ensisijaista tukea varten, %2$sole hyvä ja uusi%3$s."
+
+#: includes-pro/SettingsTabInstall.php:199
+#, php-format
+msgid ""
+"For updates to Permissions Pro, activate your %1$sPublishPress license "
+"key%2$s."
+msgstr ""
+"Päivityksiä varten Permissions Pro:lle, aktivoi %1$sPublishPress "
+"lisenssiavain%2$s."
+
+#: includes-pro/SettingsTabInstall.php:208
+msgid "reload module info"
+msgstr "lataa moduulin tiedot uudelleen"
+
+#: includes-pro/SettingsTabInstall.php:258
+#: includes-pro/SettingsTabInstall.php:266
+#, php-format
+msgid "Permissions Pro Version: %1$s %2$s"
+msgstr "Oikeudet Pro Versio: %1$s %2$s"
+
+#: includes-pro/SettingsTabInstall.php:262
+#, php-format
+msgid "view %s&nbsp;details"
+msgstr "näytä %s&nbsp;tiedot"
+
+#: includes-pro/SettingsTabInstall.php:276
+msgid "update check / install"
+msgstr "päivityksen tarkistus / asennus"
+
+#: includes-pro/SettingsTabInstall.php:280
+#, php-format
+msgid "Database Schema Version: %s"
+msgstr "Tietokannan skeeman versio: %s"
+
+#: includes-pro/SettingsTabInstall.php:291
+msgid "Installation History"
+msgstr "Asennushistoria"
+
+#: includes-pro/SettingsTabInstall.php:313
+#, php-format
+msgid "%s (previous install)"
+msgstr "%s (edellinen asennus)"
+
+#: includes-pro/SettingsTabInstall.php:330
+#, php-format
+msgid "WordPress Version: %s"
+msgstr "WordPress Versio: %s"
+
+#: includes-pro/SettingsTabInstall.php:334
+#, php-format
+msgid "PHP Version: %s"
+msgstr "PHP Versio: %s"
+
+#: includes-pro/SettingsTabInstall.php:349
+msgid "The request could not be processed due to a connection failure."
+msgstr "Pyyntöä ei voitu käsitellä yhteysongelman vuoksi."
+
+#: includes-pro/SettingsTabInstall.php:350
+msgid "Please enter the license key shown on your order receipt."
+msgstr "Ole hyvä ja syötä tilauskuittisi mukainen lisenssiavain."
+
+#: includes-pro/SettingsTabInstall.php:351
+msgid "An unidentified error occurred."
+msgstr "Tapahtui määrittelemätön virhe."
+
+#: includes-pro/SettingsTabInstall.php:353
+msgid "The key has been deactivated."
+msgstr "Avain on deaktivoitu."
+
+#: includes-pro/SettingsTabInstall.php:354
+msgid "The key has been activated."
+msgstr "Avain on aktivoitu."
+
+#: includes-pro/SettingsTabInstall.php:355
+msgid "The key has expired."
+msgstr "Avain on vanhentunut."
+
+#: includes-pro/SettingsTabInstall.php:356
+msgid "The key is invalid."
+msgstr "Avain on virheellinen."
+
+#: includes-pro/SettingsTabInstall.php:357
+msgid "The key could not be activated. Please retry."
+msgstr "Avainta ei voitu aktivoida. Ole hyvä ja yritä uudelleen."
+
+#: modules/presspermit-circles/classes/Permissions/Circles/UI/Dashboard/Profile.php:19
+msgid "Circle Membership"
+msgstr "Ympyräjäsenyys"
+
+#: modules/presspermit-circles/classes/Permissions/Circles/UI/Dashboard/Profile.php:21
+msgid "Viewing"
+msgstr "Näytetään"
+
+#: modules/presspermit-circles/classes/Permissions/Circles/UI/Dashboard/Profile.php:21
+msgid "Editing"
+msgstr "Muokkaaminen"
+
+#: modules/presspermit-circles/classes/Permissions/Circles/UI/Dashboard/Profile.php:27
+#, php-format
+msgid "%s is limited to circle authors only, for these post types:"
+msgstr "%s on rajoitettu vain ympyräkirjoittajille, näille postityypeille:"
+
+#: modules/presspermit-circles/classes/Permissions/Circles/UI/GroupEdit.php:47
+msgid "Circle Activation"
+msgstr "Ympyrän aktivointi"
+
+#: modules/presspermit-circles/classes/Permissions/Circles/UI/GroupEdit.php:57
+msgid "Visibility Circle"
+msgstr "Näkymä Ympyrä"
+
+#: modules/presspermit-circles/classes/Permissions/Circles/UI/GroupEdit.php:57
+msgid "Editorial Circle"
+msgstr "Toimittajakunta Ympyrä"
+
+#: modules/presspermit-circles/classes/Permissions/Circles/UI/GroupEdit.php:75
+msgid ""
+"Users in this group will only be able to view posts that were authored by "
+"other users in this group."
+msgstr ""
+"Tämän ryhmän käyttäjät voivat nähdä vain postit, jotka on kirjoittanut muut "
+"käyttäjät tässä ryhmässä."
+
+#: modules/presspermit-circles/classes/Permissions/Circles/UI/GroupEdit.php:76
+msgid ""
+"Users in this group will only be able to edit posts that were authored by "
+"other users in this group."
+msgstr ""
+"Tämän ryhmän käyttäjät voivat muokata vain postit, jotka on kirjoittanut "
+"muut käyttäjät tässä ryhmässä."
+
+#: modules/presspermit-circles/classes/Permissions/Circles/UI/GroupEdit.php:78
+msgid "Normal capability requirements will also be enforced."
+msgstr "Normaalit käyttöoikeusvaatimukset tullaan myös noudattamaan."
+
+#: modules/presspermit-circles/classes/Permissions/Circles/UI/GroupEdit.php:82
+#, php-format
+msgid "This group is a %s"
+msgstr "Tämä ryhmä on %s"
+
+#: modules/presspermit-circles/classes/Permissions/Circles/UI/GroupEdit.php:95
+#, php-format
+msgid "Circles cannot be enforced on roles with %s capabilities."
+msgstr "Ympyröitä ei voida pakottaa rooleihin, joilla on %s -kykyjä."
+
+#: modules/presspermit-circles/classes/Permissions/Circles/UI/GroupEdit.php:104
+#, php-format
+msgid "%s%s restrictions%s do not apply to this role. %s"
+msgstr "%s%s rajoituksia%s ei sovelleta tähän rooliin. %s"
+
+#: modules/presspermit-circles/classes/Permissions/Circles/UI/GroupEdit.php:135
+msgid "Apply limitation for post types:"
+msgstr "Käytä rajoitusta viestityypeille:"
+
+#: modules/presspermit-circles/classes/Permissions/Circles/UI/GroupEdit.php:213
+#, php-format
+msgid ""
+"Users may be excused from Circle restrictions by adding the %1$s or %2$s "
+"capability to their role."
+msgstr ""
+"Käyttäjät voidaan vapauttaa Ympyrä-rajoituksista lisäämällä %1$s tai %2$s "
+"-kyky heidän rooliinsa."
+
+#: modules/presspermit-circles/classes/Permissions/Circles/UI/GroupsListing.php:14
+msgid "Circle Type"
+msgstr "Ympyrän tyyppi"
+
+#: modules/presspermit-circles/classes/Permissions/Circles/UI/GroupsListing.php:47
+msgid "Visibility"
+msgstr "Näkyvyys"
+
+#: modules/presspermit-circles/classes/Permissions/Circles/UI/GroupsListing.php:55
+msgid "Editorial"
+msgstr "Toimittaminen"
+
+#: modules/presspermit-circles/classes/Permissions/CirclesHooksAdmin.php:54
+msgid "Access Circle restrictions apply to revisions"
+msgstr "Pääsy Ympyrä-rajoitukset koskevat tarkistuksia"
+
+#: modules/presspermit-compatibility/classes/Permissions/Compat/BBPress/HooksAdmin.php:39
+msgid "Create Topics in"
+msgstr "Luo aiheita"
+
+#: modules/presspermit-compatibility/classes/Permissions/Compat/BBPress/HooksAdmin.php:40
+msgid "Topic Creation"
+msgstr "Aiheen luominen"
+
+#: modules/presspermit-compatibility/classes/Permissions/Compat/BBPress/HooksAdmin.php:41
+msgid "Create Topic"
+msgstr "Luo aihe"
+
+#: modules/presspermit-compatibility/classes/Permissions/Compat/BBPress/HooksAdmin.php:46
+msgid "Submit Replies in"
+msgstr "Lähetä vastauksia"
+
+#: modules/presspermit-compatibility/classes/Permissions/Compat/BBPress/HooksAdmin.php:47
+msgid "Reply Submission"
+msgstr "Vastauksen lähettäminen"
+
+#: modules/presspermit-compatibility/classes/Permissions/Compat/BBPress/HooksAdmin.php:48
+msgid "Submit Reply"
+msgstr "Lähetä vastaus"
+
+#: modules/presspermit-compatibility/classes/Permissions/Compat/BuddyPress/PermissionGroups/GroupsListTable.php:298
+msgid "Show more details"
+msgstr "Näytä lisää tietoja"
+
+#: modules/presspermit-compatibility/classes/Permissions/Compat/BuddyPress/PermissionGroups/Hooks.php:37
+msgid "BuddyPress Group"
+msgstr "BuddyPress-ryhmä"
+
+#: modules/presspermit-compatibility/classes/Permissions/Compat/BuddyPress/PermissionGroups/HooksAdmin.php:160
+msgid "BP Permission Group"
+msgstr "BP-oikeusryhmä"
+
+#: modules/presspermit-compatibility/classes/Permissions/Compat/BuddyPress/PermissionGroups/HooksAdmin.php:161
+msgid "BP Permission Groups"
+msgstr "BP-oikeusryhmät"
+
+#: modules/presspermit-compatibility/classes/Permissions/Compat/BuddyPress/PermissionGroups/HooksAdmin.php:174
+msgid "Manage"
+msgstr "Hallitse"
+
+#: modules/presspermit-compatibility/classes/Permissions/Compat/BuddyPress/PermissionGroups/HooksAdmin.php:185
+msgid "BuddyPress Groups"
+msgstr "BuddyPress-ryhmät"
+
+#: modules/presspermit-compatibility/classes/Permissions/Compat/CMSTreeView.php:112
+msgid ""
+"Page creation was blocked because you are not allowed to select that parent "
+"page."
+msgstr "Sivun luonti estettiin, koska sinulla ei ole oikeutta valita tuota pääsivua."
+
+#: modules/presspermit-compatibility/classes/Permissions/Compat/CMSTreeView.php:113
+msgid "Back to Dashboard"
+msgstr "Takaisin ohjauspaneeliin"
+
+#: modules/presspermit-compatibility/classes/Permissions/Compat/CMSTreeView.php:115
+msgid "Permission Denied"
+msgstr "Käyttöoikeus evätty"
+
+#: modules/presspermit-compatibility/classes/Permissions/Compat/CMSTreeView.php:117
+msgid "You are not allowed to select that parent page."
+msgstr "Sinulla ei ole oikeutta valita tuota pääsivua."
+
+#: modules/presspermit-compatibility/classes/Permissions/Compat/NetwideGroups.php:19
+msgid "Network Groups"
+msgstr "Verkoston ryhmät"
+
+#: modules/presspermit-compatibility/classes/Permissions/Compat/NetwideGroups.php:19
+msgid "Network Group"
+msgstr "Verkoston ryhmä"
+
+#: modules/presspermit-compatibility/classes/Permissions/Compat/UI/Settings.php:46
+msgid "Teaser text"
+msgstr "Esittelyteksti"
+
+#: modules/presspermit-compatibility/classes/Permissions/Compat/UI/Settings.php:54
+msgid "Network"
+msgstr "Verkosto"
+
+#: modules/presspermit-compatibility/classes/Permissions/Compat/UI/Settings.php:64
+msgid "Groups"
+msgstr "Ryhmä"
+
+#: modules/presspermit-compatibility/classes/Permissions/Compat/UI/Settings.php:73
+msgid "Forum Teaser"
+msgstr "Foorumin esittely"
+
+#: modules/presspermit-compatibility/classes/Permissions/Compat/UI/Settings.php:88
+msgid "Network-wide groups"
+msgstr "Verkoston laajuiset ryhmät"
+
+#: modules/presspermit-compatibility/classes/Permissions/Compat/UI/Settings.php:92
+msgid "Teaser Topics"
+msgstr "Esittelyaiheet"
+
+#: modules/presspermit-compatibility/classes/Permissions/Compat/UI/Settings.php:93
+msgid "Hide Topic / Reply Author Link"
+msgstr "Piilota aiheen / vastauksen kirjoittajan linkki"
+
+#: modules/presspermit-compatibility/classes/Permissions/Compat/UI/Settings.php:126
+msgid "Compatibility Pack"
+msgstr "Yhteensopivuuspaketti"
+
+#: modules/presspermit-compatibility/classes/Permissions/Compat/UI/Settings.php:184
+#, php-format
+msgid "Topic Teaser Text (%s):"
+msgstr "Aiheen esittelyteksti (%s):"
+
+#: modules/presspermit-compatibility/classes/Permissions/Compat/UI/Settings.php:185
+#, php-format
+msgid "Reply Teaser Text (%s):"
+msgstr "Vastauksen esittelyteksti (%s):"
+
+#: modules/presspermit-compatibility/classes/Permissions/Compat/UI/Settings.php:189
+msgid "First Reply"
+msgstr "Ensimmäinen vastaus"
+
+#: modules/presspermit-compatibility/classes/Permissions/Compat/UI/Settings.php:190
+msgid "Other Replies"
+msgstr "Muut vastaukset"
+
+#: modules/presspermit-compatibility/classes/Permissions/Compat/UI/Settings.php:207
+msgid "Not Logged In"
+msgstr "Et ole kirjautunut sisään"
+
+#: modules/presspermit-compatibility/classes/Permissions/Compat/UI/Settings.php:207
+msgid "Logged In Users"
+msgstr "Kirjautuneet käyttäjät"
+
+#: modules/presspermit-compatibility/classes/Permissions/Compat/UI/Settings.php:240
+#, php-format
+msgid "Insert a login form by using %s[login_form]%s shortcode."
+msgstr "Lisää kirjautumislomake käyttämällä %s[login_form]%s lyhennettä."
+
+#: modules/presspermit-compatibility/classes/Permissions/Compat/UI/Settings.php:284
+msgid "Hide Topics and Replies"
+msgstr "Piilota aiheet ja vastaukset"
+
+#: modules/presspermit-compatibility/classes/Permissions/Compat/UI/Settings.php:285
+msgid "Tease Topics and Replies"
+msgstr "Kohota aiheet ja vastaukset"
+
+#: modules/presspermit-compatibility/classes/Permissions/Compat/UI/Settings.php:286
+msgid "Show Topics, Tease Replies"
+msgstr "Näytä aiheet, kohota vastaukset"
+
+#: modules/presspermit-compatibility/classes/Permissions/Compat/UI/Settings.php:320
+msgid ""
+"The single forum teaser may be customized by "
+"STYLESHEETPATH/press-permit/teaser-content-forum.php"
+msgstr ""
+"Yksittäistä foorumikohdetta voidaan muokata tiedostosta "
+"STYLESHEETPATH/press-permit/teaser-content-forum.php"
+
+#: modules/presspermit-compatibility/classes/Permissions/CompatHooks.php:237
+#: modules/presspermit-compatibility/classes/Permissions/CompatHooks.php:241
+msgid "[This topic requires additional permissions or membership.]"
+msgstr "[Tämä aihe vaatii lisäoikeuksia tai jäsenyyttä.]"
+
+#: modules/presspermit-compatibility/classes/Permissions/CompatHooks.php:238
+#: modules/presspermit-compatibility/classes/Permissions/CompatHooks.php:242, fuzzy
+msgid "[...]"
+msgstr "[...]"
+
+#: modules/presspermit-compatibility/classes/Permissions/CompatHooks.php:239
+msgid "[This topic requires site login.]"
+msgstr "[Tämä aihe vaatii sivustolle kirjautumisen.]"
+
+#: modules/presspermit-compatibility/classes/Permissions/CompatHooks.php:240
+#: modules/presspermit-compatibility/classes/Permissions/CompatHooks.php:244
+msgid "[login required]"
+msgstr "[kirjautuminen vaaditaan]"
+
+#: modules/presspermit-compatibility/classes/Permissions/CompatHooks.php:243
+msgid "[This reply requires site login.]"
+msgstr "[Tämä vastaus vaatii sivustolle kirjautumisen.]"
+
+#: modules/presspermit-file-access/classes/Permissions/FileAccess/UI/SettingsTabFileAccess.php:31
+#: modules/presspermit-file-access/classes/Permissions/FileAccess/UI/SettingsTabFileAccess.php:38
+msgid "File Access"
+msgstr "Tiedoston pääsy"
+
+#: modules/presspermit-file-access/classes/Permissions/FileAccess/UI/SettingsTabFileAccess.php:50
+#: modules/presspermit-file-access/classes/Permissions/FileAccess/UI/SettingsTabFileAccess.php:286
+msgid "File Access Reset Key:"
+msgstr "Tiedoston pääsyn nollausavain:"
+
+#: modules/presspermit-file-access/classes/Permissions/FileAccess/UI/SettingsTabFileAccess.php:51
+msgid "Small Thumbnails Unfiltered"
+msgstr "Pienet pikkukuvat suodattamattomat"
+
+#: modules/presspermit-file-access/classes/Permissions/FileAccess/UI/SettingsTabFileAccess.php:52
+msgid "Make Unattached Files Private"
+msgstr "Tee liittämättömistä tiedostoista yksityisiä"
+
+#: modules/presspermit-file-access/classes/Permissions/FileAccess/UI/SettingsTabFileAccess.php:53
+msgid "Make Attached Files Private"
+msgstr "Tee liitetyistä tiedostoista yksityisiä"
+
+#: modules/presspermit-file-access/classes/Permissions/FileAccess/UI/SettingsTabFileAccess.php:86
+#, php-format
+msgid ""
+"%1$sNote%2$s: Direct access to uploaded file attachments cannot be filtered "
+"because mod_rewrite is not enabled on your server."
+msgstr ""
+"%1$sHuomautus%2$s: Suoraan ladattuihin tiedostoliitteisiin ei voida käyttää "
+"suodatusta, koska mod_rewrite ei ole käytössä palvelimellasi."
+
+#: modules/presspermit-file-access/classes/Permissions/FileAccess/UI/SettingsTabFileAccess.php:92
+#, php-format
+msgid ""
+"%1$sNote%2$s: Direct access to uploaded file attachments will not be "
+"filtered due to your nonstandard UPLOADS path."
+msgstr ""
+"%1$sHuomautus%2$s: Suoraan ladattuihin tiedostoliitteisiin ei voida käyttää "
+"suodatusta ei-standardin UPLOADS-polun vuoksi."
+
+#: modules/presspermit-file-access/classes/Permissions/FileAccess/UI/SettingsTabFileAccess.php:100
+#, php-format
+msgid ""
+"%1$sNote%2$s: Direct access to uploaded file attachments cannot be filtered "
+"because WordPress permalinks are set to default."
+msgstr ""
+"%1$sHuomautus%2$s: Suoraan ladattuihin tiedostoliitteisiin ei voida käyttää "
+"suodatusta, koska WordPressin pysyviä linkkejä on asetettu oletusarvoiseksi."
+
+#: modules/presspermit-file-access/classes/Permissions/FileAccess/UI/SettingsTabFileAccess.php:160
+msgid "show required rules"
+msgstr "näytä vaaditut säännöt"
+
+#: modules/presspermit-file-access/classes/Permissions/FileAccess/UI/SettingsTabFileAccess.php:292
+msgid "Copy"
+msgstr "Kopioi"
+
+#: modules/presspermit-file-access/classes/Permissions/FileAccess/UI/SettingsTabFileAccess.php:303
+msgid "Copied!"
+msgstr "Kopioitu!"
+
+#: modules/presspermit-file-access/classes/Permissions/FileAccess/UI/SettingsTabFileAccess.php:353
+msgid "Regenerate Access File"
+msgstr "Käyttöoikeustiedoston uudelleenluonti"
+
+#: modules/presspermit-file-access/classes/Permissions/FileAccess/UI/SettingsTabFileAccess.php:365
+#: modules/presspermit-file-access/classes/Permissions/FileAccess/UI/SettingsUtility.php:80
+msgid "Attachments Utility"
+msgstr "Liitteet-työkalu"
+
+#: modules/presspermit-file-access/classes/Permissions/FileAccess/UI/SettingsTabFileAccess.php:375
+#, php-format
+msgid "For Nginx integration, see %spublishpress.com documentation%s."
+msgstr "Nginx-integraatiota varten katso %spublishpress.com -dokumentaatio%s."
+
+#: modules/presspermit-file-access/classes/Permissions/FileAccess/UI/SettingsUtility.php:83
+msgid "Back to Permissions Settings"
+msgstr "Takaisin käyttöoikeusasetuksiin"
+
+#: modules/presspermit-file-access/classes/Permissions/FileAccess/UI/SettingsUtility.php:88
+msgid "File Access for Files Uploaded via FTP"
+msgstr "Tiedostojen käyttöoikeus FTP:n kautta ladattuille tiedostoille"
+
+#: modules/presspermit-file-access/classes/Permissions/FileAccess/UI/SettingsUtility.php:95
+msgid "Find Files Uploaded via FTP"
+msgstr "Etsi FTP:n kautta ladattuja tiedostoja"
+
+#: modules/presspermit-file-access/classes/Permissions/FileAccess/UI/SettingsUtility.php:104
+msgid ""
+"The network attachment scan has been queued and will continue in the "
+"background via WP-Cron."
+msgstr "Verkkoliitännäiskäynti on jonossa ja jatkuu taustalla WP-Cronin kautta."
+
+#: modules/presspermit-file-access/classes/Permissions/FileAccess/UI/SettingsUtility.php:106
+msgid "A network attachment scan is already in progress or could not be scheduled."
+msgstr "Verkkoliitännäiskäynti on jo käynnissä tai sitä ei voitu aikatauluttaa."
+
+#: modules/presspermit-file-access/classes/Permissions/FileAccess/UI/SettingsUtility.php:116
+msgid "Site Configuration Requirements"
+msgstr "Sivuston konfigurointivaatimukset"
+
+#: modules/presspermit-file-access/classes/Permissions/FileAccess/UI/SettingsUtility.php:118
+msgid ""
+"For proper access control of direct file URLs, your site must meet these "
+"requirements:"
+msgstr ""
+"Suoran tiedost URL:n oikeudenmukaiseksi hallinnaksi sivustosi on täytettävä "
+"seuraavat vaatimukset:"
+
+#: modules/presspermit-file-access/classes/Permissions/FileAccess/UI/SettingsUtility.php:150
+msgid "Automated Processing"
+msgstr "Automaattinen käsittely"
+
+#: modules/presspermit-file-access/classes/Permissions/FileAccess/UI/SettingsUtility.php:166
+msgid "Utility Endpoint URL:"
+msgstr "Työkalupisteen URL:"
+
+#: modules/presspermit-file-access/classes/Permissions/FileAccess/UI/SettingsUtility.php:168
+msgid "Copy URL"
+msgstr "Kopioi URL"
+
+#: modules/presspermit-file-access/classes/Permissions/FileAccess/UI/SettingsUtility.php:173
+msgid "Go to Settings"
+msgstr "Siirry asetuksiin"
+
+#: modules/presspermit-file-access/classes/Permissions/FileAccess/UI/SettingsUtility.php:270
+msgid "RUNNING"
+msgstr "KÄYNNISSÄ"
+
+#: modules/presspermit-file-access/classes/Permissions/FileAccess/UI/SettingsUtility.php:445
+msgid "Operation complete"
+msgstr "Toiminto valmis"
+
+#: modules/presspermit-file-access/classes/Permissions/FileAccess/UI/SettingsUtility.php:471
+msgid "Scan Again"
+msgstr "Skannaa uudelleen"
+
+#: modules/presspermit-membership/classes/Permissions/Membership/UI/GroupEdit.php:178
+#: modules/presspermit-membership/classes/Permissions/Membership/UI/GroupEdit.php:184
+#, fuzzy, php-format
+msgid "%1$s (%2$s - %3$s)"
+msgstr "%1$s (%2$s - %3$s)"
+
+#: modules/presspermit-sync/classes/Permissions/SyncHooksAdmin.php:169
+#, php-format
+msgid "Role selection is required for %s. Please select at least one role."
+msgstr "Roolin valinta on pakollinen %s. Valitse vähintään yksi rooli."
+
+#: modules/presspermit-sync/classes/Permissions/SyncPosts/UI/Helper.php:61
+#, php-format
+msgid ""
+"You seem to be using a Team / Staff plugin. To synchronize posts to users "
+"and give them editing permission, go to %1$sPermissions > Settings > Sync "
+"Posts%2$s"
+msgstr ""
+"Näyttää siltä, että käytät Tiimi / Henkilöstö -laajennusta. Jotta voit "
+"synkronoida julkaisuja käyttäjille ja antaa heille muokkausoikeudet, siirry "
+"%1$sKäyttöoikeudet > Asetukset > Synkronoi julkaisut%2$s"
+
+#: modules/presspermit-sync/classes/Permissions/SyncPosts/UI/SettingsTabSyncPosts.php:33
+msgid "User Posts"
+msgstr "Käyttäjän julkaisut"
+
+#: modules/presspermit-sync/classes/Permissions/SyncPosts/UI/SettingsTabSyncPosts.php:41
+msgid "Synchronize Posts"
+msgstr "Synkronoi julkaisut"
+
+#: modules/presspermit-sync/classes/Permissions/SyncPosts/UI/SettingsTabSyncPosts.php:54
+#: modules/presspermit-sync/classes/Permissions/SyncPosts/UI/SettingsTabSyncPosts.php:112
+msgid "Create Posts for Users"
+msgstr "Luo julkaisuja käyttäjille"
+
+#: modules/presspermit-sync/classes/Permissions/SyncPosts/UI/SettingsTabSyncPosts.php:55
+#: modules/presspermit-sync/classes/Permissions/SyncPosts/UI/SettingsTabSyncPosts.php:130
+msgid "Grant Author Permissions"
+msgstr "Myönnä kirjoittajan oikeudet"
+
+#: modules/presspermit-sync/classes/Permissions/SyncPosts/UI/SettingsTabSyncPosts.php:56
+msgid "Post Types"
+msgstr "Julkaisutyypit"
+
+#: modules/presspermit-sync/classes/Permissions/SyncPosts/UI/SettingsTabSyncPosts.php:57
+msgid "Match Post Field"
+msgstr "Vastaavuus julkaisu kentälle"
+
+#: modules/presspermit-sync/classes/Permissions/SyncPosts/UI/SettingsTabSyncPosts.php:58
+msgid "Match User Field"
+msgstr "Vastaavuus käyttäjä kentälle"
+
+#: modules/presspermit-sync/classes/Permissions/SyncPosts/UI/SettingsTabSyncPosts.php:59
+msgid "User Role"
+msgstr "Käyttäjän rooli"
+
+#: modules/presspermit-sync/classes/Permissions/SyncPosts/UI/SettingsTabSyncPosts.php:60
+msgid "Parent Post"
+msgstr "Yläpuolinen julkaisu"
+
+#: modules/presspermit-sync/classes/Permissions/SyncPosts/UI/SettingsTabSyncPosts.php:61
+#: modules/presspermit-sync/classes/Permissions/SyncPosts/UI/SettingsTabSyncPosts.php:430
+msgid "Quantity"
+msgstr "Määrä"
+
+#: modules/presspermit-sync/classes/Permissions/SyncPosts/UI/SettingsTabSyncPosts.php:62
+msgid "Post Status"
+msgstr "Julkaisun tila"
+
+#: modules/presspermit-sync/classes/Permissions/SyncPosts/UI/SettingsTabSyncPosts.php:368
+msgid "Post Title"
+msgstr "Julkaisun otsikko"
+
+#: modules/presspermit-sync/classes/Permissions/SyncPosts/UI/SettingsTabSyncPosts.php:369
+msgid "Post slug"
+msgstr "Julkaisun slug"
+
+#: modules/presspermit-sync/classes/Permissions/SyncPosts/UI/SettingsTabSyncPosts.php:373
+msgid "User Display Name"
+msgstr "Käyttäjän näyttönimi"
+
+#: modules/presspermit-sync/classes/Permissions/SyncPosts/UI/SettingsTabSyncPosts.php:374
+msgid "User email"
+msgstr "Käyttäjän sähköposti"
+
+#: modules/presspermit-sync/classes/Permissions/SyncPosts/UI/SettingsTabSyncPosts.php:375
+msgid "User login"
+msgstr "Käyttäjän kirjautuminen"
+
+#: modules/presspermit-sync/classes/Permissions/SyncPosts/UI/SettingsTabSyncPosts.php:376
+msgid "User nicename"
+msgstr "Käyttäjän nimimerkki"
+
+#: modules/presspermit-sync/classes/Permissions/SyncPosts/UI/SettingsTabSyncPosts.php:401
+msgid "User Posts Created:"
+msgstr "Luodut käyttäjän julkaisut:"
+
+#: modules/presspermit-sync/classes/Permissions/SyncPosts/UI/SettingsTabSyncPosts.php:414
+msgid "Post Type"
+msgstr "Julkaisun tyyppi"
+
+#: modules/presspermit-sync/classes/Permissions/SyncPosts/UI/SettingsTabSyncPosts.php:415
+msgid "Select where posts will be created for users."
+msgstr "Valitse, mihin julkaisut luodaan käyttäjille."
+
+#: modules/presspermit-sync/classes/Permissions/SyncPosts/UI/SettingsTabSyncPosts.php:418
+msgid "New Users"
+msgstr "Uudet käyttäjät"
+
+#: modules/presspermit-sync/classes/Permissions/SyncPosts/UI/SettingsTabSyncPosts.php:419
+msgid "Create posts for new users."
+msgstr "Luo julkaisuja uusille käyttäjille."
+
+#: modules/presspermit-sync/classes/Permissions/SyncPosts/UI/SettingsTabSyncPosts.php:422
+msgid "Current Users"
+msgstr "Nykyiset käyttäjät"
+
+#: modules/presspermit-sync/classes/Permissions/SyncPosts/UI/SettingsTabSyncPosts.php:423
+msgid "Create posts for existing users."
+msgstr "Luo julkaisuja olemassa oleville käyttäjille."
+
+#: modules/presspermit-sync/classes/Permissions/SyncPosts/UI/SettingsTabSyncPosts.php:426
+msgid "Role"
+msgstr "Rooli"
+
+#: modules/presspermit-sync/classes/Permissions/SyncPosts/UI/SettingsTabSyncPosts.php:427
+msgid "Create posts for users in these roles."
+msgstr "Luo julkaisuja näissä rooleissa oleville käyttäjille."
+
+#: modules/presspermit-sync/classes/Permissions/SyncPosts/UI/SettingsTabSyncPosts.php:431
+msgid "Set the number of posts to create for each user."
+msgstr "Aseta luotavien julkaisujen määrä jokaiselle käyttäjälle."
+
+#: modules/presspermit-sync/classes/Permissions/SyncPosts/UI/SettingsTabSyncPosts.php:434
+msgid "Status"
+msgstr "Tila"
+
+#: modules/presspermit-sync/classes/Permissions/SyncPosts/UI/SettingsTabSyncPosts.php:435
+msgid "Set the status for created posts."
+msgstr "Aseta luotujen julkaisujen tila."
+
+#: modules/presspermit-sync/classes/Permissions/SyncPosts/UI/SettingsTabSyncPosts.php:443
+msgid "No post types are enabled for user pages."
+msgstr "Käyttäjäprofiileille ei ole käytössä julkaisutyyppiä."
+
+#: modules/presspermit-sync/classes/Permissions/SyncPosts/UI/SettingsTabSyncPosts.php:445
+msgid "Go to Permissions Settings"
+msgstr "Siirry oikeudet-asetuksiin"
+
+#: modules/presspermit-sync/classes/Permissions/SyncPosts/UI/SettingsTabSyncPosts.php:487
+msgid "Click to expand/collapse advanced settings"
+msgstr "Napsauta laajentaaksesi/pienentääksesi lisäasetuksia"
+
+#: modules/presspermit-sync/classes/Permissions/SyncPosts/UI/SettingsTabSyncPosts.php:533
+msgid "(All Roles)"
+msgstr "(Kaikki roolit)"
+
+#: modules/presspermit-sync/classes/Permissions/SyncPosts/UI/SettingsTabSyncPosts.php:569
+msgid "Published"
+msgstr "Julkaistu"
+
+#: modules/presspermit-sync/classes/Permissions/SyncPosts/UI/SettingsTabSyncPosts.php:570
+msgid "Draft"
+msgstr "Luonnos"
+
+#: modules/presspermit-sync/classes/Permissions/SyncPosts/UI/SettingsTabSyncPosts.php:571
+msgid "Pending Review"
+msgstr "Odottaa tarkistusta"
+
+#: modules/presspermit-sync/classes/Permissions/SyncPosts/UI/SettingsTabSyncPosts.php:572
+msgid "Private"
+msgstr "Yksityinen"
+
+#: modules/presspermit-sync/classes/Permissions/SyncPosts/UI/SettingsTabSyncPosts.php:589
+msgid "Avoid Creating Duplicates"
+msgstr "Vältä kaksoiskappaleiden luomista"
+
+#: modules/presspermit-sync/classes/Permissions/SyncPosts/UI/SettingsTabSyncPosts.php:590
+msgid ""
+"This setting can prevent the creation of duplicate posts for a user. If the "
+"selected fields are a match, a new post will not be created."
+msgstr ""
+"Tämä asetus voi estää käyttäjälle kaksoiskappaleiden luomisen. Jos valitut "
+"kentät ovat samat, uutta julkaisua ei luoda."
+
+#: modules/presspermit-sync/classes/Permissions/SyncPosts/UI/SettingsTabSyncPosts.php:595
+msgid "Post Match Field"
+msgstr "Julkaisun vastaavuusalue"
+
+#: modules/presspermit-sync/classes/Permissions/SyncPosts/UI/SettingsTabSyncPosts.php:596
+msgid "Choose which post field to match with users."
+msgstr "Valitse, mikä julkaisualue yhdistetään käyttäjiin."
+
+#: modules/presspermit-sync/classes/Permissions/SyncPosts/UI/SettingsTabSyncPosts.php:636
+#: modules/presspermit-sync/classes/Permissions/SyncPosts/UI/SettingsTabSyncPosts.php:683
+msgid "(other)"
+msgstr "(muu)"
+
+#: modules/presspermit-sync/classes/Permissions/SyncPosts/UI/SettingsTabSyncPosts.php:648
+#: modules/presspermit-sync/classes/Permissions/SyncPosts/UI/SettingsTabSyncPosts.php:692
+msgid "select..."
+msgstr "valitse..."
+
+#: modules/presspermit-sync/classes/Permissions/SyncPosts/UI/SettingsTabSyncPosts.php:649
+#: modules/presspermit-sync/classes/Permissions/SyncPosts/UI/SettingsTabSyncPosts.php:693
+msgid "cancel"
+msgstr "peruuta"
+
+#: modules/presspermit-sync/classes/Permissions/SyncPosts/UI/SettingsTabSyncPosts.php:657
+msgid "User Match Field"
+msgstr "Käyttäjäyhteensopivuusalue"
+
+#: modules/presspermit-sync/classes/Permissions/SyncPosts/UI/SettingsTabSyncPosts.php:658
+msgid "Select which user field to match with posts."
+msgstr "Valitse, mikä käyttäjäalue yhdistetään julkaisuun."
+
+#: modules/presspermit-sync/classes/Permissions/SyncPosts/UI/SettingsTabSyncPosts.php:701
+msgid "Available Template Parameters"
+msgstr "Saatavilla olevat malliparametrit"
+
+#: modules/presspermit-sync/classes/Permissions/SyncPosts/UI/SettingsTabSyncPosts.php:704
+msgid ""
+"You can use these placeholders in the User Match Field to create custom "
+"templates:"
+msgstr ""
+"Voit käyttää näitä paikkamerkkejä käyttäjäyhteensopivuusalueessa luodaksesi "
+"mukautettuja malleja:"
+
+#: modules/presspermit-sync/classes/Permissions/SyncPosts/UI/SettingsTabSyncPosts.php:717
+msgid "Examples:"
+msgstr "Esimerkit:"
+
+#: modules/presspermit-sync/classes/Permissions/SyncPosts/UI/SettingsTabSyncPosts.php:731
+msgid "Additional Field"
+msgstr "Lisäalue"
+
+#: modules/presspermit-sync/classes/Permissions/SyncPosts/UI/SettingsTabSyncPosts.php:732
+msgid "Additional configuration options for post creation."
+msgstr "Lisäasetukset julkaisun luomiseen."
+
+#: modules/presspermit-sync/classes/Permissions/SyncPosts/UI/SettingsTabSyncPosts.php:737
+msgid "Parent Post ID"
+msgstr "Vanhemman julkaisun tunnus"
+
+#: modules/presspermit-sync/classes/Permissions/SyncPosts/UI/SettingsTabSyncPosts.php:738
+msgid "Specify the Post ID of a parent post for hierarchical post types."
+msgstr "Määritä vanhemman julkaisun tunnus hierarkkisille julkaisutyypeille."
+
+#: modules/presspermit-sync/classes/Permissions/SyncPosts/UI/SettingsTabSyncPosts.php:749
+msgid "Enter parent post ID (0 for no parent)"
+msgstr "Anna vanhemman julkaisun tunnus (0, jos ei vanhempaa)"
+
+#: modules/presspermit-sync/classes/Permissions/SyncPosts/UI/SettingsTabSyncPosts.php:895
+msgid "Validation Errors in User Posts Settings:"
+msgstr "Vahvistusvirheet käyttäjäjulkaisujen asetuksissa:"
+
+#: modules/presspermit-sync/classes/Permissions/SyncPosts/UI/SettingsTabSyncPosts.php:903
+msgid "Please fix these errors and try again."
+msgstr "Korjaa nämä virheet ja yritä uudelleen."
+
+#: modules/presspermit-sync/classes/Permissions/SyncPosts/UserSync.php:156
+#, php-format
+msgid "%s: Skipping because no roles are selected"
+msgstr "%s: Ohitetaan, koska rooleja ei ole valittu"
+
+#: modules/presspermit-sync/classes/Permissions/SyncPosts/UserSync.php:190
+#, php-format
+msgid "%s: Enabled PressPermit filtering (Core > Filtered Post Types)"
+msgstr "%s: Käynnistetty PressPermit-suodatus (Ydin > Suodatetut julkaisutyypit)"
+
+#: modules/presspermit-sync/classes/Permissions/SyncPosts/UserSync.php:208
+#, php-format
+msgid "%1$s: Assigned extra %2$s Author role to %3$s role"
+msgstr "%1$s: Määritetty lisä %2$s Kirjoittaja-rooli %3$s roolille"
+
+#: modules/presspermit-sync/classes/Permissions/SyncPosts/UserSync.php:356
+#, php-format
+msgid "Ambiguous %1$s match (%2$s)"
+msgstr "Epäselvä %1$s yhteensopivuus (%2$s)"
+
+#: modules/presspermit-sync/classes/Permissions/SyncPosts/UserSync.php:386
+#, php-format
+msgid "Ambiguous user match for %1$s (%2$s, post id %3$s"
+msgstr "Epämääräinen käyttäjän osuma %1$s (%2$s, post id %3$s"
+
+#: modules/presspermit-sync/classes/Permissions/SyncPosts/UserSync.php:411
+#, php-format
+msgid "Ambiguous user match for %1$s (%2$s, $post id %3$s)"
+msgstr "Epämääräinen käyttäjän osuma %1$s (%2$s, $post id %3$s)"
+
+#: modules/presspermit-sync/classes/Permissions/SyncPosts/UserSync.php:560
+#: modules/presspermit-sync/classes/Permissions/SyncPosts/UserSync.php:584
+#, php-format
+msgid "Ambiguous user match for %1$s (%2$s)"
+msgstr "Epämääräinen käyttäjän osuma %1$s (%2$s)"
+
+#: modules/presspermit-sync/classes/Permissions/SyncPosts/UserSync.php:620
+#, php-format
+msgid "%1$s: %2$s posts created."
+msgstr "%1$s: %2$s postausta luotu."
+
+#: modules/presspermit-sync/classes/Permissions/SyncPosts/UserSync.php:626
+#, php-format
+msgid "%1$s: %2$s posts updated."
+msgstr "%1$s: %2$s postausta päivitetty."
+
+#: modules/presspermit-sync/classes/Permissions/SyncPosts/UserSync.php:642
+msgid "All Roles"
+msgstr "Kaikki roolit"
+
+#: modules/presspermit-sync/classes/Permissions/SyncPosts/UserSync.php:646
+#, php-format
+msgid "%1$s: Done for %2$s."
+msgstr "%1$s: Valmis %2$s."
+
+#: modules/presspermit-sync/classes/Permissions/SyncPosts/UserSync.php:648
+#, php-format
+msgid "%s: Done."
+msgstr "%s: Valmis."

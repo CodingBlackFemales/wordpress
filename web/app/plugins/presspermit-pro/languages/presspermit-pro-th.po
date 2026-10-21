@@ -1,0 +1,1670 @@
+# Copyright (C) 2026 PublishPress
+# This file is distributed under the same license as the PublishPress Permissions Pro plugin.
+msgid ""
+msgstr ""
+"Project-Id-Version: PublishPress Permissions Pro 4.8.1\n"
+"Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/project\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: Thai "
+"<https://weblate.publishpress.com/projects/publishpress-permissions-pro/"
+"presspermit-pro/th/>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"POT-Creation-Date: 2026-04-02T18:54:49+00:00\n"
+"PO-Revision-Date: 2026-10-01 19:50+0000\n"
+"X-Generator: Weblate 2026.6.1\n"
+"X-Domain: presspermit-pro\n"
+"Language: th\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+
+#: presspermit-pro.php:4
+#. Plugin Name of the plugin
+msgid "PublishPress Permissions Pro"
+msgstr "ชื่อปลั๊กอินของปลั๊กอิน"
+
+#: presspermit-pro.php:5
+#. Plugin URI of the plugin
+msgid "https://publishpress.com/permissions"
+msgstr "https://publishpress.com/permissions"
+
+#: presspermit-pro.php:6
+#. Description of the plugin
+msgid ""
+"PublishPress Permissions allows you to enable or deny access to posts, "
+"pages, categories, tags and more."
+msgstr ""
+"PublishPress Permissions ช่วยให้คุณสามารถเปิดหรือปฏิเสธการเข้าถึงโพสต์, "
+"หน้า, หมวดหมู่, แท็ก และอื่นๆ ได้"
+
+#: presspermit-pro.php:8
+#. Author of the plugin
+msgid "PublishPress"
+msgstr "PublishPress"
+
+#: presspermit-pro.php:9
+#. Author URI of the plugin
+msgid "https://publishpress.com/"
+msgstr "https://publishpress.com/"
+
+#: includes-pro/admin-load.php:93
+#, php-format
+msgid ""
+"Should pages with privacy status \"premium\" require set_pages_premium and "
+"edit_premium_pages capabilities? If so, you can %1$sassign a "
+"status-specific Page Editor role%2$s or %3$sadd the capabilities directly "
+"to a role%4$s."
+msgstr ""
+"หน้าที่มีสถานะความเป็นส่วนตัว \"พรีเมียม\" ควรต้องการความสามารถ "
+"set_pages_premium และ edit_premium_pages หรือไม่? หากใช่ คุณสามารถ "
+"%1$sกำหนดบทบาทผู้แก้ไขเพจเฉพาะสถานะ%2$s หรือ "
+"%3$sเพิ่มความสามารถโดยตรงไปยังบทบาท%4$s."
+
+#: includes-pro/admin-load.php:121
+#, php-format
+msgid ""
+"Note: Workflow sequence and branching for pre-publication is configured "
+"%son a separate screen%s"
+msgstr ""
+"หมายเหตุ: ลำดับและการแยกทางของเวิร์กโฟลว์สำหรับการเผยแพร่ล่วงหน้าจะถูกกำหนด "
+"%son a separate screen%s"
+
+#: includes-pro/admin-load.php:136
+#, php-format
+msgid "Additional settings provided by the %s module."
+msgstr "การตั้งค่าเพิ่มเติมที่จัดทำโดย %s โมดูล."
+
+#: includes-pro/admin-load.php:140
+msgid ""
+"Note: If you deactive, re-entry of the license key will be required for "
+"re-activation."
+msgstr ""
+"หมายเหตุ: หากคุณปิดการใช้งาน "
+"จะต้องป้อนคีย์ใบอนุญาตใหม่เพื่อเปิดใช้งานอีกครั้ง"
+
+#: includes-pro/admin-load.php:145
+msgid ""
+"If enabled, custom group membership is applied network-wide (though role "
+"assignments are still site-specific)."
+msgstr ""
+"หากเปิดใช้งาน การเป็นสมาชิกกลุ่มแบบกำหนดเองจะถูกนำไปใช้ทั่วทั้งเครือข่าย "
+"(แม้ว่าการกำหนดบทบาทจะยังคงเฉพาะไซต์)"
+
+#: includes-pro/admin-load.php:148
+msgid "Can create network-wide permission groups"
+msgstr "สามารถสร้างกลุ่มสิทธิ์ทั่วทั้งเครือข่าย"
+
+#: includes-pro/admin-load.php:151
+msgid "If group editing is allowed, can also modify network group membership"
+msgstr "หากอนุญาตให้แก้ไขกลุ่ม สามารถแก้ไขการเป็นสมาชิกกลุ่มเครือข่ายได้ด้วย"
+
+#: includes-pro/admin-load.php:156
+msgid ""
+"This feature will control direct URL access to files in /uploads/ folder. "
+"By default, files are blocked if they are attached to a post which the user "
+"can't view."
+msgstr ""
+"ฟีเจอร์นี้จะควบคุมการเข้าถึง URL โดยตรงไปยังไฟล์ในโฟลเดอร์ /uploads/ "
+"โดยค่าเริ่มต้น ไฟล์จะถูกบล็อคหากแนบกับโพสต์ที่ผู้ใช้ไม่สามารถดูได้"
+
+#: includes-pro/admin-load.php:159
+#, php-format
+msgid ""
+"File Access on multisite installations will require the following rules to "
+"be inserted above the stock ms-files.php rules in the %1$smain .htaccess "
+"file%2$s:"
+msgstr ""
+"การเข้าถึงไฟล์ในการติดตั้งหลายไซต์จะต้องการกฎต่อไปนี้ถูกแทรกเหนือกฎ "
+"ms-files.php ที่กำหนดไว้ใน %1$smain .htaccess file%2$s:"
+
+#: includes-pro/admin-load.php:162
+msgid "But your .htaccess is missing or not writeable!"
+msgstr "แต่ไฟล์ .htaccess ของคุณหายไปหรือไม่สามารถเขียนได้!"
+
+#: includes-pro/admin-load.php:165
+msgid ".htaccess needs to be updated to include these rules."
+msgstr "ต้องอัปเดต .htaccess เพื่อรวมกฎเหล่านี้."
+
+#: includes-pro/admin-load.php:168
+msgid ".htaccess file has all required rules."
+msgstr "ไฟล์ .htaccess มีทุกกฎที่จำเป็น."
+
+#: includes-pro/admin-load.php:171
+msgid ""
+"These rules will not be inserted automatically.  You are responsible for "
+"editing .htaccess and later removing the rules if the functionality is no "
+"longer desired."
+msgstr ""
+"กฎเหล่านี้จะไม่ถูกแทรกโดยอัตโนมัติ คุณต้องรับผิดชอบในการแก้ไข .htaccess "
+"และลบกฎเหล่านี้ในภายหลังหากไม่ต้องการฟังก์ชันการทำงานนี้อีกต่อไป"
+
+#: includes-pro/admin-load.php:174
+#, php-format
+msgid ""
+"Note that an additional rule will need to be added with each new site. "
+"%1$sTo eliminate this requirement, research \"WordPress remove "
+"ms-files\".%2$s"
+msgstr ""
+"โปรดทราบว่าต้องมีการเพิ่มกฎเพิ่มเติมกับแต่ละไซต์ใหม่ "
+"%1$sเพื่อกำจัดความต้องการนี้ ให้ค้นหา \"WordPress remove ms-files\".%2$s"
+
+#: includes-pro/admin-load.php:177
+msgid ""
+"You will need to manually restore the .htacces file to default contents if "
+"anything goes wrong. Proceed?"
+msgstr ""
+"คุณจะต้องกู้คืนไฟล์ .htaccess "
+"กลับไปเป็นเนื้อหาเริ่มต้นด้วยตนเองหากมีอะไรผิดพลาด ดำเนินการต่อ?"
+
+#: includes-pro/admin-load.php:180
+msgid "Update .htaccess now"
+msgstr "อัปเดต .htaccess ตอนนี้"
+
+#: includes-pro/admin-load.php:183
+msgid "only for sites with protected files"
+msgstr "เฉพาะสำหรับเว็บไซต์ที่มีไฟล์ที่ถูกป้องกัน"
+
+#: includes-pro/admin-load.php:186
+msgid "for all sites"
+msgstr "สำหรับเว็บไซต์ทั้งหมด"
+
+#: includes-pro/admin-load.php:189
+msgid "NONE: remove Permissions rules"
+msgstr "ไม่มี: ลบกฎ Permissions"
+
+#: includes-pro/admin-load.php:192
+msgid ""
+"Since the plugin is not network-activated, you will need to modify the "
+".htaccess file manually, inserting a RewriteRule as shown above for each "
+"site which needs file filtering."
+msgstr ""
+"เนื่องจากปลั๊กอินไม่ได้เปิดใช้งานในเครือข่าย คุณจะต้องแก้ไขไฟล์ .htaccess "
+"ด้วยตนเอง โดยแทรก RewriteRule "
+"ตามที่แสดงไว้ข้างต้นสำหรับแต่ละไซต์ที่ต้องการการกรองไฟล์"
+
+#: includes-pro/admin-load.php:195
+msgid ""
+"This extends the File Access feature to files that are not attached to any "
+"post. This will not apply to user who have the edit_private_files or "
+"pp_list_all_files capability."
+msgstr ""
+"ฟีเจอร์นี้ขยายการเข้าถึงไฟล์ไปยังไฟล์ที่ไม่ได้แนบกับโพสต์ใด ๆ "
+"ซึ่งจะไม่ใช้กับผู้ใช้ที่มีความสามารถ edit_private_files หรือ "
+"pp_list_all_files"
+
+#: includes-pro/admin-load.php:198
+msgid ""
+"Make attached files unreadable to users who do not have the "
+"edit_private_files or pp_list_all_files capability."
+msgstr ""
+"ทำให้ไฟล์ที่แนบไม่สามารถอ่านได้สำหรับผู้ใช้ที่ไม่มีความสามารถ "
+"edit_private_files หรือ pp_list_all_files"
+
+#: includes-pro/admin-load.php:201
+msgid ""
+"Improve Media Library performance by disabling file filtering for "
+"thumbnails (size specified in Settings > Media)."
+msgstr ""
+"ปรับปรุงประสิทธิภาพของ Media Library โดยการปิดการกรองไฟล์สำหรับภาพขนาดย่อ "
+"(ขนาดที่ระบุในการตั้งค่า > สื่อ)"
+
+#: includes-pro/admin-load.php:204
+msgid ""
+"On some sites, an additional redirect is required to correctly deliver "
+"protected files. Leave this disabled for better performance if possible."
+msgstr ""
+"ในบางไซต์ "
+"อาจต้องมีการเปลี่ยนเส้นทางเพิ่มเติมเพื่อส่งไฟล์ที่ป้องกันอย่างถูกต้อง "
+"ปิดการใช้งานนี้เพื่อประสิทธิภาพที่ดีกว่าหากเป็นไปได้"
+
+#: includes-pro/admin-load.php:207
+#, php-format
+msgid ""
+"The File Access feature uses an %1$s.htaccess%2$s file located at "
+"%3$suploads/.htaccess%4$s. Normally no action is needed, but clicking the "
+"button below will update the URL keys (at next site access) that protect "
+"the files."
+msgstr ""
+"ฟีเจอร์การเข้าถึงไฟล์ใช้ไฟล์ %1$s.htaccess%2$s ที่ตั้งอยู่ที่ "
+"%3$suploads/.htaccess%4$s โดยปกติไม่จำเป็นต้องทำอะไร "
+"แต่การคลิกปุ่มด้านล่างจะอัปเดตคีย์ URL (ในการเข้าถึงไซต์ครั้งถัดไป) "
+"ที่ป้องกันไฟล์"
+
+#: includes-pro/admin-load.php:210
+#, php-format
+msgid ""
+"The File Access feature uses an %1$s.htaccess%2$s file located at "
+"%3$suploads/.htaccess%4$s. Normally no action is needed, but clicking the "
+"button below will update the URL keys that protect the files."
+msgstr ""
+"ฟีเจอร์การเข้าถึงไฟล์ใช้ไฟล์ %1$s.htaccess%2$s ที่ตั้งอยู่ที่ "
+"%3$suploads/.htaccess%4$s โดยปกติไม่จำเป็นต้องทำอะไร "
+"แต่การคลิกปุ่มด้านล่างจะอัปเดตคีย์ URL ที่ป้องกันไฟล์"
+
+#: includes-pro/admin-load.php:213
+msgid ""
+"Best practice is to access the above url periodically (using your own cron "
+"service) to prevent long-term bookmarking of protected files."
+msgstr ""
+"วิธีปฏิบัติที่ดีที่สุดคือการเข้าถึง URL ข้างต้นเป็นระยะ ๆ (โดยใช้บริการ "
+"cron ของคุณเอง) เพื่อลดการบุ๊กมาร์กไฟล์ที่ป้องกันในระยะยาว"
+
+#: includes-pro/admin-load.php:216
+msgid ""
+"Supply a custom key which will enable a support url to regenerate file "
+"access keys.  Then execute the url regularly (using your own cron service) "
+"to prevent long-term bookmarking of protected files."
+msgstr ""
+"จัดเตรียมคีย์กำหนดเองซึ่งจะเปิดใช้งาน URL "
+"สนับสนุนในการสร้างคีย์การเข้าถึงไฟล์ใหม่ จากนั้นให้ดำเนินการ URL เป็นประจำ "
+"(โดยใช้บริการ cron ของคุณเอง) เพื่อลดการบุ๊กมาร์กไฟล์ที่ป้องกันในระยะยาว"
+
+#: includes-pro/admin-load.php:219
+msgid ""
+"File Access can also protect files uploaded by FTP or other manual file "
+"copy, but does not detect them automatically. Click the button below to "
+"scan your uploads folder for files to protect."
+msgstr ""
+"การเข้าถึงไฟล์ยังสามารถปกป้องไฟล์ที่อัปโหลดโดย FTP "
+"หรือการคัดลอกไฟล์ด้วยตนเอง แต่ไม่ตรวจจับโดยอัตโนมัติ "
+"คลิกปุ่มด้านล่างเพื่อตรวจสอบโฟลเดอร์อัปโหลดของคุณสำหรับไฟล์ที่ต้องการป้องกัน"
+
+#: includes-pro/admin-load.php:223
+msgid "Invalid file filtering key argument."
+msgstr "อาร์กิวเมนต์คีย์การกรองไฟล์ไม่ถูกต้อง"
+
+#: includes-pro/admin-load.php:226
+msgid "Please configure File Access options!"
+msgstr "กรุณากำหนดค่าตัวเลือกการเข้าถึงไฟล์!"
+
+#: includes-pro/admin-load.php:229
+msgid "The wp-content folder cannot be relocated outside the main WordPress folder."
+msgstr "โฟลเดอร์ wp-content ไม่สามารถย้ายออกจากโฟลเดอร์หลักของ WordPress ได้"
+
+#: includes-pro/admin-load.php:238
+#, php-format
+msgid ""
+"Files linked in post content must be in %1$s (or a subfolder of it). If you "
+"move files, consider using a %2$s search and replace plugin%3$s to update "
+"those URLs."
+msgstr ""
+"ไฟล์ที่เชื่อมโยงในเนื้อหาของโพสต์ต้องอยู่ใน %1$s "
+"(หรือต้องอยู่ในโฟลเดอร์ย่อยของมัน) หากคุณย้ายไฟล์ "
+"ให้พิจารณาใช้ปลั๊กอินค้นหาและแทนที่ %2$s%3$s เพื่ออัปเดต URL เหล่านั้น"
+
+#: includes-pro/admin-load.php:241
+msgid ""
+"File Access can also protect files uploaded by FTP or other manual "
+"processes, but does not detect them automatically. This utility can find "
+"and protect any uploaded files."
+msgstr ""
+"การเข้าถึงไฟล์สามารถป้องกันไฟล์ที่อัปโหลดโดย FTP หรือกระบวนการแบบแมนนวลอื่น "
+"ๆ ได้ แต่จะไม่ตรวจจับโดยอัตโนมัติ "
+"เครื่องมือนี้สามารถค้นหาและปกป้องไฟล์ที่อัปโหลดได้ทุกไฟล์"
+
+#: includes-pro/admin-load.php:244
+msgid ""
+"To run this utility by cron task or other direct request, use the following "
+"URL:"
+msgstr ""
+"เพื่อเรียกใช้เครื่องมือนี้โดยการทำงาน cron หรือคำขอโดยตรง ให้ใช้ URL "
+"ต่อไปนี้:"
+
+#: includes-pro/admin-load.php:247
+msgid ""
+"To run this utility by direct URL, set a file filtering regen key on "
+"Permissions Settings"
+msgstr ""
+"เพื่อเรียกใช้เครื่องมือนี้โดย URL โดยตรง "
+"ให้ตั้งค่ากุญแจการกรองไฟล์ใหม่ในการตั้งค่าการอนุญาต"
+
+#: includes-pro/admin-load.php:250
+msgid ""
+"Note: Direct access to uploaded file attachments cannot be filtered because "
+"your WP_CONTENT_DIR is not in the WordPress branch."
+msgstr ""
+"หมายเหตุ: การเข้าถึงไฟล์แนบที่อัปโหลดโดยตรงไม่สามารถกรองได้เนื่องจาก "
+"WP_CONTENT_DIR ของคุณไม่อยู่ในสาขาของ WordPress"
+
+#: includes-pro/admin-load.php:253
+msgid "The operation was terminated due to an invalid configuration."
+msgstr "การดำเนินการถูกยกเลิกเนื่องจากการกำหนดค่าที่ไม่ถูกต้อง."
+
+#: includes-pro/admin-load.php:256
+#, php-format
+msgid "Checking %s posts / pages..."
+msgstr "กำลังตรวจสอบ %s โพสต์ / หน้า..."
+
+#: includes-pro/admin-load.php:259
+#, php-format
+msgid "%1$s skipping unfilterable file in %2$s \"%3$s\":%4$s %5$s"
+msgstr "%1$s ข้ามไฟล์ที่ไม่สามารถกรองได้ใน %2$s \"%3$s\":%4$s %5$s"
+
+#: includes-pro/admin-load.php:262
+#, php-format
+msgid "%1$s skipping missing file in %2$s \"%3$s\":%4$s %5$s"
+msgstr "%1$s ข้ามไฟล์ที่ขาดหายไปใน %2$s \"%3$s\":%4$s %5$s"
+
+#: includes-pro/admin-load.php:265
+#: includes-pro/admin-load.php:268
+#, php-format
+msgid "%1$sNew attachment in %2$s \"%3$s\":%4$s %5$s"
+msgstr "%1$sไฟล์แนบใหม่ใน %2$s \"%3$s\":%4$s %5$s"
+
+#: includes-pro/admin-load.php:271
+#, php-format
+msgid "%s linked uploads were found in your post / page content."
+msgstr "%s การอัปโหลดที่เชื่อมโยงถูกพบในเนื้อหาโพสต์ / หน้า."
+
+#: includes-pro/admin-load.php:274
+#, php-format
+msgid "%s attachment records were added to the database."
+msgstr "%s บันทึกไฟล์แนบถูกเพิ่มลงในฐานข้อมูล."
+
+#: includes-pro/admin-load.php:277
+msgid "All linked uploads are already registered as attachments."
+msgstr "การอัปโหลดที่เชื่อมโยงทั้งหมดได้รับการลงทะเบียนแล้วเป็นไฟล์แนบ."
+
+#: includes-pro/admin-load.php:282
+msgid ""
+"Statuses enabled here are available as Visibility options for post "
+"publishing. Affected posts become inaccessable without a corresponding "
+"status-specific role assignment."
+msgstr ""
+"สถานะที่เปิดใช้งานที่นี่จะพร้อมใช้งานเป็นตัวเลือกการมองเห็นสำหรับการเผยแพร่โ"
+"พสต์ "
+"โพสต์ที่ได้รับผลกระทบจะไม่สามารถเข้าถึงได้หากไม่มีการกำหนดบทบาทเฉพาะสถานะที่"
+"สอดคล้องกัน"
+
+#: includes-pro/admin-load.php:285
+msgid ""
+"Statuses enabled here are available in the editor as additional steps "
+"between Draft and Published."
+msgstr ""
+"สถานะที่เปิดใช้งานที่นี่จะมีให้ในตัวแก้ไขเป็นขั้นตอนเพิ่มเติมระหว่างแบบร่างแ"
+"ละที่เผยแพร่"
+
+#: includes-pro/admin-load.php:288
+msgid ""
+"Statuses alter your content's accessibility by imposing additional "
+"capability requirements."
+msgstr ""
+"สถานะเปลี่ยนแปลงการเข้าถึงเนื้อหาของคุณโดยการกำหนดข้อกำหนดความสามารถเพิ่มเติ"
+"ม"
+
+#: includes-pro/admin-load.php:291
+#, php-format
+msgid ""
+"Enable Custom Capabilities by toggling the link below status name. If "
+"enabled, non-Editors will need a corresponding %ssupplemental role%s to "
+"edit posts of that status."
+msgstr ""
+"เปิดใช้งานความสามารถที่กำหนดเองโดยการเปิดสวิตช์ด้านล่างชื่อสถานะ "
+"หากเปิดใช้งาน ผู้ที่ไม่ใช่ผู้แก้ไขจะต้องมีบทบาท %ssupplemental role%s "
+"ที่สอดคล้องกันเพื่อแก้ไขโพสต์ของสถานะนั้น"
+
+#: includes-pro/admin-load.php:294
+#, php-format
+msgid ""
+"For post edit by a user who cannot publish, %sworkflow is configured%s to "
+"make the Publish button increment the post to the next workflow status "
+"permitted."
+msgstr ""
+"สำหรับการแก้ไขโพสต์โดยผู้ใช้ที่ไม่สามารถเผยแพร่ได้ %sworkflow "
+"ได้รับการกำหนดค่า%s "
+"เพื่อทำให้ปุ่มเผยแพร่เพิ่มโพสต์ไปยังสถานะการทำงานถัดไปที่อนุญาต"
+
+#: includes-pro/admin-load.php:297
+#, php-format
+msgid ""
+"For post edit by a user who cannot publish, %sworkflow is configured%s to "
+"make the Publish button escalate the post to the highest-ordered workflow "
+"status permitted."
+msgstr ""
+"สำหรับการแก้ไขโพสต์โดยผู้ใช้ที่ไม่สามารถเผยแพร่ได้ %sworkflow "
+"ได้รับการกำหนดค่า%s "
+"เพื่อทำให้ปุ่มเผยแพร่เพิ่มโพสต์ไปยังสถานะการทำงานที่มีลำดับสูงสุดที่อนุญาต"
+
+#: includes-pro/admin-load.php:300
+msgid ""
+"For post edit by a user who cannot publish, the Publish button will "
+"escalate the post to the highest-order status permitted to the user."
+msgstr ""
+"สำหรับการแก้ไขโพสต์โดยผู้ใช้ที่ไม่สามารถเผยแพร่ได้ "
+"ปุ่มเผยแพร่จะเพิ่มโพสต์ไปยังสถานะที่สูงสุดที่อนุญาตให้ผู้ใช้"
+
+#: includes-pro/admin-load.php:303
+#, php-format
+msgid "Please enable the PublishPress %sStatuses feature%s."
+msgstr "โปรดเปิดใช้งานฟีเจอร์ %sStatuses ของ PublishPress%s."
+
+#: includes-pro/admin-load.php:306
+#, php-format
+msgid ""
+"Note that the Post Type itself will also need to have %sPermissions%s "
+"enabled."
+msgstr "โปรดทราบว่าประเภทโพสต์เองจะต้องเปิดใช้งาน %sPermissions%s ด้วย"
+
+#: includes-pro/admin-load.php:314
+msgid ""
+"To disable custom visibility statuses, first re-assign posts to a different "
+"status."
+msgstr ""
+"ในการปิดสถานะการมองเห็นที่กำหนดเอง "
+"ให้กำหนดโพสต์ใหม่ไปยังสถานะที่แตกต่างกันก่อน"
+
+#: includes-pro/admin-load.php:317
+msgid ""
+"Note, this only applies if the role definition includes the pp_moderate_any "
+"capability"
+msgstr ""
+"หมายเหตุ นี่ใช้ได้เฉพาะในกรณีที่การกำหนดบทบาทรวมถึงความสามารถ "
+"pp_moderate_any"
+
+#: includes-pro/admin-load.php:320
+msgid "Create or edit custom Privacy or Workflow statuses."
+msgstr "สร้างหรือแก้ไขสถานะความเป็นส่วนตัวหรือเวิร์กโฟลว์ที่กำหนดเอง"
+
+#: includes-pro/admin-load.php:323
+msgid "Create or edit custom Privacy statuses."
+msgstr "สร้างหรือแก้ไขสถานะความเป็นส่วนตัวที่กำหนดเอง"
+
+#: includes-pro/admin-load.php:326
+msgid ""
+"Extra Roles created as a type-specific copy of this role will enable "
+"assignment of specified custom statuses."
+msgstr ""
+"บทบาทพิเศษที่สร้างขึ้นเป็นสำเนาของบทบาทเฉพาะประเภทนี้จะเปิดใช้งานการกำหนดสถา"
+"นะที่กำหนดเองที่ระบุ"
+
+#: includes-pro/admin-load.php:329
+msgid ""
+"Editors do not need status-specific editing capabilities for workflow posts "
+"(Assigned, In Progress, Approved)."
+msgstr ""
+"ผู้แก้ไขไม่จำเป็นต้องมีความสามารถในการแก้ไขเฉพาะสถานะสำหรับโพสต์การทำงาน "
+"(ที่กำหนด, กำลังดำเนินการ, ได้รับการอนุมัติ)"
+
+#: includes-pro/admin-load.php:332
+msgid ""
+"If enabled, non-Editors will need to be granted editing access via the "
+"\"Permissions\" screen."
+msgstr ""
+"หากเปิดใช้งาน ผู้ที่ไม่ใช่ผู้แก้ไขจะต้องได้รับการอนุญาตให้แก้ไขผ่านหน้าจอ "
+"\"Permissions\""
+
+#: includes-pro/admin-load.php:335
+msgid ""
+"If enabled, a Visibility Status dropdown will appear in Quick Edit for easy "
+"status assignment."
+msgstr ""
+"หากเปิดใช้งาน "
+"จะมีตัวเลือกสถานะการมองเห็นแบบดรอปดาวน์ปรากฏในการแก้ไขด่วนเพื่อการกำหนดสถานะ"
+"ที่ง่าย"
+
+#: includes-pro/admin-load.php:338
+msgid ""
+"If enabled, this will add Visibility Statuses support to the PublishPress "
+"Status plugin."
+msgstr ""
+"หากเปิดใช้งาน จะเพิ่มการสนับสนุนสถานะการมองเห็นให้กับปลั๊กอิน PublishPress "
+"Status"
+
+#: includes-pro/admin-load.php:343
+msgid "Post property or meta field to match with user field"
+msgstr "โพสต์คุณสมบัติหรือฟิลด์เมตาเพื่อตรงกับฟิลด์ผู้ใช้"
+
+#: includes-pro/admin-load.php:346
+msgid "User property or meta field to match with post field"
+msgstr "คุณสมบัติผู้ใช้หรือฟิลด์เมตาเพื่อตรงกับฟิลด์โพสต์"
+
+#: includes-pro/admin-load.php:349
+msgid "User meta field to match with post field"
+msgstr "ฟิลด์เมตาผู้ใช้เพื่อตรงกับฟิลด์โพสต์"
+
+#: includes-pro/admin-load.php:352
+msgid "User role to include in synchronization"
+msgstr "บทบาทผู้ใช้ที่รวมอยู่ในการซิงโครไนซ์"
+
+#: includes-pro/admin-load.php:355
+msgid "Parent id for created posts"
+msgstr "รหัสผู้ปกครองสำหรับโพสต์ที่สร้างขึ้น"
+
+#: includes-pro/admin-load.php:358
+msgid "Choose post field from suggested meta key names"
+msgstr "เลือกฟิลด์โพสต์จากชื่อคีย์เมตาที่แนะนำ"
+
+#: includes-pro/admin-load.php:361
+msgid ""
+"When a new user of specified role is added, create or designate a post for "
+"them."
+msgstr ""
+"เมื่อผู้ใช้ใหม่ที่มีบทบาทที่กำหนดถูกเพิ่มเข้ามา "
+"ให้สร้างหรือกำหนดโพสต์สำหรับพวกเขา。"
+
+#: includes-pro/admin-load.php:364
+msgid "Create or designate a post for existing users."
+msgstr "สร้างหรือกำหนดโพสต์สำหรับผู้ใช้ที่มีอยู่"
+
+#: includes-pro/admin-load.php:367
+msgid "This post type is not hierarchical"
+msgstr "ประเภทโพสต์นี้ไม่เป็นลำดับชั้น"
+
+#: includes-pro/admin-load.php:370
+msgid "Automatically create a post for each user in selected roles."
+msgstr "สร้างโพสต์โดยอัตโนมัติสำหรับผู้ใช้แต่ละคนในบทบาทที่เลือก"
+
+#: includes-pro/admin-load.php:373
+#, php-format
+msgid ""
+"Hint: If %s have custom fields (like email address), create one to assist "
+"field name discovery."
+msgstr ""
+"คำแนะนำ: หาก %s มีฟิลด์ที่กำหนดเอง (เช่น ที่อยู่อีเมล) "
+"ให้สร้างฟิลด์เพื่อตรวจสอบชื่อฟิลด์。"
+
+#: includes-pro/admin-load.php:376
+msgid "Enable each user to edit their own User Posts."
+msgstr "เปิดใช้งานให้ผู้ใช้แต่ละคนแก้ไขโพสต์ผู้ใช้ของตนเอง"
+
+#: includes-pro/admin-load.php:380
+#, php-format
+msgid ""
+"Settings for replacing unreadable content with teaser text, provided by the "
+"%s module."
+msgstr ""
+"การตั้งค่าสำหรับการแทนที่เนื้อหาที่อ่านไม่ได้ด้วยข้อความตัวอย่าง "
+"ที่จัดเตรียมโดยโมดูล %s。"
+
+#: includes-pro/admin-load.php:383
+msgid ""
+"Settings on this tab do not apply because teaser filtering is disabled for "
+"all post types."
+msgstr ""
+"การตั้งค่าในแท็บนี้ไม่สามารถใช้งานได้เนื่องจากการกรองข้อความตัวอย่างถูกปิดใช"
+"้งานสำหรับทุกประเภทของโพสต์。"
+
+#: includes-pro/admin-load.php:386
+msgid ""
+"Since some browsers will cache feeds without regard to user login, block "
+"RSS content even for qualified users."
+msgstr ""
+"เนื่องจากบางเบราว์เซอร์จะเก็บแคชฟีดโดยไม่คำนึงถึงการเข้าสู่ระบบของผู้ใช้ "
+"จึงบล็อกเนื้อหา RSS แม้สำหรับผู้ใช้ที่มีสิทธิ์。"
+
+#: includes-pro/admin-load.php:389
+msgid ""
+"This feature controls what users will see when trying to view content they "
+"are blocked from accessing."
+msgstr ""
+"ฟีเจอร์นี้ควบคุมสิ่งที่ผู้ใช้จะเห็นเมื่อพยายามเข้าชมเนื้อหาที่พวกเขาถูกบล็อก"
+"ไม่ให้เข้าถึง。"
+
+#: includes-pro/admin-load.php:392
+msgid ""
+"These settings adjust which views, link types and visibility statuses the "
+"teaser is applied to."
+msgstr ""
+"การตั้งค่าเหล่านี้ปรับแต่งว่าข้อความตัวอย่างจะถูกนำไปใช้กับมุมมอง "
+"ประเภทลิงก์ และสถานะการมองเห็นแบบใดบ้าง。"
+
+#: includes-pro/admin-load.php:401
+msgid ""
+"You can override Teaser settings within the Nav Menu by hiding links to "
+"unreadable posts that are associated with the terms you select below."
+msgstr ""
+"คุณสามารถแทนที่การตั้งค่าข้อความตัวอย่างภายในเมนูนำทางโดยการซ่อนลิงก์ไปยังโพ"
+"สต์ที่อ่านไม่ได้ซึ่งเกี่ยวข้องกับคำที่คุณเลือกด้านล่าง。"
+
+#: includes-pro/admin-load.php:404
+msgid ""
+"Keep unreadable content hidden in the blogroll and link lists, but show the "
+"teaser on direct access attempts."
+msgstr ""
+"ซ่อนเนื้อหาที่อ่านไม่ได้ในบล็อกโรลและรายการลิงก์ "
+"แต่แสดงข้อความตัวอย่างเมื่อมีการเข้าถึงโดยตรง。"
+
+#: includes-pro/admin-load.php:407
+msgid ""
+"Hide unreadable private posts, but show a teaser for posts which are "
+"unreadable due to regular Privacy or Role Restrictions."
+msgstr ""
+"ซ่อนโพสต์ส่วนตัวที่อ่านไม่ได้ "
+"แต่แสดงข้อความตัวอย่างสำหรับโพสต์ที่อ่านไม่ได้เนื่องจากข้อจำกัดด้านความเป็นส"
+"่วนตัวหรือบทบาทปกติ。"
+
+#: includes-pro/admin-load.php:410
+msgid ""
+"If anyone tries to view a post they don't have access to, redirect to "
+"another post instead of displaying a teaser."
+msgstr ""
+"หากมีใครพยายามเข้าชมโพสต์ที่พวกเขาไม่มีสิทธิ์เข้าถึง "
+"ให้เปลี่ยนเส้นทางไปยังโพสต์อื่นแทนที่จะแสดงข้อความตัวอย่าง。"
+
+#: includes-pro/admin-load.php:413
+msgid ""
+"Replace post content or excerpt with custom text, possibly including an "
+"inline login form. You can also add text before or after the post title and "
+"excerpt."
+msgstr ""
+"แทนที่เนื้อหาหรือบทคัดย่อของโพสต์ด้วยข้อความที่กำหนดเอง "
+"อาจรวมถึงแบบฟอร์มการเข้าสู่ระบบแบบ inline "
+"คุณยังสามารถเพิ่มข้อความก่อนหรือหลังชื่อโพสต์และบทคัดย่อได้。"
+
+#: includes-pro/admin-load.php:416
+msgid ""
+"Unreadable items of these comma-separated types will have nav menu item "
+"hidden."
+msgstr ""
+"รายการที่อ่านไม่ได้ของประเภทที่คั่นด้วยลูกน้ำเหล่านี้จะมีรายการในเมนูนำทางถู"
+"กซ่อน。"
+
+#: includes-pro/admin-load.php:420
+msgid "Visibility Circle membership does not limit viewing access."
+msgstr "การเป็นสมาชิกในวงกลมการมองเห็นไม่จำกัดการเข้าถึงการดู"
+
+#: includes-pro/admin-load.php:423
+msgid "Editorial Circle membership does not limit editing access."
+msgstr "การเป็นสมาชิกในวงกลมบรรณาธิการไม่จำกัดการเข้าถึงการแก้ไข"
+
+#: includes-pro/admin-load.php:435
+msgid ""
+"When searching for users via Permissions ajax, return return only users "
+"registered to current site"
+msgstr ""
+"เมื่อค้นหาผู้ใช้ผ่าน Permissions ajax "
+"ให้ส่งคืนเฉพาะผู้ที่ลงทะเบียนในไซต์ปัจจุบันเท่านั้น"
+
+#: includes-pro/admin-load.php:438
+msgid ""
+"If user is a super admin or has 'pp_manage_network_members' capability, "
+"user searches via Permissions ajax return users from all sites"
+msgstr ""
+"หากผู้ใช้เป็นผู้ดูแลระบบระดับสูงหรือมีความสามารถ "
+"'pp_manage_network_members' การค้นหาผู้ใช้ผ่าน Permissions ajax "
+"จะส่งคืนผู้ใช้จากทุกไซต์"
+
+#: includes-pro/admin-load.php:446
+msgid ""
+"Count users as a member of a BuddyPress Permissions Group only if they are "
+"a moderator of the BP group"
+msgstr ""
+"นับผู้ใช้เป็นสมาชิกของกลุ่ม Permissions ของ BuddyPress "
+"เฉพาะเมื่อพวกเขาเป็นผู้ดูแลกลุ่ม BP"
+
+#: includes-pro/admin-load.php:449
+msgid ""
+"Count users as a member of a BuddyPress Permissions Group only if they are "
+"an administrator of the BP group"
+msgstr ""
+"นับผู้ใช้เป็นสมาชิกของกลุ่ม Permissions ของ BuddyPress "
+"เฉพาะเมื่อพวกเขาเป็นผู้ดูแลระบบของกลุ่ม BP"
+
+#: includes-pro/admin-load.php:457
+msgid ""
+"CMS Page Tree View plugin: hide 'add' links (for all hierarchical post "
+"types) based on user's association permissions"
+msgstr ""
+"ปลั๊กอิน CMS Page Tree View: ซ่อนลิงก์ 'เพิ่ม' "
+"(สำหรับประเภทโพสต์ที่มีลำดับชั้นทั้งหมด) ตามสิทธิ์การเชื่อมโยงของผู้ใช้"
+
+#: includes-pro/admin-load.php:460
+msgid ""
+"CMS Page Tree View plugin: hide 'add' links (for pages) based on user's "
+"page association permissions"
+msgstr ""
+"ปลั๊กอิน CMS Page Tree View: ซ่อนลิงก์ 'เพิ่ม' (สำหรับหน้า) "
+"ตามสิทธิ์การเชื่อมโยงของผู้ใช้"
+
+#: includes-pro/admin-load.php:463
+msgid ""
+"CMS Page Tree View plugin: hide 'add' links (for specified hierarchical "
+"post type) based on user's association permissions"
+msgstr ""
+"ปลั๊กอิน CMS Page Tree View: ซ่อนลิงก์ 'เพิ่ม' "
+"(สำหรับประเภทโพสต์ที่มีลำดับชั้นที่กำหนด) ตามสิทธิ์การเชื่อมโยงของผู้ใช้"
+
+#: includes-pro/admin-load.php:470
+msgid "Prevent Permission from filtering the Nested Pages listing at all"
+msgstr "ป้องกันไม่ให้การอนุญาตกรองรายการหน้าที่ซ้อนกันเลย"
+
+#: includes-pro/admin-load.php:473
+msgid "Force Permissions to filter the Nested Pages listing"
+msgstr "บังคับให้การอนุญาตกรองรายการหน้าที่ซ้อนกัน"
+
+#: includes-pro/admin-load.php:476
+msgid "Comma-separated list of roles that are allowed to Quick Edit nested pages"
+msgstr ""
+"รายการบทบาทที่แยกด้วยเครื่องหมายจุลภาคซึ่งได้รับอนุญาตให้แก้ไขด่วนหน้าที่ซ้อ"
+"นกัน"
+
+#: includes-pro/admin-load.php:479
+msgid "Comma-separated list of roles that are allowed to use the Context Menu"
+msgstr "รายการบทบาทที่แยกด้วยเครื่องหมายจุลภาคซึ่งได้รับอนุญาตให้ใช้เมนูบริบท"
+
+#: includes-pro/admin-load.php:482
+msgid ""
+"Never allow unfiltered users to use the Context Menu, even if they have "
+"pp_force_quick_edit capability"
+msgstr ""
+"ห้ามผู้ใช้ที่ไม่ได้กรองใช้เมนูบริบท แม้ว่าพวกเขาจะมีความสามารถ "
+"pp_force_quick_edit"
+
+#: includes-pro/admin-load.php:485
+msgid ""
+"Disable Add Child link unless user is unfiltered (Administrator or has "
+"pp_nested_pages_unfiltered capability)"
+msgstr ""
+"ปิดลิงก์เพิ่มเด็กย่อย เว้นแต่ผู้ใช้จะไม่ได้กรอง "
+"(ผู้ดูแลระบบหรือมีความสามารถ pp_nested_pages_unfiltered)"
+
+#: includes-pro/admin-load.php:488
+msgid "Disable Add Child Page link unless user is unfiltered"
+msgstr "ปิดการใช้งานลิงก์เพิ่มหน้าลูก ยกเว้นผู้ใช้ที่ไม่ได้กรอง"
+
+#: includes-pro/admin-load.php:491
+msgid "Disable Insert Page Before link unless user is unfiltered"
+msgstr "ปิดการใช้งานลิงก์แทรกหน้าก่อน ยกเว้นผู้ใช้ที่ไม่ได้กรอง"
+
+#: includes-pro/admin-load.php:494
+msgid "Disable Insert Page After link unless user is unfiltered"
+msgstr "ปิดการใช้งานลิงก์แทรกหน้าหลัง ยกเว้นผู้ใช้ที่ไม่ได้กรอง"
+
+#: includes-pro/admin-load.php:497
+msgid "Disable Push to Top link unless user is unfiltered"
+msgstr "ปิดการใช้งานลิงก์ผลักไปด้านบน ยกเว้นผู้ใช้ที่ไม่ได้กรอง"
+
+#: includes-pro/admin-load.php:500
+msgid "Disable Push to Bottom link unless user is unfiltered"
+msgstr "ปิดการใช้งานลิงก์ผลักไปด้านล่าง ยกเว้นผู้ใช้ที่ไม่ได้กรอง"
+
+#: includes-pro/admin-load.php:503
+msgid "Disable Clone link unless user is unfiltered"
+msgstr "ปิดการใช้งานลิงก์โคลน ยกเว้นผู้ใช้ที่ไม่ได้กรอง"
+
+#: includes-pro/SettingsTabInstall.php:21
+msgid "License"
+msgstr "ใบอนุญาต"
+
+#: includes-pro/SettingsTabInstall.php:28
+#: includes-pro/SettingsTabInstall.php:128
+msgid "License Key"
+msgstr "รหัสใบอนุญาต"
+
+#: includes-pro/SettingsTabInstall.php:29
+msgid "Version"
+msgstr "เวอร์ชัน"
+
+#: includes-pro/SettingsTabInstall.php:41
+#: includes-pro/SettingsTabInstall.php:42
+msgid "settings"
+msgstr "การตั้งค่า"
+
+#: includes-pro/SettingsTabInstall.php:121
+msgid "Key Expired"
+msgstr "รหัสหมดอายุ"
+
+#: includes-pro/SettingsTabInstall.php:124
+#: includes-pro/SettingsTabInstall.php:136
+#: includes-pro/SettingsTabInstall.php:348
+msgid "Deactivate Key"
+msgstr "ปิดการใช้งานรหัส"
+
+#: includes-pro/SettingsTabInstall.php:127
+msgid "Key Activated"
+msgstr "รหัสถูกเปิดใช้งาน"
+
+#: includes-pro/SettingsTabInstall.php:131
+msgid "(please enter publishpress.com key)"
+msgstr "โปรดป้อนคีย์ publishpress.com"
+
+#: includes-pro/SettingsTabInstall.php:135
+#: includes-pro/SettingsTabInstall.php:347
+msgid "Activate Key"
+msgstr "เปิดใช้งานรหัส"
+
+#: includes-pro/SettingsTabInstall.php:146
+msgid ""
+"Note: Renewal does not require deactivation. If you do deactivate, re-entry "
+"of the license key will be required."
+msgstr ""
+"หมายเหตุ: การต่ออายุไม่ต้องการการปิดใช้งาน หากคุณปิดใช้งาน "
+"จะต้องกรอกคีย์ลิขสิทธิ์ใหม่อีกครั้ง"
+
+#: includes-pro/SettingsTabInstall.php:178
+#: includes-pro/SettingsTabInstall.php:214
+#, php-format
+msgid ""
+"Your license key has expired. For continued priority support, %1$splease "
+"renew%2$s."
+msgstr ""
+"คีย์ใบอนุญาตของคุณหมดอายุแล้ว สำหรับการสนับสนุนลำดับความสำคัญอย่างต่อเนื่อง "
+"%1$sโปรดต่ออายุ%2$s."
+
+#: includes-pro/SettingsTabInstall.php:185
+#, php-format
+msgid ""
+"Your license key will expire today. For updates and priority support, "
+"%1$splease renew%2$s."
+msgstr ""
+"คีย์ใบอนุญาตของคุณจะหมดอายุในวันนี้ "
+"สำหรับการอัปเดตและการสนับสนุนลำดับความสำคัญ %1$sโปรดต่ออายุ%2$s."
+
+#: includes-pro/SettingsTabInstall.php:191
+#, php-format
+msgid ""
+"Your license key (for plugin updates) will expire in %1$d day(s). For "
+"updates and priority support, %2$splease renew%3$s."
+msgstr ""
+"คีย์ใบอนุญาตของคุณ (สำหรับการอัปเดตปลั๊กอิน) จะหมดอายุใน %1$d วัน "
+"สำหรับการอัปเดตและการสนับสนุนลำดับความสำคัญ %2$sโปรดต่ออายุ%3$s."
+
+#: includes-pro/SettingsTabInstall.php:199
+#, php-format
+msgid ""
+"For updates to Permissions Pro, activate your %1$sPublishPress license "
+"key%2$s."
+msgstr ""
+"สำหรับการอัปเดต Permissions Pro โปรดเปิดใช้งาน %1$sคีย์ใบอนุญาต "
+"PublishPress ของคุณ%2$s."
+
+#: includes-pro/SettingsTabInstall.php:208
+msgid "reload module info"
+msgstr "โหลดข้อมูลโมดูลใหม่"
+
+#: includes-pro/SettingsTabInstall.php:258
+#: includes-pro/SettingsTabInstall.php:266
+#, php-format
+msgid "Permissions Pro Version: %1$s %2$s"
+msgstr "สิทธิ์รุ่นโปร: %1$s %2$s"
+
+#: includes-pro/SettingsTabInstall.php:262
+#, php-format
+msgid "view %s&nbsp;details"
+msgstr "ดูรายละเอียด %s&nbsp;"
+
+#: includes-pro/SettingsTabInstall.php:276
+msgid "update check / install"
+msgstr "ตรวจสอบ / ติดตั้งการอัปเดต"
+
+#: includes-pro/SettingsTabInstall.php:280
+#, php-format
+msgid "Database Schema Version: %s"
+msgstr "เวอร์ชันโครงสร้างฐานข้อมูล: %s"
+
+#: includes-pro/SettingsTabInstall.php:291
+msgid "Installation History"
+msgstr "ประวัติการติดตั้ง"
+
+#: includes-pro/SettingsTabInstall.php:313
+#, php-format
+msgid "%s (previous install)"
+msgstr "%s (การติดตั้งก่อนหน้า)"
+
+#: includes-pro/SettingsTabInstall.php:330
+#, php-format
+msgid "WordPress Version: %s"
+msgstr "เวอร์ชัน WordPress: %s"
+
+#: includes-pro/SettingsTabInstall.php:334
+#, php-format
+msgid "PHP Version: %s"
+msgstr "เวอร์ชัน PHP: %s"
+
+#: includes-pro/SettingsTabInstall.php:349
+msgid "The request could not be processed due to a connection failure."
+msgstr "ไม่สามารถดำเนินการคำขอนี้ได้เนื่องจากการเชื่อมต่อขัดข้อง."
+
+#: includes-pro/SettingsTabInstall.php:350
+msgid "Please enter the license key shown on your order receipt."
+msgstr "โปรดป้อนคีย์ใบอนุญาตที่แสดงในใบเสร็จรับเงินของคุณ."
+
+#: includes-pro/SettingsTabInstall.php:351
+msgid "An unidentified error occurred."
+msgstr "เกิดข้อผิดพลาดที่ไม่สามารถระบุได้."
+
+#: includes-pro/SettingsTabInstall.php:353
+msgid "The key has been deactivated."
+msgstr "คีย์ถูกปิดใช้งานแล้ว."
+
+#: includes-pro/SettingsTabInstall.php:354
+msgid "The key has been activated."
+msgstr "คีย์ถูกเปิดใช้งานแล้ว."
+
+#: includes-pro/SettingsTabInstall.php:355
+msgid "The key has expired."
+msgstr "คีย์หมดอายุแล้ว."
+
+#: includes-pro/SettingsTabInstall.php:356
+msgid "The key is invalid."
+msgstr "คีย์ไม่ถูกต้อง."
+
+#: includes-pro/SettingsTabInstall.php:357
+msgid "The key could not be activated. Please retry."
+msgstr "ไม่สามารถเปิดใช้งานคีย์ได้ โปรดลองอีกครั้ง."
+
+#: modules/presspermit-circles/classes/Permissions/Circles/UI/Dashboard/Profile.php:19
+msgid "Circle Membership"
+msgstr "สมาชิกวงกลม"
+
+#: modules/presspermit-circles/classes/Permissions/Circles/UI/Dashboard/Profile.php:21
+msgid "Viewing"
+msgstr "การดู"
+
+#: modules/presspermit-circles/classes/Permissions/Circles/UI/Dashboard/Profile.php:21
+msgid "Editing"
+msgstr "การแก้ไข"
+
+#: modules/presspermit-circles/classes/Permissions/Circles/UI/Dashboard/Profile.php:27
+#, php-format
+msgid "%s is limited to circle authors only, for these post types:"
+msgstr "%s จำกัดเฉพาะผู้เขียนในวงกลมเท่านั้น สำหรับประเภทโพสต์เหล่านี้:"
+
+#: modules/presspermit-circles/classes/Permissions/Circles/UI/GroupEdit.php:47
+msgid "Circle Activation"
+msgstr "การเปิดใช้งานวงกลม"
+
+#: modules/presspermit-circles/classes/Permissions/Circles/UI/GroupEdit.php:57
+msgid "Visibility Circle"
+msgstr "วงกลมการมองเห็น"
+
+#: modules/presspermit-circles/classes/Permissions/Circles/UI/GroupEdit.php:57
+msgid "Editorial Circle"
+msgstr "วงกลมบรรณาธิการ"
+
+#: modules/presspermit-circles/classes/Permissions/Circles/UI/GroupEdit.php:75
+msgid ""
+"Users in this group will only be able to view posts that were authored by "
+"other users in this group."
+msgstr "ผู้ใช้ในกลุ่มนี้จะสามารถดูโพสต์ที่เขียนโดยผู้ใช้อื่นในกลุ่มนี้เท่านั้น"
+
+#: modules/presspermit-circles/classes/Permissions/Circles/UI/GroupEdit.php:76
+msgid ""
+"Users in this group will only be able to edit posts that were authored by "
+"other users in this group."
+msgstr "ผู้ใช้ในกลุ่มนี้จะสามารถแก้ไขโพสต์ที่เขียนโดยผู้ใช้อื่นในกลุ่มนี้เท่านั้น"
+
+#: modules/presspermit-circles/classes/Permissions/Circles/UI/GroupEdit.php:78
+msgid "Normal capability requirements will also be enforced."
+msgstr "ข้อกำหนดความสามารถปกติจะถูกบังคับใช้ด้วย。"
+
+#: modules/presspermit-circles/classes/Permissions/Circles/UI/GroupEdit.php:82
+#, php-format
+msgid "This group is a %s"
+msgstr "กลุ่มนี้เป็น %s"
+
+#: modules/presspermit-circles/classes/Permissions/Circles/UI/GroupEdit.php:95
+#, php-format
+msgid "Circles cannot be enforced on roles with %s capabilities."
+msgstr "ไม่สามารถบังคับวงกลมสำหรับบทบาทที่มีความสามารถ %s"
+
+#: modules/presspermit-circles/classes/Permissions/Circles/UI/GroupEdit.php:104
+#, php-format
+msgid "%s%s restrictions%s do not apply to this role. %s"
+msgstr "%s%s ข้อจำกัด%s ไม่ใช้กับบทบาทนี้ %s"
+
+#: modules/presspermit-circles/classes/Permissions/Circles/UI/GroupEdit.php:135
+msgid "Apply limitation for post types:"
+msgstr "ใช้ข้อจำกัดสำหรับประเภทโพสต์:"
+
+#: modules/presspermit-circles/classes/Permissions/Circles/UI/GroupEdit.php:213
+#, php-format
+msgid ""
+"Users may be excused from Circle restrictions by adding the %1$s or %2$s "
+"capability to their role."
+msgstr ""
+"ผู้ใช้อาจได้รับการยกเว้นจากข้อจำกัดของ Circle โดยการเพิ่มความสามารถ %1$s "
+"หรือ %2$s ให้กับบทบาทของพวกเขา"
+
+#: modules/presspermit-circles/classes/Permissions/Circles/UI/GroupsListing.php:14
+msgid "Circle Type"
+msgstr "ประเภทวงกลม"
+
+#: modules/presspermit-circles/classes/Permissions/Circles/UI/GroupsListing.php:47
+msgid "Visibility"
+msgstr "ความสามารถในการมองเห็น"
+
+#: modules/presspermit-circles/classes/Permissions/Circles/UI/GroupsListing.php:55
+msgid "Editorial"
+msgstr "บรรณาธิการ"
+
+#: modules/presspermit-circles/classes/Permissions/CirclesHooksAdmin.php:54
+msgid "Access Circle restrictions apply to revisions"
+msgstr "ข้อจำกัดการเข้าถึงวงกลมใช้กับการแก้ไข"
+
+#: modules/presspermit-compatibility/classes/Permissions/Compat/BBPress/HooksAdmin.php:39
+msgid "Create Topics in"
+msgstr "สร้างหัวข้อใน"
+
+#: modules/presspermit-compatibility/classes/Permissions/Compat/BBPress/HooksAdmin.php:40
+msgid "Topic Creation"
+msgstr "การสร้างหัวข้อ"
+
+#: modules/presspermit-compatibility/classes/Permissions/Compat/BBPress/HooksAdmin.php:41
+msgid "Create Topic"
+msgstr "สร้างหัวข้อ"
+
+#: modules/presspermit-compatibility/classes/Permissions/Compat/BBPress/HooksAdmin.php:46
+msgid "Submit Replies in"
+msgstr "ส่งคำตอบใน"
+
+#: modules/presspermit-compatibility/classes/Permissions/Compat/BBPress/HooksAdmin.php:47
+msgid "Reply Submission"
+msgstr "การส่งคำตอบ"
+
+#: modules/presspermit-compatibility/classes/Permissions/Compat/BBPress/HooksAdmin.php:48
+msgid "Submit Reply"
+msgstr "ส่งคำตอบ"
+
+#: modules/presspermit-compatibility/classes/Permissions/Compat/BuddyPress/PermissionGroups/GroupsListTable.php:298
+msgid "Show more details"
+msgstr "แสดงรายละเอียดเพิ่มเติม"
+
+#: modules/presspermit-compatibility/classes/Permissions/Compat/BuddyPress/PermissionGroups/Hooks.php:37
+msgid "BuddyPress Group"
+msgstr "กลุ่ม BuddyPress"
+
+#: modules/presspermit-compatibility/classes/Permissions/Compat/BuddyPress/PermissionGroups/HooksAdmin.php:160
+msgid "BP Permission Group"
+msgstr "กลุ่มสิทธิ BP"
+
+#: modules/presspermit-compatibility/classes/Permissions/Compat/BuddyPress/PermissionGroups/HooksAdmin.php:161
+msgid "BP Permission Groups"
+msgstr "กลุ่มสิทธิ BP"
+
+#: modules/presspermit-compatibility/classes/Permissions/Compat/BuddyPress/PermissionGroups/HooksAdmin.php:174
+msgid "Manage"
+msgstr "จัดการ"
+
+#: modules/presspermit-compatibility/classes/Permissions/Compat/BuddyPress/PermissionGroups/HooksAdmin.php:185
+msgid "BuddyPress Groups"
+msgstr "กลุ่ม BuddyPress"
+
+#: modules/presspermit-compatibility/classes/Permissions/Compat/CMSTreeView.php:112
+msgid ""
+"Page creation was blocked because you are not allowed to select that parent "
+"page."
+msgstr "คุณไม่มีสิทธิ์ในการเลือกหน้าหมายเลขหลักนั้น"
+
+#: modules/presspermit-compatibility/classes/Permissions/Compat/CMSTreeView.php:113
+msgid "Back to Dashboard"
+msgstr "กลับไปที่แดชบอร์ด"
+
+#: modules/presspermit-compatibility/classes/Permissions/Compat/CMSTreeView.php:115
+msgid "Permission Denied"
+msgstr "การเข้าถึงถูกปฏิเสธ"
+
+#: modules/presspermit-compatibility/classes/Permissions/Compat/CMSTreeView.php:117
+msgid "You are not allowed to select that parent page."
+msgstr "คุณไม่มีสิทธิ์ในการเลือกหน้าหมายเลขหลักนั้น"
+
+#: modules/presspermit-compatibility/classes/Permissions/Compat/NetwideGroups.php:19
+msgid "Network Groups"
+msgstr "กลุ่มเครือข่าย"
+
+#: modules/presspermit-compatibility/classes/Permissions/Compat/NetwideGroups.php:19
+msgid "Network Group"
+msgstr "กลุ่มเครือข่าย"
+
+#: modules/presspermit-compatibility/classes/Permissions/Compat/UI/Settings.php:46
+msgid "Teaser text"
+msgstr "ข้อความตัวอย่าง"
+
+#: modules/presspermit-compatibility/classes/Permissions/Compat/UI/Settings.php:54
+msgid "Network"
+msgstr "เครือข่าย"
+
+#: modules/presspermit-compatibility/classes/Permissions/Compat/UI/Settings.php:64
+msgid "Groups"
+msgstr "กลุ่ม"
+
+#: modules/presspermit-compatibility/classes/Permissions/Compat/UI/Settings.php:73
+msgid "Forum Teaser"
+msgstr "ข้อความตัวอย่างฟอรัม"
+
+#: modules/presspermit-compatibility/classes/Permissions/Compat/UI/Settings.php:88
+msgid "Network-wide groups"
+msgstr "กลุ่มทั่วเครือข่าย"
+
+#: modules/presspermit-compatibility/classes/Permissions/Compat/UI/Settings.php:92
+msgid "Teaser Topics"
+msgstr "หัวข้อข้อความตัวอย่าง"
+
+#: modules/presspermit-compatibility/classes/Permissions/Compat/UI/Settings.php:93
+msgid "Hide Topic / Reply Author Link"
+msgstr "ซ่อนลิงก์ผู้เขียนหัวข้อ / ตอบกลับ"
+
+#: modules/presspermit-compatibility/classes/Permissions/Compat/UI/Settings.php:126
+msgid "Compatibility Pack"
+msgstr "แพ็คความเข้ากันได้"
+
+#: modules/presspermit-compatibility/classes/Permissions/Compat/UI/Settings.php:184
+#, php-format
+msgid "Topic Teaser Text (%s):"
+msgstr "ข้อความตัวอย่างหัวข้อ (%s):"
+
+#: modules/presspermit-compatibility/classes/Permissions/Compat/UI/Settings.php:185
+#, php-format
+msgid "Reply Teaser Text (%s):"
+msgstr "ข้อความตัวอย่างการตอบกลับ (%s):"
+
+#: modules/presspermit-compatibility/classes/Permissions/Compat/UI/Settings.php:189
+msgid "First Reply"
+msgstr "การตอบกลับแรก"
+
+#: modules/presspermit-compatibility/classes/Permissions/Compat/UI/Settings.php:190
+msgid "Other Replies"
+msgstr "การตอบกลับอื่น ๆ"
+
+#: modules/presspermit-compatibility/classes/Permissions/Compat/UI/Settings.php:207
+msgid "Not Logged In"
+msgstr "ยังไม่ได้เข้าสู่ระบบ"
+
+#: modules/presspermit-compatibility/classes/Permissions/Compat/UI/Settings.php:207
+msgid "Logged In Users"
+msgstr "ผู้ใช้ที่เข้าสู่ระบบ"
+
+#: modules/presspermit-compatibility/classes/Permissions/Compat/UI/Settings.php:240
+#, php-format
+msgid "Insert a login form by using %s[login_form]%s shortcode."
+msgstr "ใส่แบบฟอร์มเข้าสู่ระบบโดยใช้ %s[login_form]%s ชอร์ตโค้ด."
+
+#: modules/presspermit-compatibility/classes/Permissions/Compat/UI/Settings.php:284
+msgid "Hide Topics and Replies"
+msgstr "ซ่อนหัวข้อและการตอบกลับ"
+
+#: modules/presspermit-compatibility/classes/Permissions/Compat/UI/Settings.php:285
+msgid "Tease Topics and Replies"
+msgstr "แสดงหัวข้อและการตอบกลับ"
+
+#: modules/presspermit-compatibility/classes/Permissions/Compat/UI/Settings.php:286
+msgid "Show Topics, Tease Replies"
+msgstr "แสดงหัวข้อ, แสดงการตอบกลับ"
+
+#: modules/presspermit-compatibility/classes/Permissions/Compat/UI/Settings.php:320
+msgid ""
+"The single forum teaser may be customized by "
+"STYLESHEETPATH/press-permit/teaser-content-forum.php"
+msgstr ""
+"ตัวอย่างฟอรัมเดียวสามารถปรับแต่งได้โดย "
+"STYLESHEETPATH/press-permit/teaser-content-forum.php"
+
+#: modules/presspermit-compatibility/classes/Permissions/CompatHooks.php:237
+#: modules/presspermit-compatibility/classes/Permissions/CompatHooks.php:241
+msgid "[This topic requires additional permissions or membership.]"
+msgstr "[หัวข้อนี้ต้องการสิทธิ์เพิ่มเติมหรือการเป็นสมาชิก.]"
+
+#: modules/presspermit-compatibility/classes/Permissions/CompatHooks.php:238
+#: modules/presspermit-compatibility/classes/Permissions/CompatHooks.php:242, fuzzy
+msgid "[...]"
+msgstr "[...]"
+
+#: modules/presspermit-compatibility/classes/Permissions/CompatHooks.php:239
+msgid "[This topic requires site login.]"
+msgstr "[หัวข้อนี้ต้องการการเข้าสู่ระบบของเว็บไซต์.]"
+
+#: modules/presspermit-compatibility/classes/Permissions/CompatHooks.php:240
+#: modules/presspermit-compatibility/classes/Permissions/CompatHooks.php:244
+msgid "[login required]"
+msgstr "[ต้องการการเข้าสู่ระบบ]"
+
+#: modules/presspermit-compatibility/classes/Permissions/CompatHooks.php:243
+msgid "[This reply requires site login.]"
+msgstr "[การตอบกลับนี้ต้องการการเข้าสู่ระบบของเว็บไซต์.]"
+
+#: modules/presspermit-file-access/classes/Permissions/FileAccess/UI/SettingsTabFileAccess.php:31
+#: modules/presspermit-file-access/classes/Permissions/FileAccess/UI/SettingsTabFileAccess.php:38
+msgid "File Access"
+msgstr "การเข้าถึงไฟล์"
+
+#: modules/presspermit-file-access/classes/Permissions/FileAccess/UI/SettingsTabFileAccess.php:50
+#: modules/presspermit-file-access/classes/Permissions/FileAccess/UI/SettingsTabFileAccess.php:286
+msgid "File Access Reset Key:"
+msgstr "คีย์รีเซ็ตการเข้าถึงไฟล์:"
+
+#: modules/presspermit-file-access/classes/Permissions/FileAccess/UI/SettingsTabFileAccess.php:51
+msgid "Small Thumbnails Unfiltered"
+msgstr "ภาพขนาดเล็กที่ไม่กรอง"
+
+#: modules/presspermit-file-access/classes/Permissions/FileAccess/UI/SettingsTabFileAccess.php:52
+msgid "Make Unattached Files Private"
+msgstr "ทำให้ไฟล์ที่แนบมาเป็นส่วนตัว"
+
+#: modules/presspermit-file-access/classes/Permissions/FileAccess/UI/SettingsTabFileAccess.php:53
+msgid "Make Attached Files Private"
+msgstr "ทำให้ไฟล์ที่แนบมากลายเป็นส่วนตัว"
+
+#: modules/presspermit-file-access/classes/Permissions/FileAccess/UI/SettingsTabFileAccess.php:86
+#, php-format
+msgid ""
+"%1$sNote%2$s: Direct access to uploaded file attachments cannot be filtered "
+"because mod_rewrite is not enabled on your server."
+msgstr ""
+"%1$sหมายเหตุ%2$s: การเข้าถึงไฟล์แนบที่อัปโหลดไม่ได้รับการกรองเนื่องจาก "
+"mod_rewrite ไม่ได้เปิดใช้งานบนเซิร์ฟเวอร์ของคุณ"
+
+#: modules/presspermit-file-access/classes/Permissions/FileAccess/UI/SettingsTabFileAccess.php:92
+#, php-format
+msgid ""
+"%1$sNote%2$s: Direct access to uploaded file attachments will not be "
+"filtered due to your nonstandard UPLOADS path."
+msgstr ""
+"%1$sหมายเหตุ%2$s: "
+"การเข้าถึงไฟล์แนบที่อัปโหลดจะไม่ได้รับการกรองเนื่องจากเส้นทาง UPLOADS "
+"ที่ไม่เป็นมาตรฐานของคุณ"
+
+#: modules/presspermit-file-access/classes/Permissions/FileAccess/UI/SettingsTabFileAccess.php:100
+#, php-format
+msgid ""
+"%1$sNote%2$s: Direct access to uploaded file attachments cannot be filtered "
+"because WordPress permalinks are set to default."
+msgstr ""
+"%1$sหมายเหตุ%2$s: "
+"การเข้าถึงไฟล์แนบที่อัปโหลดไม่ได้รับการกรองเนื่องจากเพอร์มาลิงค์ของ "
+"WordPress ถูกตั้งค่าเป็นค่าเริ่มต้น"
+
+#: modules/presspermit-file-access/classes/Permissions/FileAccess/UI/SettingsTabFileAccess.php:160
+msgid "show required rules"
+msgstr "แสดงกฎที่จำเป็น"
+
+#: modules/presspermit-file-access/classes/Permissions/FileAccess/UI/SettingsTabFileAccess.php:292
+msgid "Copy"
+msgstr "คัดลอก"
+
+#: modules/presspermit-file-access/classes/Permissions/FileAccess/UI/SettingsTabFileAccess.php:303
+msgid "Copied!"
+msgstr "คัดลอกแล้ว!"
+
+#: modules/presspermit-file-access/classes/Permissions/FileAccess/UI/SettingsTabFileAccess.php:353
+msgid "Regenerate Access File"
+msgstr "สร้างไฟล์เข้าถึงใหม่"
+
+#: modules/presspermit-file-access/classes/Permissions/FileAccess/UI/SettingsTabFileAccess.php:365
+#: modules/presspermit-file-access/classes/Permissions/FileAccess/UI/SettingsUtility.php:80
+msgid "Attachments Utility"
+msgstr "ยูทิลิตี้แนบไฟล์"
+
+#: modules/presspermit-file-access/classes/Permissions/FileAccess/UI/SettingsTabFileAccess.php:375
+#, php-format
+msgid "For Nginx integration, see %spublishpress.com documentation%s."
+msgstr "สำหรับการรวมกับ Nginx ดูเอกสารที่ %spublishpress.com%s."
+
+#: modules/presspermit-file-access/classes/Permissions/FileAccess/UI/SettingsUtility.php:83
+msgid "Back to Permissions Settings"
+msgstr "กลับไปที่การตั้งค่าอนุญาต"
+
+#: modules/presspermit-file-access/classes/Permissions/FileAccess/UI/SettingsUtility.php:88
+msgid "File Access for Files Uploaded via FTP"
+msgstr "การเข้าถึงไฟล์สำหรับไฟล์ที่อัปโหลดผ่าน FTP"
+
+#: modules/presspermit-file-access/classes/Permissions/FileAccess/UI/SettingsUtility.php:95
+msgid "Find Files Uploaded via FTP"
+msgstr "ค้นหาไฟล์ที่อัปโหลดผ่าน FTP"
+
+#: modules/presspermit-file-access/classes/Permissions/FileAccess/UI/SettingsUtility.php:104
+msgid ""
+"The network attachment scan has been queued and will continue in the "
+"background via WP-Cron."
+msgstr "การสแกนไฟล์แนบเครือข่ายถูกจัดคิวและจะดำเนินการในพื้นหลังผ่าน WP-Cron。"
+
+#: modules/presspermit-file-access/classes/Permissions/FileAccess/UI/SettingsUtility.php:106
+msgid "A network attachment scan is already in progress or could not be scheduled."
+msgstr "การสแกนไฟล์แนบเครือข่ายกำลังดำเนินการอยู่แล้วหรือไม่สามารถตั้งเวลาได้。"
+
+#: modules/presspermit-file-access/classes/Permissions/FileAccess/UI/SettingsUtility.php:116
+msgid "Site Configuration Requirements"
+msgstr "ข้อกำหนดการกำหนดค่าบนไซต์"
+
+#: modules/presspermit-file-access/classes/Permissions/FileAccess/UI/SettingsUtility.php:118
+msgid ""
+"For proper access control of direct file URLs, your site must meet these "
+"requirements:"
+msgstr ""
+"เพื่อการควบคุมการเข้าถึงไฟล์ URL โดยตรงอย่างเหมาะสม "
+"เว็บไซต์ของคุณต้องตรงตามข้อกำหนดเหล่านี้:"
+
+#: modules/presspermit-file-access/classes/Permissions/FileAccess/UI/SettingsUtility.php:150
+msgid "Automated Processing"
+msgstr "การประมวลผลอัตโนมัติ"
+
+#: modules/presspermit-file-access/classes/Permissions/FileAccess/UI/SettingsUtility.php:166
+msgid "Utility Endpoint URL:"
+msgstr "URL จุดสิ้นสุดยูทิลิตี้:"
+
+#: modules/presspermit-file-access/classes/Permissions/FileAccess/UI/SettingsUtility.php:168
+msgid "Copy URL"
+msgstr "คัดลอก URL"
+
+#: modules/presspermit-file-access/classes/Permissions/FileAccess/UI/SettingsUtility.php:173
+msgid "Go to Settings"
+msgstr "ไปที่การตั้งค่า"
+
+#: modules/presspermit-file-access/classes/Permissions/FileAccess/UI/SettingsUtility.php:270
+msgid "RUNNING"
+msgstr "กำลังดำเนินการ"
+
+#: modules/presspermit-file-access/classes/Permissions/FileAccess/UI/SettingsUtility.php:445
+msgid "Operation complete"
+msgstr "การดำเนินการเสร็จสิ้น"
+
+#: modules/presspermit-file-access/classes/Permissions/FileAccess/UI/SettingsUtility.php:471
+msgid "Scan Again"
+msgstr "สแกนอีกครั้ง"
+
+#: modules/presspermit-membership/classes/Permissions/Membership/UI/GroupEdit.php:178
+#: modules/presspermit-membership/classes/Permissions/Membership/UI/GroupEdit.php:184
+#, fuzzy, php-format
+msgid "%1$s (%2$s - %3$s)"
+msgstr "%1$s (%2$s - %3$s)"
+
+#: modules/presspermit-sync/classes/Permissions/SyncHooksAdmin.php:169
+#, php-format
+msgid "Role selection is required for %s. Please select at least one role."
+msgstr "ต้องเลือกบทบาทสำหรับ %s กรุณาเลือกอย่างน้อยหนึ่งบทบาท."
+
+#: modules/presspermit-sync/classes/Permissions/SyncPosts/UI/Helper.php:61
+#, php-format
+msgid ""
+"You seem to be using a Team / Staff plugin. To synchronize posts to users "
+"and give them editing permission, go to %1$sPermissions > Settings > Sync "
+"Posts%2$s"
+msgstr ""
+"คุณดูเหมือนจะใช้ปลั๊กอิน Team / Staff "
+"เพื่อซิงค์โพสต์ให้กับผู้ใช้และให้สิทธิ์ในการแก้ไข ไปที่ %1$sPermissions > "
+"Settings > Sync Posts%2$s"
+
+#: modules/presspermit-sync/classes/Permissions/SyncPosts/UI/SettingsTabSyncPosts.php:33
+msgid "User Posts"
+msgstr "โพสต์ของผู้ใช้"
+
+#: modules/presspermit-sync/classes/Permissions/SyncPosts/UI/SettingsTabSyncPosts.php:41
+msgid "Synchronize Posts"
+msgstr "ซิงโครไนซ์โพสต์"
+
+#: modules/presspermit-sync/classes/Permissions/SyncPosts/UI/SettingsTabSyncPosts.php:54
+#: modules/presspermit-sync/classes/Permissions/SyncPosts/UI/SettingsTabSyncPosts.php:112
+msgid "Create Posts for Users"
+msgstr "สร้างโพสต์สำหรับผู้ใช้"
+
+#: modules/presspermit-sync/classes/Permissions/SyncPosts/UI/SettingsTabSyncPosts.php:55
+#: modules/presspermit-sync/classes/Permissions/SyncPosts/UI/SettingsTabSyncPosts.php:130
+msgid "Grant Author Permissions"
+msgstr "อนุญาตสิทธิ์ผู้เขียน"
+
+#: modules/presspermit-sync/classes/Permissions/SyncPosts/UI/SettingsTabSyncPosts.php:56
+msgid "Post Types"
+msgstr "ประเภทโพสต์"
+
+#: modules/presspermit-sync/classes/Permissions/SyncPosts/UI/SettingsTabSyncPosts.php:57
+msgid "Match Post Field"
+msgstr "จับคู่ฟิลด์โพสต์"
+
+#: modules/presspermit-sync/classes/Permissions/SyncPosts/UI/SettingsTabSyncPosts.php:58
+msgid "Match User Field"
+msgstr "จับคู่ฟิลด์ผู้ใช้"
+
+#: modules/presspermit-sync/classes/Permissions/SyncPosts/UI/SettingsTabSyncPosts.php:59
+msgid "User Role"
+msgstr "บทบาทผู้ใช้"
+
+#: modules/presspermit-sync/classes/Permissions/SyncPosts/UI/SettingsTabSyncPosts.php:60
+msgid "Parent Post"
+msgstr "โพสต์หลัก"
+
+#: modules/presspermit-sync/classes/Permissions/SyncPosts/UI/SettingsTabSyncPosts.php:61
+#: modules/presspermit-sync/classes/Permissions/SyncPosts/UI/SettingsTabSyncPosts.php:430
+msgid "Quantity"
+msgstr "จำนวน"
+
+#: modules/presspermit-sync/classes/Permissions/SyncPosts/UI/SettingsTabSyncPosts.php:62
+msgid "Post Status"
+msgstr "สถานะโพสต์"
+
+#: modules/presspermit-sync/classes/Permissions/SyncPosts/UI/SettingsTabSyncPosts.php:368
+msgid "Post Title"
+msgstr "ชื่อโพสต์"
+
+#: modules/presspermit-sync/classes/Permissions/SyncPosts/UI/SettingsTabSyncPosts.php:369
+msgid "Post slug"
+msgstr "สลักโพสต์"
+
+#: modules/presspermit-sync/classes/Permissions/SyncPosts/UI/SettingsTabSyncPosts.php:373
+msgid "User Display Name"
+msgstr "ชื่อที่แสดงของผู้ใช้"
+
+#: modules/presspermit-sync/classes/Permissions/SyncPosts/UI/SettingsTabSyncPosts.php:374
+msgid "User email"
+msgstr "อีเมลของผู้ใช้"
+
+#: modules/presspermit-sync/classes/Permissions/SyncPosts/UI/SettingsTabSyncPosts.php:375
+msgid "User login"
+msgstr "เข้าสู่ระบบผู้ใช้"
+
+#: modules/presspermit-sync/classes/Permissions/SyncPosts/UI/SettingsTabSyncPosts.php:376
+msgid "User nicename"
+msgstr "ชื่อเล่นของผู้ใช้"
+
+#: modules/presspermit-sync/classes/Permissions/SyncPosts/UI/SettingsTabSyncPosts.php:401
+msgid "User Posts Created:"
+msgstr "โพสต์ของผู้ใช้ที่สร้างขึ้น:"
+
+#: modules/presspermit-sync/classes/Permissions/SyncPosts/UI/SettingsTabSyncPosts.php:414
+msgid "Post Type"
+msgstr "ประเภทโพสต์"
+
+#: modules/presspermit-sync/classes/Permissions/SyncPosts/UI/SettingsTabSyncPosts.php:415
+msgid "Select where posts will be created for users."
+msgstr "เลือกสถานที่ที่โพสต์จะถูกสร้างสำหรับผู้ใช้."
+
+#: modules/presspermit-sync/classes/Permissions/SyncPosts/UI/SettingsTabSyncPosts.php:418
+msgid "New Users"
+msgstr "ผู้ใช้ใหม่"
+
+#: modules/presspermit-sync/classes/Permissions/SyncPosts/UI/SettingsTabSyncPosts.php:419
+msgid "Create posts for new users."
+msgstr "สร้างโพสต์สำหรับผู้ใช้ใหม่。"
+
+#: modules/presspermit-sync/classes/Permissions/SyncPosts/UI/SettingsTabSyncPosts.php:422
+msgid "Current Users"
+msgstr "ผู้ใช้ปัจจุบัน"
+
+#: modules/presspermit-sync/classes/Permissions/SyncPosts/UI/SettingsTabSyncPosts.php:423
+msgid "Create posts for existing users."
+msgstr "สร้างโพสต์สำหรับผู้ใช้ที่มีอยู่。"
+
+#: modules/presspermit-sync/classes/Permissions/SyncPosts/UI/SettingsTabSyncPosts.php:426
+msgid "Role"
+msgstr "บทบาท"
+
+#: modules/presspermit-sync/classes/Permissions/SyncPosts/UI/SettingsTabSyncPosts.php:427
+msgid "Create posts for users in these roles."
+msgstr "สร้างโพสต์สำหรับผู้ใช้ในบทบาทเหล่านี้。"
+
+#: modules/presspermit-sync/classes/Permissions/SyncPosts/UI/SettingsTabSyncPosts.php:431
+msgid "Set the number of posts to create for each user."
+msgstr "ตั้งค่าจำนวนโพสต์ที่จะสร้างสำหรับแต่ละผู้ใช้。"
+
+#: modules/presspermit-sync/classes/Permissions/SyncPosts/UI/SettingsTabSyncPosts.php:434
+msgid "Status"
+msgstr "สถานะ"
+
+#: modules/presspermit-sync/classes/Permissions/SyncPosts/UI/SettingsTabSyncPosts.php:435
+msgid "Set the status for created posts."
+msgstr "ตั้งค่าสถานะสำหรับโพสต์ที่สร้างขึ้น。"
+
+#: modules/presspermit-sync/classes/Permissions/SyncPosts/UI/SettingsTabSyncPosts.php:443
+msgid "No post types are enabled for user pages."
+msgstr "ไม่มีประเภทโพสต์ที่เปิดใช้งานสำหรับหน้าผู้ใช้。"
+
+#: modules/presspermit-sync/classes/Permissions/SyncPosts/UI/SettingsTabSyncPosts.php:445
+msgid "Go to Permissions Settings"
+msgstr "ไปที่การตั้งค่าอนุญาต"
+
+#: modules/presspermit-sync/classes/Permissions/SyncPosts/UI/SettingsTabSyncPosts.php:487
+msgid "Click to expand/collapse advanced settings"
+msgstr "คลิกเพื่อขยาย/ย่อการตั้งค่าขั้นสูง"
+
+#: modules/presspermit-sync/classes/Permissions/SyncPosts/UI/SettingsTabSyncPosts.php:533
+msgid "(All Roles)"
+msgstr "(ทุกบทบาท)"
+
+#: modules/presspermit-sync/classes/Permissions/SyncPosts/UI/SettingsTabSyncPosts.php:569
+msgid "Published"
+msgstr "เผยแพร่"
+
+#: modules/presspermit-sync/classes/Permissions/SyncPosts/UI/SettingsTabSyncPosts.php:570
+msgid "Draft"
+msgstr "ร่าง"
+
+#: modules/presspermit-sync/classes/Permissions/SyncPosts/UI/SettingsTabSyncPosts.php:571
+msgid "Pending Review"
+msgstr "รอการตรวจสอบ"
+
+#: modules/presspermit-sync/classes/Permissions/SyncPosts/UI/SettingsTabSyncPosts.php:572
+msgid "Private"
+msgstr "ส่วนตัว"
+
+#: modules/presspermit-sync/classes/Permissions/SyncPosts/UI/SettingsTabSyncPosts.php:589
+msgid "Avoid Creating Duplicates"
+msgstr "หลีกเลี่ยงการสร้างข้อมูลซ้ำ"
+
+#: modules/presspermit-sync/classes/Permissions/SyncPosts/UI/SettingsTabSyncPosts.php:590
+msgid ""
+"This setting can prevent the creation of duplicate posts for a user. If the "
+"selected fields are a match, a new post will not be created."
+msgstr ""
+"การตั้งค่านี้สามารถป้องกันการสร้างโพสต์ซ้ำสำหรับผู้ใช้ "
+"หากฟิลด์ที่เลือกตรงกัน จะไม่สร้างโพสต์ใหม่"
+
+#: modules/presspermit-sync/classes/Permissions/SyncPosts/UI/SettingsTabSyncPosts.php:595
+msgid "Post Match Field"
+msgstr "ฟิลด์การจับคู่โพสต์"
+
+#: modules/presspermit-sync/classes/Permissions/SyncPosts/UI/SettingsTabSyncPosts.php:596
+msgid "Choose which post field to match with users."
+msgstr "เลือกฟิลด์โพสต์ที่จะจับคู่กับผู้ใช้"
+
+#: modules/presspermit-sync/classes/Permissions/SyncPosts/UI/SettingsTabSyncPosts.php:636
+#: modules/presspermit-sync/classes/Permissions/SyncPosts/UI/SettingsTabSyncPosts.php:683
+msgid "(other)"
+msgstr "(อื่นๆ)"
+
+#: modules/presspermit-sync/classes/Permissions/SyncPosts/UI/SettingsTabSyncPosts.php:648
+#: modules/presspermit-sync/classes/Permissions/SyncPosts/UI/SettingsTabSyncPosts.php:692
+msgid "select..."
+msgstr "เลือก..."
+
+#: modules/presspermit-sync/classes/Permissions/SyncPosts/UI/SettingsTabSyncPosts.php:649
+#: modules/presspermit-sync/classes/Permissions/SyncPosts/UI/SettingsTabSyncPosts.php:693
+msgid "cancel"
+msgstr "ยกเลิก"
+
+#: modules/presspermit-sync/classes/Permissions/SyncPosts/UI/SettingsTabSyncPosts.php:657
+msgid "User Match Field"
+msgstr "ฟิลด์จับคู่ผู้ใช้"
+
+#: modules/presspermit-sync/classes/Permissions/SyncPosts/UI/SettingsTabSyncPosts.php:658
+msgid "Select which user field to match with posts."
+msgstr "เลือกฟิลด์ผู้ใช้ที่จะจับคู่กับโพสต์"
+
+#: modules/presspermit-sync/classes/Permissions/SyncPosts/UI/SettingsTabSyncPosts.php:701
+msgid "Available Template Parameters"
+msgstr "พารามิเตอร์เทมเพลตที่มีอยู่"
+
+#: modules/presspermit-sync/classes/Permissions/SyncPosts/UI/SettingsTabSyncPosts.php:704
+msgid ""
+"You can use these placeholders in the User Match Field to create custom "
+"templates:"
+msgstr "คุณสามารถใช้ตัวแทนเหล่านี้ในฟิลด์การจับคู่ผู้ใช้เพื่อสร้างแม่แบบที่กำหนดเอง:"
+
+#: modules/presspermit-sync/classes/Permissions/SyncPosts/UI/SettingsTabSyncPosts.php:717
+msgid "Examples:"
+msgstr "ตัวอย่าง:"
+
+#: modules/presspermit-sync/classes/Permissions/SyncPosts/UI/SettingsTabSyncPosts.php:731
+msgid "Additional Field"
+msgstr "ฟิลด์เพิ่มเติม"
+
+#: modules/presspermit-sync/classes/Permissions/SyncPosts/UI/SettingsTabSyncPosts.php:732
+msgid "Additional configuration options for post creation."
+msgstr "ตัวเลือกการกำหนดค่าตเพิ่มเติมสำหรับการสร้างโพสต์"
+
+#: modules/presspermit-sync/classes/Permissions/SyncPosts/UI/SettingsTabSyncPosts.php:737
+msgid "Parent Post ID"
+msgstr "รหัสโพสต์หลัก"
+
+#: modules/presspermit-sync/classes/Permissions/SyncPosts/UI/SettingsTabSyncPosts.php:738
+msgid "Specify the Post ID of a parent post for hierarchical post types."
+msgstr "ระบุรหัสโพสต์ของโพสต์หลักสำหรับประเภทโพสต์แบบลำดับชั้น"
+
+#: modules/presspermit-sync/classes/Permissions/SyncPosts/UI/SettingsTabSyncPosts.php:749
+msgid "Enter parent post ID (0 for no parent)"
+msgstr "กรอกรหัสโพสต์หลัก (0 สำหรับไม่มีหลัก)"
+
+#: modules/presspermit-sync/classes/Permissions/SyncPosts/UI/SettingsTabSyncPosts.php:895
+msgid "Validation Errors in User Posts Settings:"
+msgstr "ข้อผิดพลาดการตรวจสอบในการตั้งค่าโพสต์ของผู้ใช้:"
+
+#: modules/presspermit-sync/classes/Permissions/SyncPosts/UI/SettingsTabSyncPosts.php:903
+msgid "Please fix these errors and try again."
+msgstr "โปรดแก้ไขข้อผิดพลาดเหล่านี้และลองอีกครั้ง"
+
+#: modules/presspermit-sync/classes/Permissions/SyncPosts/UserSync.php:156
+#, php-format
+msgid "%s: Skipping because no roles are selected"
+msgstr "%s: ข้ามเนื่องจากไม่มีบทบาทที่เลือก"
+
+#: modules/presspermit-sync/classes/Permissions/SyncPosts/UserSync.php:190
+#, php-format
+msgid "%s: Enabled PressPermit filtering (Core > Filtered Post Types)"
+msgstr "%s: เปิดใช้งานการกรอง PressPermit (Core > ประเภทโพสต์ที่กรอง)"
+
+#: modules/presspermit-sync/classes/Permissions/SyncPosts/UserSync.php:208
+#, php-format
+msgid "%1$s: Assigned extra %2$s Author role to %3$s role"
+msgstr "%1$s: มอบบทบาทผู้เขียน %2$s เพิ่มเติมให้กับบทบาท %3$s"
+
+#: modules/presspermit-sync/classes/Permissions/SyncPosts/UserSync.php:356
+#, php-format
+msgid "Ambiguous %1$s match (%2$s)"
+msgstr "การจับคู่ %1$s ที่คลุมเครือ (%2$s)"
+
+#: modules/presspermit-sync/classes/Permissions/SyncPosts/UserSync.php:386
+#, php-format
+msgid "Ambiguous user match for %1$s (%2$s, post id %3$s"
+msgstr "การจับคู่ผู้ใช้ที่ไม่ชัดเจนสำหรับ %1$s (%2$s, post id %3$s"
+
+#: modules/presspermit-sync/classes/Permissions/SyncPosts/UserSync.php:411
+#, php-format
+msgid "Ambiguous user match for %1$s (%2$s, $post id %3$s)"
+msgstr "การจับคู่ผู้ใช้ที่ไม่ชัดเจนสำหรับ %1$s (%2$s, $post id %3$s)"
+
+#: modules/presspermit-sync/classes/Permissions/SyncPosts/UserSync.php:560
+#: modules/presspermit-sync/classes/Permissions/SyncPosts/UserSync.php:584
+#, php-format
+msgid "Ambiguous user match for %1$s (%2$s)"
+msgstr "การจับคู่ผู้ใช้ที่ไม่ชัดเจนสำหรับ %1$s (%2$s)"
+
+#: modules/presspermit-sync/classes/Permissions/SyncPosts/UserSync.php:620
+#, php-format
+msgid "%1$s: %2$s posts created."
+msgstr "%1$s: สร้างโพสต์ %2$s รายการ."
+
+#: modules/presspermit-sync/classes/Permissions/SyncPosts/UserSync.php:626
+#, php-format
+msgid "%1$s: %2$s posts updated."
+msgstr "%1$s: อัปเดตโพสต์ %2$s รายการ."
+
+#: modules/presspermit-sync/classes/Permissions/SyncPosts/UserSync.php:642
+msgid "All Roles"
+msgstr "ทุกบทบาท"
+
+#: modules/presspermit-sync/classes/Permissions/SyncPosts/UserSync.php:646
+#, php-format
+msgid "%1$s: Done for %2$s."
+msgstr "%1$s: เสร็จสิ้นสำหรับ %2$s."
+
+#: modules/presspermit-sync/classes/Permissions/SyncPosts/UserSync.php:648
+#, php-format
+msgid "%s: Done."
+msgstr "%s: เสร็จสิ้น."

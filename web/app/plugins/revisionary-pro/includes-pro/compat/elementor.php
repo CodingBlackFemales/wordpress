@@ -663,7 +663,7 @@ class RevisionaryElementor
         $hint = '';
 		$settings_ui->option_checkbox('elementor_update_template_revision_notify', $tab, $section, $hint, '');
 
-        $hint = __('Redirect to preview if the revision is updated at least 15 seconds after loading the Elementor editor. This redirect relies on detection of UI messaging elements. Disable it here if it is triggered improperly', 'revisionary-pro');
+        $hint = __('Redirect to the revision preview after submission or a revision status change in Elementor. Disable this option to remain in the editor.', 'revisionary-pro');
         $settings_ui->option_checkbox('elementor_submission_redirect', $tab, $section, $hint, '');
     }
 
@@ -838,7 +838,8 @@ class RevisionaryElementor
                 }
             }
 
-            if (rvy_in_revision_workflow($revision_id)) {
+            if ((rvy_in_revision_workflow($revision_id) || wp_is_post_revision($revision_id))
+                && (current_user_can('read_post', $revision_id) || current_user_can('edit_post', rvy_post_id($revision_id)))) {
                 return $revision_id;
             }
         }
@@ -858,6 +859,23 @@ class RevisionaryElementor
 
     function actEnqueueElementorPostCSS() { 
         if ($revision_id = $this->isRevisionPreview()) {
+            if ($parent_id = wp_is_post_revision($revision_id)) {
+                // Historical wrappers use the main document ID. Generate styles
+                // from the requested snapshot, not the current page CSS file.
+                if (class_exists('\\Elementor\\Core\\Files\\CSS\\Post')) {
+                    $css = (new \Elementor\Core\Files\CSS\Post($revision_id))->get_content();
+                    $css = str_replace('elementor-' . $revision_id, 'elementor-' . $parent_id, $css);
+                    wp_enqueue_style('elementor-frontend');
+                    wp_register_style('revisionary-elementor-past-preview', false);
+                    wp_add_inline_style('revisionary-elementor-past-preview', $css);
+                    // Print after Elementor's current-document styles so they
+                    // cannot override the requested historical snapshot.
+                    add_action('wp_head', static function () {
+                        wp_print_styles('revisionary-elementor-past-preview');
+                    }, 100);
+                }
+                return;
+            }
             $uploads = wp_upload_dir();
 
             $uploads_path = (!empty($uploads['baseurl'])) ? $uploads['baseurl'] : WP_CONTENT_URL . "/uploads";
@@ -1134,35 +1152,123 @@ class RevisionaryElementor
                 
                 if (get_option('rvy_elementor_submission_redirect', true)):
                     $redirect_delay_msec = (defined('REVISIONARY_ELEMENTOR_REDIRECT_DELAY_MSEC')) ? REVISIONARY_ELEMENTOR_REDIRECT_DELAY_MSEC : 15000;
+                    if ('draft-revision' == $revision_status) {
+                        $redirect_toast_caption = pp_revisions_status_label('pending-revision', 'submitted');
+                    } elseif ($can_publish && ('future-revision' != $revision_status)) {
+                        $redirect_toast_caption = __('Approval done.', 'revisionary-pro');
+                    } else {
+                        $redirect_toast_caption = __('Revision updated.', 'revisionary-pro');
+                    }
                 ?>
 
-                var rvyIntDetectLoad = setInterval(function() {
-                    var elementorPublish = document.getElementById("elementor-panel-footer-settings");
-                    if (elementorPublish !== null) {
-                        clearInterval(rvyIntDetectLoad);
+                var rvyRedirectMonitoring = false;
+                var rvyRedirectToastCaption = <?php echo wp_json_encode($redirect_toast_caption);?>;
+                var rvyRedirectScheduled = false;
+                var rvyRedirectSaveStatus = null;
+                var rvyRedirectElementor;
+                var rvyRedirectSaver;
+                var rvyRedirectChannel;
+                var rvyElementorReadySelector = '#elementor-editor-wrapper-v2, #elementor-panel, #elementor-preview, #elementor-panel-footer-settings, #elementor-panel-saver-button-publish';
+                var rvyRedirectLoadObserver;
+                var rvyRedirectStatusObserver;
 
-                        // Delay save detection to avoid triggering on autosave indicator
+                var rvyRedirectAfterStatusChange = function() {
+                    if (rvyRedirectScheduled) {
+                        return;
+                    }
+                    rvyRedirectScheduled = true;
+                    if (rvyRedirectLoadObserver) {
+                        rvyRedirectLoadObserver.disconnect();
+                    }
+                    if (rvyRedirectStatusObserver) {
+                        rvyRedirectStatusObserver.disconnect();
+                    }
+                    setTimeout(function() {
+                        window.location = '<?php echo esc_url_raw(add_query_arg('base_post', rvy_post_id($post_id), rvy_preview_url($post_id)));?>';
+                    }, 500);
+                };
+
+                var rvyRedirectOnSaveSuccess = function() {
+                    // The generic saved/after:save events also fire for autosaves.
+                    if (['publish', 'pending', 'future', 'pending-revision', 'future-revision'].indexOf(rvyRedirectSaveStatus) !== -1) {
+                        rvyRedirectAfterStatusChange();
+                    }
+                };
+
+                var rvyBindRedirectEvents = function() {
+                    var editor = window.elementor;
+                    if (!editor) {
+                        return;
+                    }
+                    if (rvyRedirectElementor !== editor && typeof editor.on === 'function') {
+                        rvyRedirectElementor = editor;
+                        editor.on('preview:loaded', function() { rvyStartRedirectMonitoring(true); });
+                    }
+                    if (editor.saver && rvyRedirectSaver !== editor.saver && typeof editor.saver.on === 'function') {
+                        rvyRedirectSaver = editor.saver;
+                        editor.saver.on('before:save', function(args) {
+                            // Do not redirect for a secondary document (such as a site kit).
+                            var saveDocument = args && args.document;
+                            rvyRedirectSaveStatus = saveDocument && Number(saveDocument.id) !== <?php echo (int) $post_id;?>
+                                ? null : (args && args.status) || 'draft';
+                        });
+                        editor.saver.on('after:save', rvyRedirectOnSaveSuccess);
+                        editor.saver.on('after:saveError', function() { rvyRedirectSaveStatus = null; });
+                        editor.saver.on('page:status:change', function(status, oldStatus) {
+                            if (status !== oldStatus && status !== 'autosave' && rvyRedirectSaveStatus !== null) {
+                                rvyRedirectAfterStatusChange();
+                            }
+                        });
+                    }
+                    var channel = editor.channels && editor.channels.editor;
+                    if (channel && rvyRedirectChannel !== channel && typeof channel.on === 'function') {
+                        rvyRedirectChannel = channel;
+                        channel.on('saved', rvyRedirectOnSaveSuccess);
+                    }
+                };
+
+                var rvyStartRedirectMonitoring = function(previewLoaded) {
+                    rvyBindRedirectEvents();
+                    if (!rvyRedirectMonitoring && (previewLoaded === true || document.querySelector(rvyElementorReadySelector))) {
+                        rvyRedirectMonitoring = true;
+                        // The delay applies only to the legacy toast fallback, not explicit saves.
                         setTimeout(function() {
-                            var rvyIntDetectStatusChange = setInterval(function() {
-
-                                var elementorToast = document.getElementById("elementor-toast");
-                                if (elementorToast !== null) {
-
-                                    var toastStyle = elementorToast.getAttribute("style");
-                                    if (toastStyle !== null) {
-                                        if (-1 == toastStyle.indexOf('display: none')) {
-                                            clearInterval(rvyIntDetectStatusChange);
-
-                                            setTimeout(function() {
-                                                window.location = '<?php echo esc_url_raw(add_query_arg('base_post', rvy_post_id($post_id), rvy_preview_url($post_id)));?>';
-                                            }, 500);
-                                        }
-                                    }
+                            if (rvyRedirectScheduled) {
+                                return;
+                            }
+                            var rvyCheckRedirectToast = function() {
+                                var toast = document.getElementById('elementor-toast');
+                                if (!toast || toast.hidden) {
+                                    return;
                                 }
-                            }, 500);
+                                var style = window.getComputedStyle(toast);
+                                if (style.display !== 'none' && style.visibility !== 'hidden' && style.opacity !== '0'
+                                    && toast.textContent.indexOf(rvyRedirectToastCaption) !== -1) {
+                                    rvyRedirectAfterStatusChange();
+                                }
+                            };
+                            rvyRedirectStatusObserver = new MutationObserver(rvyCheckRedirectToast);
+                            rvyRedirectStatusObserver.observe(document.documentElement, {
+                                childList: true,
+                                subtree: true,
+                                characterData: true,
+                                attributes: true,
+                                attributeFilter: ['class', 'style', 'hidden', 'aria-hidden']
+                            });
+                            rvyCheckRedirectToast();
                         }, <?php echo esc_attr($redirect_delay_msec);?>);
                     }
-                }, 500);
+                    if (rvyRedirectMonitoring && rvyRedirectSaver && rvyRedirectLoadObserver) {
+                        rvyRedirectLoadObserver.disconnect();
+                    }
+                };
+
+                // These native events are emitted by Elementor 4.3 alongside its event bus.
+                window.addEventListener('elementor:loaded', rvyStartRedirectMonitoring);
+                window.addEventListener('elementor:init', rvyStartRedirectMonitoring);
+                rvyRedirectLoadObserver = new MutationObserver(rvyStartRedirectMonitoring);
+                rvyRedirectLoadObserver.observe(document.documentElement, { childList: true, subtree: true });
+                rvyStartRedirectMonitoring();
 
                 <?php endif;?>
 

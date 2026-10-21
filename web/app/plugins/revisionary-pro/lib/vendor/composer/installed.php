@@ -65,9 +65,9 @@
             'dev_requirement' => false,
         ),
         'publishpress/publishpress-revisions' => array(
-            'pretty_version' => 'v4.1.0',
-            'version' => '4.1.0.0',
-            'reference' => '81b29abd911ec3f3e022114dabb768b31d810b4a',
+            'pretty_version' => 'v4.2.0',
+            'version' => '4.2.0.0',
+            'reference' => 'd85839c2d0f27cb3e91444a2983a04396418c5b2',
             'type' => 'wordpress-plugin',
             'install_path' => __DIR__ . '/../publishpress/publishpress-revisions',
             'aliases' => array(),

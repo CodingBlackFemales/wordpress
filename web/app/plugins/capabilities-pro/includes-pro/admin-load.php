@@ -11,7 +11,6 @@ namespace PublishPress\Capabilities;
  *
  */
 
-include_once(PUBLISHPRESS_CAPS_PRO_ABSPATH . '/includes-pro/features/admin-menus/admin-menus-filters.php');
 
 class AdminFiltersPro {
     function __construct() {
@@ -51,9 +50,9 @@ class AdminFiltersPro {
             add_action('init', [$this, 'updateOptions'], 5);
         }
 
-        add_filter('pp_capabilities_sub_menu_lists', [$this, 'actCapabilitiesSubmenus'], 10, 2);
 
-        add_filter('pp_capabilities_dashboard_features', [$this, 'addProFeaturestoDashboard']);
+
+
 
         //translation
         add_action('init', [$this, 'register_textdomain']);
@@ -168,216 +167,11 @@ class AdminFiltersPro {
         $settings_options[] = 'cme_display_branding';
         $settings_options[] = 'cme_custom_status_control';
         $settings_options[] = 'cme_custom_status_postmeta_caps';
-        $settings_options[] = 'cme_admin_menus_restriction_priority';
         $settings_options[] = 'presspermit_privacy_statuses_enabled';
         $settings_options[] = 'presspermit_custom_privacy_edit_caps';
 
         return $settings_options;
     }
-
-    function actCapabilitiesSubmenus($sub_menu_pages, $cme_fakefunc) {
-
-        if (!$cme_fakefunc) {
-            //add admin menu after profile features menu
-            $profile_features_offset = array_search('profile-features', array_keys($sub_menu_pages));
-            $profile_features_menu   = [];
-            $profile_features_menu['admin-menus'] = [
-                'title'             => __('Admin Menus', 'capabilities-pro'),
-                'capabilities'      => (is_multisite() && is_super_admin()) ? 'read' : 'manage_capabilities_admin_menus',
-                'page'              => 'pp-capabilities-admin-menus',
-                'callback'          => [$this, 'ManageAdminMenus'],
-                'dashboard_control' => true,
-            ];
-
-            $sub_menu_pages = array_merge(
-                array_slice($sub_menu_pages, 0, $profile_features_offset),
-                $profile_features_menu,
-                array_slice($sub_menu_pages, $profile_features_offset, null)
-            );
-        }
-
-        return $sub_menu_pages;
-    }
-
-    function addProFeaturestoDashboard($features) {
-            // Remove any existing free promo entry so Pro always controls this card.
-            unset($features['admin-menus']);
-
-            $admin_menu_feature = [
-                'admin-menus' => [
-                    'label'       => esc_html__('Admin Menus', 'capabilities-pro'),
-                    'description' => esc_html__('Admin Menus allows you to edit the admin menu links and control who has access.', 'capabilities-pro'),
-                    'promo'       => 0,
-                ],
-            ];
-
-            // Add admin menu after profile features menu when available.
-            $profile_features_offset = array_search('profile-features', array_keys($features), true);
-
-            if ($profile_features_offset === false) {
-                $features = array_merge($features, $admin_menu_feature);
-            } else {
-                $features = array_merge(
-                    array_slice($features, 0, $profile_features_offset + 1, true),
-                    $admin_menu_feature,
-                    array_slice($features, $profile_features_offset + 1, null, true)
-                );
-            }
-
-        return $features;
-    }
-
-    private function getSubmittedAdminMenuRestrictions($field_name)
-    {
-        if (empty($_POST[$field_name]) || !is_array($_POST[$field_name])) {
-            return [];
-        }
-
-        return array_values(array_filter(array_map('sanitize_text_field', wp_unslash($_POST[$field_name])), 'strlen'));
-    }
-
-    private function normalizeOwnRoleAdminMenuRestrictions(array $disabled_menus, array $disabled_child_menus, $role_name, array $current_user_roles)
-    {
-        if (!in_array($role_name, $current_user_roles, true)) {
-            return [$disabled_menus, $disabled_child_menus];
-        }
-
-        $disabled_menus = array_values(array_diff($disabled_menus, ['pp-capabilities-roles']));
-
-        $disabled_child_menus = array_values(array_filter($disabled_child_menus, function ($menu_id) {
-            if (strpos($menu_id, '|') !== false) {
-                list(, $submenu_slug) = explode('|', $menu_id, 2);
-            } else {
-                $submenu_slug = $menu_id;
-            }
-
-            return 'pp-capabilities-admin-menus' !== $submenu_slug;
-        }));
-
-        return [$disabled_menus, $disabled_child_menus];
-    }
-
-    /**
-	 * Manages admin menu permission
-	 *
-	 * @hook add_management_page
-	 * @return void
-	 */
-	function ManageAdminMenus ()
-	{
-        global $capsman;
-
-		if ((!is_multisite() || !is_super_admin()) && !current_user_can('administrator') && !current_user_can('manage_capabilities_admin_menus')) {
-            // TODO: Implement exceptions.
-		    wp_die('<strong>' . esc_html__('You do not have permission to manage menu restrictions.', 'capabilities-pro') . '</strong>');
-		}
-
-		$capsman->generateNames();
-		$roles = array_keys($capsman->roles);
-
-		if ( ! isset($capsman->current) ) {
-			if ('POST' !== $_SERVER['REQUEST_METHOD'] && !empty($_REQUEST['role'])) {
-                $capsman->set_current_role(sanitize_key($_REQUEST['role']));
-			}
-		}
-
-		if (!isset($capsman->current) || !get_role($capsman->current)) {
-			$capsman->current = $capsman->get_last_role();
-		}
-
-		if ( ! in_array($capsman->current, $roles) ) {
-			$capsman->current = array_shift($roles);
-		}
-
-		$ppc_admin_menu_reload = '0';
-
-		if (!empty($_SERVER['REQUEST_METHOD']) && ('POST' == $_SERVER['REQUEST_METHOD']) && isset($_POST['ppc-admin-menu-role']) && !empty($_REQUEST['_wpnonce'])) {
-            if (!wp_verify_nonce(sanitize_key($_REQUEST['_wpnonce']), 'pp-capabilities-admin-menus')) {
-                wp_die('<strong>' . esc_html__('You do not have permission to manage menu restrictions.', 'capabilities-pro') . '</strong>');
-            } else {
-                $menu_role = sanitize_key($_POST['ppc-admin-menu-role']);
-                $save_for_all_roles = !empty($_POST['admin-menu-all-submit']);
-                $current_user_roles = (array) wp_get_current_user()->roles;
-
-                $capsman->set_current_role($menu_role);
-
-                //set role admin menu
-                $admin_menu_option = !empty(get_option('capsman_admin_menus')) ? get_option('capsman_admin_menus') : [];
-                $requested_admin_menus = $this->getSubmittedAdminMenuRestrictions('pp_cababilities_disabled_menu');
-
-                //set role admin child menu
-                $admin_child_menu_option = !empty(get_option('capsman_admin_child_menus')) ? get_option('capsman_admin_child_menus') : [];
-                $requested_admin_child_menus = $this->getSubmittedAdminMenuRestrictions('pp_cababilities_disabled_child_menu');
-
-                if ($save_for_all_roles) {
-                    foreach ($roles as $role_name) {
-                        list($role_admin_menus, $role_admin_child_menus) = $this->normalizeOwnRoleAdminMenuRestrictions(
-                            $requested_admin_menus,
-                            $requested_admin_child_menus,
-                            $role_name,
-                            $current_user_roles
-                        );
-
-                        $admin_menu_option[$role_name] = $role_admin_menus;
-                        $admin_child_menu_option[$role_name] = $role_admin_child_menus;
-                    }
-                } else {
-                    list($requested_admin_menus, $requested_admin_child_menus) = $this->normalizeOwnRoleAdminMenuRestrictions(
-                        $requested_admin_menus,
-                        $requested_admin_child_menus,
-                        $menu_role,
-                        $current_user_roles
-                    );
-
-                    $admin_menu_option[$menu_role] = $requested_admin_menus;
-                    $admin_child_menu_option[$menu_role] = $requested_admin_child_menus;
-                }
-
-                update_option('capsman_admin_menus', $admin_menu_option, false);
-                update_option('capsman_admin_child_menus', $admin_child_menu_option, false);
-
-                //set reload option for menu reflection if user is updating own role
-                if ($save_for_all_roles) {
-                    if (!empty(array_intersect($current_user_roles, $roles))) {
-                        $ppc_admin_menu_reload = '1';
-                    }
-
-                    ak_admin_notify(__('Settings updated for all roles.', 'capabilities-pro'));
-                } elseif (in_array($menu_role, $current_user_roles, true)) {
-                	$ppc_admin_menu_reload = '1';
-                }
-
-                if (!$save_for_all_roles) {
-                    ak_admin_notify(__('Settings updated.', 'capabilities-pro'));
-                }
-            }
-		}
-
-        $url = plugins_url( '', PUBLISHPRESS_CAPS_PRO_FILE );
-
-        // enqueue css
-        wp_enqueue_style('pp-capabilities-pro-admin-menu-css', $url . '/includes-pro/features/admin-menus/assets/css/admin-menus.css', false, PUBLISHPRESS_CAPS_VERSION);
-        // enqueue js
-        wp_enqueue_script( 'pp-capabilities-pro-admin-menu-js', $url . '/includes-pro/features/admin-menus/assets/js/admin-menus.js', array('jquery', 'jquery-ui-sortable'), PUBLISHPRESS_CAPS_VERSION, true );
-
-        // localize js
-        $dashicons = json_decode(file_get_contents(plugin_dir_path(__FILE__) . 'features/admin-menus/assets/icons/dashicons-icons.json'));
-        wp_localize_script('pp-capabilities-pro-admin-menu-js', 'ppCapabilitiesProAdminMenus', [
-            'saving_menu_order' => __('Saving Menu Order...', 'capabilities-pro'),
-            'saving_menu_title' => __('Saving Menu Name...', 'capabilities-pro'),
-            'menu_title_empty' => __('Menu Name can not be empty.', 'capabilities-pro'),
-            'changeIcon' => __('Change Icon', 'capabilities-pro'),
-            'searchIcons' => __('Search icons...', 'capabilities-pro'),
-            'iconUpdated' => __('Menu icon updated', 'capabilities-pro'),
-            'iconUpdateError' => __('Error updating menu icon', 'capabilities-pro'),
-            'duplicateMenuError' => __('Duplicate menu with this Menu URL already exists', 'capabilities-pro'),
-            'duplicateSubMenuError' => __('Duplicate submenu with the menu url already exist', 'capabilities-pro'),
-            'dashicons' => $dashicons,
-            'nonce' => wp_create_nonce('ppc-pro-feature-nonce')
-        ]);
-
-		include ( dirname(__FILE__) . '/features/admin-menus/admin-menus.php' );
-	}
 
     function versionInfoRedirect() {
         if (!empty($_REQUEST['publishpress_caps_refresh_updates']) && current_user_can('activate_plugins')) { // not a security issue, but prevent status refresh by CSRF
@@ -447,14 +241,19 @@ class AdminFiltersPro {
             : [];
 
         if (!empty($current_page) && in_array($current_page, $capabilities_pages, true)) {
+            if ($current_page === 'pp-capabilities' && !defined('PUBLISHPRESS_STATUSES_PRO_VERSION')) {
+                $asset_suffix = defined('SCRIPT_DEBUG') && SCRIPT_DEBUG ? '' : '.min';
+                wp_enqueue_style('pp-capabilities-admin-core',
+                    plugin_dir_url(CME_FILE) . "includes-core/admin-core{$asset_suffix}.css",
+                    [], PUBLISHPRESS_CAPS_VERSION);
+            }
+
             wp_enqueue_style('publishpress-caps-pro', plugins_url( '', PUBLISHPRESS_CAPS_PRO_FILE ) . '/includes-pro/pro.css', [], PUBLISHPRESS_CAPS_VERSION);
             wp_enqueue_style('publishpress-caps-status-caps', plugins_url( '', PUBLISHPRESS_CAPS_PRO_FILE ) . '/includes-pro/common/css/status-caps.css', [], PUBLISHPRESS_CAPS_VERSION);
 
             add_thickbox();
         }
 
-        // enqueue global css
-        wp_enqueue_style('pp-capabilities-pro-admin-menu-global-css', plugins_url( '', PUBLISHPRESS_CAPS_PRO_FILE ) . '/includes-pro/features/admin-menus/assets/css/admin-menus-global.css', false, PUBLISHPRESS_CAPS_VERSION);
     }
 
     function loadStatusesUI() {

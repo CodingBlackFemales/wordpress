@@ -563,24 +563,26 @@ class CustomStatusCapsUI {
             </td>
         </tr>
         <?php else:
-            if ('revision-status' == $tab_id):?>
+            if ('revision-status' == $tab_id):
+                $show_statuses_promo = !defined('PUBLISHPRESS_STATUSES_PRO_VERSION');
+            ?>
             <tr>
-                <td class="cme-status-footer cme-custom-status-hints" colspan="7">
+                <td class="cme-status-footer<?php echo $show_statuses_promo ? '' : ' cme-custom-status-hints'; ?>" colspan="7">
+                <?php if ($show_statuses_promo): ?>
+                    <div class="pp-promo-overlay-row">
+                        <div class="pp-promo-upgrade-notice" style="position: static; width: auto; max-width: 600px; margin: 12px auto 20px;">
+                <?php endif; ?>
                 <p>
                 <?php
                 if (!defined('PUBLISHPRESS_REVISIONS_VERSION') && !defined('PUBLISHPRESS_STATUSES_PRO_VERSION')) {
                     printf(
                         esc_html__('To control revision editing and deletion, install the %1$sPublishPress Revisions%2$s and %3$sStatuses Pro%4$s plugins.', 'capabilities-pro'),
-                        '<a href="https://publishpress.com/revisions/" target="_blank">',
-                        '</a>',
-                        '<a href="https://publishpress.com/statuses/" target="_blank">',
-                        '</a>'
+                        '', '', '', ''
                     );
                 } elseif (!defined('PUBLISHPRESS_STATUSES_PRO_VERSION')) {
                     printf(
                         esc_html__('To define and control Revision statuses, install the %1$sStatuses Pro%2$s plugin.', 'capabilities-pro'),
-                        '<a href="https://publishpress.com/statuses/" target="_blank">',
-                        '</a>'
+                        '', ''
                     );
                 } elseif (!defined('PUBLISHPRESS_REVISIONS_VERSION')) {
                     printf(
@@ -617,6 +619,16 @@ class CustomStatusCapsUI {
                 }
                 ?>
                 </p>
+                <?php if ($show_statuses_promo): ?>
+                    <p>
+                        <a href="https://publishpress.com/statuses/" target="_blank" rel="noopener noreferrer"><?php esc_html_e('Get Statuses Pro', 'capabilities-pro'); ?></a>
+                        <?php if (!defined('PUBLISHPRESS_REVISIONS_VERSION')): ?>
+                            <a href="https://publishpress.com/revisions/" target="_blank" rel="noopener noreferrer"><?php esc_html_e('Get PublishPress Revisions', 'capabilities-pro'); ?></a>
+                        <?php endif; ?>
+                    </p>
+                        </div>
+                    </div>
+                <?php endif; ?>
                 </td>
             </tr>
             <?php else:?>
