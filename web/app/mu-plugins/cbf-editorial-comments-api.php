@@ -154,17 +154,32 @@ final class CBF_Editorial_Comments_API {
 	 * @return WP_REST_Response
 	 */
 	public static function list_comments( WP_REST_Request $request ): WP_REST_Response {
-		$comments = get_comments(
-			array(
-				'post_id' => (int) $request['id'],
-				'type'    => self::TYPE,
-				'status'  => self::TYPE,
-				'orderby' => 'comment_date_gmt',
-				'order'   => 'ASC',
-			)
-		);
+		return rest_ensure_response( array_map( array( __CLASS__, 'prepare' ), self::comments_on( (int) $request['id'] ) ) );
+	}
 
-		return rest_ensure_response( array_map( array( __CLASS__, 'prepare' ), $comments ) );
+
+	/**
+	 * A post's editorial comments, oldest first, optionally only one user's.
+	 *
+	 * Reads the comments table directly rather than through get_comments().
+	 * PublishPress Permissions filters comment queries to comments on posts
+	 * with a readable status, which hides every editorial comment on a draft
+	 * or other unpublished post. The routes have already checked that the
+	 * user can edit the post, which is the access these comments need.
+	 *
+	 * @param  int      $post_id Post ID.
+	 * @param  int|null $user_id Only this user's comments, if given.
+	 * @return WP_Comment[]
+	 */
+	private static function comments_on( int $post_id, ?int $user_id = null ): array {
+		global $wpdb;
+
+		$user_clause = $user_id === null ? '' : $wpdb->prepare( ' AND user_id = %d', $user_id );
+
+		// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching, WordPress.DB.PreparedSQL.InterpolatedNotPrepared -- see the docblock; $user_clause is prepared above.
+		$ids = $wpdb->get_col( $wpdb->prepare( "SELECT comment_ID FROM {$wpdb->comments} WHERE comment_post_ID = %d AND comment_type = %s AND comment_approved = %s{$user_clause} ORDER BY comment_date_gmt ASC, comment_ID ASC", $post_id, self::TYPE, self::TYPE ) );
+
+		return array_values( array_filter( array_map( 'get_comment', $ids ) ) );
 	}
 
 
@@ -212,16 +227,7 @@ final class CBF_Editorial_Comments_API {
 	 * @return WP_Comment|null
 	 */
 	private static function find( int $post_id, string $content ): ?WP_Comment {
-		$comments = get_comments(
-			array(
-				'post_id' => $post_id,
-				'type'    => self::TYPE,
-				'status'  => self::TYPE,
-				'user_id' => get_current_user_id(),
-			)
-		);
-
-		foreach ( $comments as $comment ) {
+		foreach ( self::comments_on( $post_id, get_current_user_id() ) as $comment ) {
 			if ( $comment->comment_content === $content ) {
 				return $comment;
 			}
