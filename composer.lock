@@ -6904,15 +6904,15 @@
         },
         {
             "name": "wp-plugin/query-monitor",
-            "version": "4.0.7",
+            "version": "4.1.1",
             "source": {
                 "type": "svn",
                 "url": "https://plugins.svn.wordpress.org/query-monitor/",
-                "reference": "tags/4.0.7"
+                "reference": "tags/4.1.1"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://downloads.wordpress.org/plugin/query-monitor.4.0.7.zip"
+                "url": "https://downloads.wordpress.org/plugin/query-monitor.4.1.1.zip"
             },
             "require": {
                 "composer/installers": "~1.0|~2.0"
@@ -6931,7 +6931,7 @@
                 "issues": "https://wordpress.org/support/plugin/query-monitor",
                 "source": "https://plugins.svn.wordpress.org/query-monitor"
             },
-            "time": "2026-06-20T20:20:53+00:00"
+            "time": "2026-10-27T01:27:02+00:00"
         },
         {
             "name": "wp-plugin/remove-dashboard-access-for-non-admins",
