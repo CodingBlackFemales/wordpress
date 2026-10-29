@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file. See [commit-and-tag-version](https://github.com/absolute-version/commit-and-tag-version) for commit guidelines.
 
+## [0.1.65](https://github.com/CodingBlackFemales/wordpress/compare/v0.1.64...v0.1.65) (2026-10-27)
+
+### Features
+
+* **academy:** show the front-end toolbar to content staff ([3e88372](https://github.com/CodingBlackFemales/wordpress/commit/3e883729afbd70b141bd62bf69280b443c09762f))
+
+### Bug Fixes
+
+* **academy:** read editorial comments on unpublished posts ([8ca1a9e](https://github.com/CodingBlackFemales/wordpress/commit/8ca1a9eead4d2662b35696ee906d15dc9ce2c1ae))
+
 ## [0.1.64](https://github.com/CodingBlackFemales/wordpress/compare/v0.1.63...v0.1.64) (2026-10-21)
 
 ### Bug Fixes
