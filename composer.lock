@@ -6657,15 +6657,15 @@
         },
         {
             "name": "wp-plugin/members",
-            "version": "3.2.26",
+            "version": "3.3.0",
             "source": {
                 "type": "svn",
                 "url": "https://plugins.svn.wordpress.org/members/",
-                "reference": "tags/3.2.26"
+                "reference": "tags/3.3.0"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://downloads.wordpress.org/plugin/members.3.2.26.zip"
+                "url": "https://downloads.wordpress.org/plugin/members.3.3.0.zip"
             },
             "require": {
                 "composer/installers": "~1.0|~2.0"
@@ -6677,14 +6677,14 @@
                     "name": "Blair Williams"
                 }
             ],
-            "description": "The best WordPress membership and user role editor plugin. User Roles & Capabilities editor helps you restrict content in just a few clicks.",
+            "description": "The best WordPress membership and user role editor plugin. Edit roles, restrict content, and now manage it all with an AI assistant.",
             "homepage": "https://members-plugin.com/",
             "support": {
                 "changelog": "https://wordpress.org/plugins/members/#developers",
                 "issues": "https://wordpress.org/support/plugin/members",
                 "source": "https://plugins.svn.wordpress.org/members"
             },
-            "time": "2026-08-25T05:11:03+00:00"
+            "time": "2026-10-28T13:41:25+00:00"
         },
         {
             "name": "wp-plugin/myworks-woo-sync-for-quickbooks-online",
