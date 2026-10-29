@@ -6502,15 +6502,15 @@
         },
         {
             "name": "wp-plugin/import-meetup-events",
-            "version": "1.7.5",
+            "version": "1.7.6",
             "source": {
                 "type": "svn",
                 "url": "https://plugins.svn.wordpress.org/import-meetup-events/",
-                "reference": "tags/1.7.5"
+                "reference": "tags/1.7.6"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://downloads.wordpress.org/plugin/import-meetup-events.1.7.5.zip"
+                "url": "https://downloads.wordpress.org/plugin/import-meetup-events.1.7.6.zip"
             },
             "require": {
                 "composer/installers": "~1.0|~2.0"
@@ -6529,7 +6529,7 @@
                 "issues": "https://wordpress.org/support/plugin/import-meetup-events",
                 "source": "https://plugins.svn.wordpress.org/import-meetup-events"
             },
-            "time": "2026-08-18T10:56:13+00:00"
+            "time": "2026-10-29T06:46:50+00:00"
         },
         {
             "name": "wp-plugin/jetpack",
