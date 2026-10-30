@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [commit-and-tag-version](https://github.com/absolute-version/commit-and-tag-version) for commit guidelines.
 
+## [0.1.66](https://github.com/CodingBlackFemales/wordpress/compare/v0.1.65...v0.1.66) (2026-10-29)
+
+### Bug Fixes
+
+* **academy:** let content staff view synced patterns in the editor ([56b51c9](https://github.com/CodingBlackFemales/wordpress/commit/56b51c91ca1eed1cd5d15e8c439f06d66764182b))
+* **academy:** show the Revision Needs Work column on the content board ([dec3a23](https://github.com/CodingBlackFemales/wordpress/commit/dec3a230ba467d278e8e005d782337330aa10f79))
+
 ## [0.1.65](https://github.com/CodingBlackFemales/wordpress/compare/v0.1.64...v0.1.65) (2026-10-27)
 
 ### Features
