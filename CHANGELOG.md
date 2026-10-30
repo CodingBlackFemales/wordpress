@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file. See [commit-and-tag-version](https://github.com/absolute-version/commit-and-tag-version) for commit guidelines.
 
+## [0.1.67](https://github.com/CodingBlackFemales/wordpress/compare/v0.1.66...v0.1.67) (2026-10-30)
+
+### Bug Fixes
+
+* **academy:** let content staff edit media details ([9a28059](https://github.com/CodingBlackFemales/wordpress/commit/9a28059d8279ea7c8947f7964cc103e97b123edc))
+
 ## [0.1.66](https://github.com/CodingBlackFemales/wordpress/compare/v0.1.65...v0.1.66) (2026-10-29)
 
 ### Bug Fixes
