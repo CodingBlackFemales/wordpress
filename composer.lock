@@ -6657,15 +6657,15 @@
         },
         {
             "name": "wp-plugin/members",
-            "version": "3.3.0",
+            "version": "3.3.1",
             "source": {
                 "type": "svn",
                 "url": "https://plugins.svn.wordpress.org/members/",
-                "reference": "tags/3.3.0"
+                "reference": "tags/3.3.1"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://downloads.wordpress.org/plugin/members.3.3.0.zip"
+                "url": "https://downloads.wordpress.org/plugin/members.3.3.1.zip"
             },
             "require": {
                 "composer/installers": "~1.0|~2.0"
@@ -6684,7 +6684,7 @@
                 "issues": "https://wordpress.org/support/plugin/members",
                 "source": "https://plugins.svn.wordpress.org/members"
             },
-            "time": "2026-10-28T13:40:07+00:00"
+            "time": "2026-10-30T14:08:21+00:00"
         },
         {
             "name": "wp-plugin/myworks-woo-sync-for-quickbooks-online",
