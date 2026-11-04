@@ -6564,15 +6564,15 @@
         },
         {
             "name": "wp-plugin/litespeed-cache",
-            "version": "7.9.2",
+            "version": "7.9.3",
             "source": {
                 "type": "svn",
                 "url": "https://plugins.svn.wordpress.org/litespeed-cache/",
-                "reference": "tags/7.9.2"
+                "reference": "tags/7.9.3"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://downloads.wordpress.org/plugin/litespeed-cache.7.9.2.zip"
+                "url": "https://downloads.wordpress.org/plugin/litespeed-cache.7.9.3.zip"
             },
             "require": {
                 "composer/installers": "~1.0|~2.0"
@@ -6591,7 +6591,7 @@
                 "issues": "https://wordpress.org/support/plugin/litespeed-cache",
                 "source": "https://plugins.svn.wordpress.org/litespeed-cache"
             },
-            "time": "2026-10-20T18:08:55+00:00"
+            "time": "2026-11-03T20:22:04+00:00"
         },
         {
             "name": "wp-plugin/login-as-user",
