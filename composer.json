@@ -175,8 +175,8 @@
     "post-update-cmd": [
       "@update-ssp"
     ],
-    "install-ssp": "cd web/app/plugins/cbf-multisite;composer install;cd ../cbf-slides-importer;composer install;cd ../cbf-semantic-glossary;composer install;cd ../cbf-semantic-glossary-learndash;composer install;cd ../../../..",
-    "update-ssp": "cd web/app/plugins/cbf-multisite;composer update;cd ../cbf-slides-importer;composer update;cd ../cbf-semantic-glossary;composer update;cd ../cbf-semantic-glossary-learndash;composer update;cd ../../../..",
+    "install-ssp": "cd web/app/plugins/cbf-multisite && composer install && cd ../cbf-slides-importer && composer install && cd ../cbf-semantic-glossary && composer install && cd ../cbf-semantic-glossary-learndash && composer install && cd ../../../..",
+    "update-ssp": "cd web/app/plugins/cbf-multisite && composer update && cd ../cbf-slides-importer && composer update && cd ../cbf-semantic-glossary && composer update && cd ../cbf-semantic-glossary-learndash && composer update && cd ../../../..",
     "lint": "phpcs --standard=phpcs.xml",
     "lint:all": "@lint ./web/app/plugins/cbf-multisite ./web/app/plugins/cbf-slides-importer ./web/app/plugins/cbf-semantic-glossary ./web/app/plugins/cbf-semantic-glossary-learndash ./web/app/themes/cbf-academy ./web/app/themes/cbf-jobs",
     "fix": "phpcbf --standard=phpcs.xml",
