@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file. See [commit-and-tag-version](https://github.com/absolute-version/commit-and-tag-version) for commit guidelines.
 
+## [0.1.68](https://github.com/CodingBlackFemales/wordpress/compare/v0.1.67...v0.1.68) (2026-11-06)
+
+### Bug Fixes
+
+* **academy:** hide Jetpack's Subscriptions panel from content staff ([8814a87](https://github.com/CodingBlackFemales/wordpress/commit/8814a87a2e864b421f36753508080fffae8a911c))
+
 ## [0.1.67](https://github.com/CodingBlackFemales/wordpress/compare/v0.1.66...v0.1.67) (2026-10-30)
 
 ### Bug Fixes
