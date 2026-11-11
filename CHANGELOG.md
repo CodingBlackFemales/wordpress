@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file. See [commit-and-tag-version](https://github.com/absolute-version/commit-and-tag-version) for commit guidelines.
 
+## [0.1.69](https://github.com/CodingBlackFemales/wordpress/compare/v0.1.68...v0.1.69) (2026-11-11)
+
+### Bug Fixes
+
+* **academy:** show course steps in PublishPress workflow statuses ([1131070](https://github.com/CodingBlackFemales/wordpress/commit/1131070db65d5669bc2601b2db066f3526686a98))
+
 ## [0.1.68](https://github.com/CodingBlackFemales/wordpress/compare/v0.1.67...v0.1.68) (2026-11-06)
 
 ### Bug Fixes
