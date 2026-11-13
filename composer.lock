@@ -6593,15 +6593,15 @@
         },
         {
             "name": "wp-plugin/login-as-user",
-            "version": "1.7.5",
+            "version": "1.7.6",
             "source": {
                 "type": "svn",
                 "url": "https://plugins.svn.wordpress.org/login-as-user/",
-                "reference": "tags/1.7.5"
+                "reference": "tags/1.7.6"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://downloads.wordpress.org/plugin/login-as-user.1.7.5.zip"
+                "url": "https://downloads.wordpress.org/plugin/login-as-user.1.7.6.zip"
             },
             "require": {
                 "composer/installers": "~1.0|~2.0"
@@ -6620,7 +6620,7 @@
                 "issues": "https://wordpress.org/support/plugin/login-as-user",
                 "source": "https://plugins.svn.wordpress.org/login-as-user"
             },
-            "time": "2026-10-27T23:37:25+00:00"
+            "time": "2026-11-13T08:46:46+00:00"
         },
         {
             "name": "wp-plugin/mailchimp-for-woocommerce",
