@@ -7212,15 +7212,15 @@
         },
         {
             "name": "wp-plugin/wp-maintenance-mode",
-            "version": "2.6.25",
+            "version": "2.6.26",
             "source": {
                 "type": "svn",
                 "url": "https://plugins.svn.wordpress.org/wp-maintenance-mode/",
-                "reference": "tags/2.6.25"
+                "reference": "tags/2.6.26"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://downloads.wordpress.org/plugin/wp-maintenance-mode.2.6.25.zip"
+                "url": "https://downloads.wordpress.org/plugin/wp-maintenance-mode.2.6.26.zip"
             },
             "require": {
                 "composer/installers": "~1.0|~2.0"
@@ -7238,7 +7238,7 @@
                 "issues": "https://wordpress.org/support/plugin/wp-maintenance-mode",
                 "source": "https://plugins.svn.wordpress.org/wp-maintenance-mode"
             },
-            "time": "2026-10-29T14:07:11+00:00"
+            "time": "2026-11-13T07:37:17+00:00"
         },
         {
             "name": "wp-plugin/wp-rest-api-authentication",
