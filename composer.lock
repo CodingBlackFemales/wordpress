@@ -6717,15 +6717,15 @@
         },
         {
             "name": "wp-plugin/optimole-wp",
-            "version": "4.2.19",
+            "version": "4.2.20",
             "source": {
                 "type": "svn",
                 "url": "https://plugins.svn.wordpress.org/optimole-wp/",
-                "reference": "tags/4.2.19"
+                "reference": "tags/4.2.20"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://downloads.wordpress.org/plugin/optimole-wp.4.2.19.zip"
+                "url": "https://downloads.wordpress.org/plugin/optimole-wp.4.2.20.zip"
             },
             "require": {
                 "composer/installers": "~1.0|~2.0"
@@ -6743,7 +6743,7 @@
                 "issues": "https://wordpress.org/support/plugin/optimole-wp",
                 "source": "https://plugins.svn.wordpress.org/optimole-wp"
             },
-            "time": "2026-11-04T21:34:49+00:00"
+            "time": "2026-11-12T15:47:26+00:00"
         },
         {
             "name": "wp-plugin/otter-blocks",
