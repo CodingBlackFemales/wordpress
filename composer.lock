@@ -7119,15 +7119,15 @@
         },
         {
             "name": "wp-plugin/wp-graphql",
-            "version": "2.27.0",
+            "version": "2.28.0",
             "source": {
                 "type": "svn",
                 "url": "https://plugins.svn.wordpress.org/wp-graphql/",
-                "reference": "tags/2.27.0"
+                "reference": "tags/2.28.0"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://downloads.wordpress.org/plugin/wp-graphql.2.27.0.zip"
+                "url": "https://downloads.wordpress.org/plugin/wp-graphql.2.28.0.zip"
             },
             "require": {
                 "composer/installers": "~1.0|~2.0"
@@ -7146,7 +7146,7 @@
                 "issues": "https://wordpress.org/support/plugin/wp-graphql",
                 "source": "https://plugins.svn.wordpress.org/wp-graphql"
             },
-            "time": "2026-11-10T21:51:55+00:00"
+            "time": "2026-11-12T17:09:28+00:00"
         },
         {
             "name": "wp-plugin/wp-job-manager",
