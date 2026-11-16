@@ -168,15 +168,15 @@
       "php -r \"copy('.env.example', '.env');\""
     ],
     "post-install-cmd": [
-      "@install-ssp",
+      "@local-deps:install",
       "if [ ! -e .env ]; then cp .env.dist .env; fi",
       "if [ ! -e wp-cli.yml ]; then cp wp-cli.yml.dist wp-cli.yml; fi"
     ],
     "post-update-cmd": [
-      "@update-ssp"
+      "@local-deps:update"
     ],
-    "install-ssp": "cd web/app/plugins/cbf-multisite && composer install && cd ../cbf-slides-importer && composer install && cd ../cbf-semantic-glossary && composer install && cd ../cbf-semantic-glossary-learndash && composer install && cd ../../../..",
-    "update-ssp": "cd web/app/plugins/cbf-multisite && composer update && cd ../cbf-slides-importer && composer update && cd ../cbf-semantic-glossary && composer update && cd ../cbf-semantic-glossary-learndash && composer update && cd ../../../..",
+    "local-deps:install": "bash scripts/local-deps.sh install",
+    "local-deps:update": "bash scripts/local-deps.sh update",
     "lint": "phpcs --standard=phpcs.xml",
     "lint:all": "@lint ./web/app/plugins/cbf-multisite ./web/app/plugins/cbf-slides-importer ./web/app/plugins/cbf-semantic-glossary ./web/app/plugins/cbf-semantic-glossary-learndash ./web/app/themes/cbf-academy ./web/app/themes/cbf-jobs",
     "fix": "phpcbf --standard=phpcs.xml",

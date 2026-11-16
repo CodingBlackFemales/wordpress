@@ -43,8 +43,8 @@ jobs:
           key: ${{ runner.os }}-${{ hashFiles('**/composer.lock') }}
 
       # Composer runs on the runner, not in a container, so the plugin installs
-      # in install-ssp get the PHP extensions above, npm and a git checkout the
-      # runner owns
+      # in scripts/local-deps.sh get the PHP extensions above and a git checkout
+      # the runner owns. The script skips npm in CI.
       - name: Install dependencies
         run: composer install --no-interaction --no-progress --prefer-dist
 
