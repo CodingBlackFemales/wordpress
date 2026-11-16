@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [commit-and-tag-version](https://github.com/absolute-version/commit-and-tag-version) for commit guidelines.
 
+## [0.1.70](https://github.com/CodingBlackFemales/wordpress/compare/v0.1.69...v0.1.70) (2026-11-16)
+
+### Bug Fixes
+
+* **academy:** let staff preview unpublished course steps ([ca0f43c](https://github.com/CodingBlackFemales/wordpress/commit/ca0f43ce55b7863318587e6728506fcc613af4ef))
+* **academy:** show posts of any date on the Content Board ([94d3f6c](https://github.com/CodingBlackFemales/wordpress/commit/94d3f6c838ec25ed172c0379bac1852349707807))
+
 ## [0.1.69](https://github.com/CodingBlackFemales/wordpress/compare/v0.1.68...v0.1.69) (2026-11-11)
 
 ### Bug Fixes
