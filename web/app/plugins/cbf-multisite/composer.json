@@ -30,12 +30,6 @@
     ],
     "phpcbf": [
       "../../../../vendor/bin/phpcbf --standard=../../../../phpcs.xml -p ."
-    ],
-    "post-install-cmd": [
-      "npm install || true"
-    ],
-    "post-update-cmd": [
-      "npm update || true"
     ]
   },
   "extra": {
