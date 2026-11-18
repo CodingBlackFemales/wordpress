@@ -7415,7 +7415,7 @@
         },
         {
             "name": "wpackagist-plugin/social-networks-auto-poster-facebook-twitter-g",
-            "version": "4.4.8",
+            "version": "4.5.1",
             "source": {
                 "type": "svn",
                 "url": "https://plugins.svn.wordpress.org/social-networks-auto-poster-facebook-twitter-g/",
@@ -7423,7 +7423,7 @@
             },
             "dist": {
                 "type": "zip",
-                "url": "https://downloads.wordpress.org/plugin/social-networks-auto-poster-facebook-twitter-g.zip?timestamp=1786634481"
+                "url": "https://downloads.wordpress.org/plugin/social-networks-auto-poster-facebook-twitter-g.zip?timestamp=1794930025"
             },
             "require": {
                 "composer/installers": "^1.0 || ^2.0"
