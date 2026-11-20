@@ -7415,15 +7415,15 @@
         },
         {
             "name": "wpackagist-plugin/social-networks-auto-poster-facebook-twitter-g",
-            "version": "4.4.8",
+            "version": "4.5.2",
             "source": {
                 "type": "svn",
                 "url": "https://plugins.svn.wordpress.org/social-networks-auto-poster-facebook-twitter-g/",
-                "reference": "trunk"
+                "reference": "tags/4.5.2"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://downloads.wordpress.org/plugin/social-networks-auto-poster-facebook-twitter-g.zip?timestamp=1786634481"
+                "url": "https://downloads.wordpress.org/plugin/social-networks-auto-poster-facebook-twitter-g.4.5.2.zip"
             },
             "require": {
                 "composer/installers": "^1.0 || ^2.0"
