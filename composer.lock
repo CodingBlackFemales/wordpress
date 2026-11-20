@@ -6418,15 +6418,15 @@
         },
         {
             "name": "wp-plugin/drip",
-            "version": "1.1.10",
+            "version": "1.1.11",
             "source": {
                 "type": "svn",
                 "url": "https://plugins.svn.wordpress.org/drip/",
-                "reference": "tags/1.1.10"
+                "reference": "tags/1.1.11"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://downloads.wordpress.org/plugin/drip.1.1.10.zip"
+                "url": "https://downloads.wordpress.org/plugin/drip.1.1.11.zip"
             },
             "require": {
                 "composer/installers": "~1.0|~2.0"
@@ -6445,7 +6445,7 @@
                 "issues": "https://wordpress.org/support/plugin/drip",
                 "source": "https://plugins.svn.wordpress.org/drip"
             },
-            "time": "2026-09-29T13:03:58+00:00"
+            "time": "2026-11-19T18:42:24+00:00"
         },
         {
             "name": "wp-plugin/easy-table-of-contents",
